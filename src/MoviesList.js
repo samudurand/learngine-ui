@@ -3,7 +3,7 @@ import * as React from "react";
 class MoviesList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {streams: [{"a": "b"}]};
+        this.state = {streams: []};
         this.eventSource = new EventSource('http://localhost:9000/search/streams?title=contact&movieId=121&audio=en&engines=true');
     }
 
@@ -11,7 +11,6 @@ class MoviesList extends React.Component {
         // this.eventSource.addEventListener('message', (msg) => this.processStreamData(msg));
         this.eventSource.onmessage = (msg) => this.processStreamData(msg);
         this.eventSource.onerror = function () {
-            console.log("Closing connection");
             this.close();
         };
     }
@@ -24,7 +23,6 @@ class MoviesList extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <h1>Movies</h1>
