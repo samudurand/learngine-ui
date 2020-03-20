@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap";
+
+#searchForm {
+  margin-top: 150px;
+}
+
+#searchBox {
+  width: 50%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+}
