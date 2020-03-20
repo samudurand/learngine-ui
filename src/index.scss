@@ -1,13 +1,44 @@
 @import "~bootstrap/scss/bootstrap";
 
-#searchForm {
+#titleRow {
   margin-top: 150px;
 }
 
-#searchBox {
-  width: 50%;
-  display: block;
-  margin-right: auto;
-  margin-left: auto;
-  box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+#mainTitle {
+  font-family: 'Saira Semi Condensed', sans-serif;
+  font-size: 5em;
+  //color: blueviolet
+  //color: cadetblue
+  color: chocolate;
+  //color: cornflowerblue
 }
+
+#searchForm {
+  margin-top: 2em;
+}
+
+#flagsRow {
+  margin-top: 0.5em;
+}
+
+.countryButton.form-check-inline {
+
+  margin-right: 1em;
+
+  input {
+    height: 13px;
+  }
+
+  .countryIcon {
+    width: 1.5em;
+    line-height: 1.5em;
+  }
+}
+
+//#searchBox {
+//  width: 50%;
+//  display: block;
+//  margin-right: auto;
+//  margin-left: auto;
+//  box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
+//}
