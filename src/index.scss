@@ -1,46 +1,74 @@
 @import "~bootstrap/scss/bootstrap";
 
-$base-color: rgb(79, 44, 125);
-$base-color-light: rgb(155, 114, 210);
+//$base-color: rgb(79, 44, 125);
+$base-color: black;
+//$base-color-light: rgb(155, 114, 210);
+$base-color-light: #ced4da;
+$logo-font: 'Saira Semi Condensed', sans-serif;
 
-#titleRow {
-  margin-top: 150px;
+#homePage {
+  #titleRow {
+    margin-top: 150px;
+  }
+
+  #mainLogo {
+    font-family: $logo-font;
+    font-size: 5em;
+    color: $base-color;
+  }
+
+  #searchForm {
+    margin-top: 3em;
+  }
+
+  #flagsRow {
+    margin-top: 0.4em;
+  }
+
+  .countryButton.form-check-inline {
+
+    margin-right: 1em;
+
+    input[type='radio'] {
+      height: 13px;
+    }
+
+    .countryIcon {
+      width: 1.5em;
+      line-height: 1.5em;
+    }
+  }
 }
 
-#mainTitle {
-  font-family: 'Saira Semi Condensed', sans-serif;
-  font-size: 5em;
-  //color: darkred;
-  color: $base-color;
+#searchMoviePage {
+
+  #searchRow {
+    margin-top: 1em;
+  }
+
+  #mainLogo {
+    font-family: $logo-font;
+    font-size: 2.5em;
+    color: $base-color;
+  }
+
+  #searchForm {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
 }
 
 #searchForm {
-  margin-top: 3em;
-
   .btn-outline-dark {
     color: $base-color;
-    border-color: $base-color;
+    border-color: #696868;
   }
 
   input[type='text'] {
     border: 1px solid $base-color-light;
   }
-}
 
-#flagsRow {
-  margin-top: 0.4em;
-}
-
-.countryButton.form-check-inline {
-
-  margin-right: 1em;
-
-  input[type='radio'] {
-    height: 13px;
-  }
-
-  .countryIcon {
-    width: 1.5em;
-    line-height: 1.5em;
+  #countrySelect {
+    padding-left: 0;
   }
 }
