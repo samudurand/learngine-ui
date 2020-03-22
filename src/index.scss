@@ -6,15 +6,23 @@ $base-color: black;
 $base-color-light: #ced4da;
 $logo-font: 'Saira Semi Condensed', sans-serif;
 
+#logo {
+  &:hover {
+    text-decoration: none;
+  }
+  h1 {
+    font-family: $logo-font;
+    color: $base-color;
+  }
+}
+
 #homePage {
   #titleRow {
     margin-top: 150px;
   }
 
-  #mainLogo {
-    font-family: $logo-font;
+  #logo h1 {
     font-size: 5em;
-    color: $base-color;
   }
 
   #searchForm {
@@ -22,7 +30,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 
   #flagsRow {
-    margin-top: 0.4em;
+    margin-top: 0.6em;
   }
 
   .countryButton.form-check-inline {
@@ -42,19 +50,36 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
 #searchMoviePage {
 
-  #searchRow {
-    margin-top: 1em;
+  a {
+    color: unset;
+    text-decoration: none;
   }
 
-  #mainLogo {
-    font-family: $logo-font;
+  #searchRow {
+    margin-top: 2em;
+  }
+
+  #logo h1 {
     font-size: 2.5em;
-    color: $base-color;
   }
 
   #searchForm {
     margin-top: 0.5em;
     margin-bottom: 0;
+  }
+
+  #resultsRow {
+    padding-top: 2em;
+  }
+
+  td.movieDesc {
+    width: 100%;
+
+    .movieTitle {
+      font-size: 1.1em;
+      color: brown;
+      font-weight: bold;
+    }
   }
 }
 

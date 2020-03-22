@@ -1,44 +1,36 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import FlagIcon from "./FlagIcon";
 import Container from "react-bootstrap/Container";
 import React from "react";
 import SearchForm from "./SearchForm";
+import {Logo} from "./Logo";
+import {withRouter} from "react-router-dom";
 
 class Home extends React.Component {
+
+    constructor(props, context) {
+        super(props, context);
+        this.searchAction = this.searchAction.bind(this);
+    }
+
+    searchAction(title) {
+        this.props.history.push(`/search/movie?title=${title}&audio=en`);
+    }
+
     render() {
         return <Container id="homePage" fluid>
             <Row id="titleRow">
                 <Col xs={{offset: 3, span: 6}}>
-                    <h1 className="text-center" id="mainLogo">Learngine</h1>
+                    <Logo/>
                 </Col>
             </Row>
             <Row>
                 <Col xs={{offset: 3, span: 6}}>
-                    <SearchForm/>
+                    <SearchForm onSubmitAction={this.searchAction} inlineLanguages={false}/>
                 </Col>
             </Row>
-            <Row id="flagsRow">
-                <Col className="text-center" xs={{offset: 3, span: 6}}>
-                    <Form.Group>
-                        {['es', 'fr', 'gb', 'it'].map(country => (
-                            <Form.Check
-                                inline
-                                className="countryButton"
-                                id={country + "RadioSearch"}
-                                name="countryRadio"
-                                type="radio"
-                                label={<FlagIcon className="countryIcon" code={country} size="lg"/>}
-                            />
-                        ))}
-                    </Form.Group>
-                </Col>
-            </Row>
-
-            {/*<MoviesList/>*/}
         </Container>;
     }
 }
 
-export default Home;
+export default withRouter(Home);
