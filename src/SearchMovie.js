@@ -1,5 +1,5 @@
 import React from "react";
-import SearchForm from "./SearchForm";
+import SearchMoviesForm from "./SearchMoviesForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -7,6 +7,7 @@ import {Logo} from "./Logo";
 import Table from "react-bootstrap/Table";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
+import {sanitizedString} from "./Sanitizer";
 
 const maxDescriptionLength = 500;
 
@@ -16,19 +17,26 @@ class SearchMovie extends React.Component {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
         this.movieTitle = urlParams.title;
+        this.movieAudio = urlParams.audio;
         this.state = {
             isLoaded: false,
             movies: []
         };
 
+        this.performSearch = this.performSearch.bind(this);
         this.getMovies = this.getMovies.bind(this);
     }
 
     componentDidMount() {
-        this.getMovies(this.movieTitle);
+        this.getMovies(this.movieTitle, this.movieAudio);
     }
 
-    getMovies(title) {
+    getMovies(title, audio) {
+        console.log("called getmovies");
+        this.setState({
+            isLoaded: false,
+            movies: []
+        });
 
         fetch(encodeURI(`http://localhost:9000/search/movies?title=${title}`))
             .then(res => res.json())
@@ -44,7 +52,15 @@ class SearchMovie extends React.Component {
                         isLoaded: true
                     });
                 }
-            )
+            );
+    }
+
+    performSearch(title, audio) {
+        let sanitizedTitle = sanitizedString(title);
+        if (sanitizedTitle !== this.movieTitle || audio !== this.movieAudio) {
+            this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
+            this.getMovies(sanitizedTitle, audio);
+        }
     }
 
     getImage(imageUrl) {
@@ -64,7 +80,7 @@ class SearchMovie extends React.Component {
                         <Logo/>
                     </Col>
                     <Col xs={7}>
-                        <SearchForm onSubmitAction={this.getMovies} className="align-middle"/>
+                        <SearchMoviesForm onSubmitAction={this.performSearch} className="align-middle"/>
                     </Col>
                 </Row>
                 <Row id="resultsRow">
@@ -79,10 +95,9 @@ class SearchMovie extends React.Component {
                                             <a href={streamUrl}>
                                                 <td><img src={this.getImage(movie.imageUrl)} alt={movie.title}/></td>
                                                 <td className="movieDesc">
-                                                    <span className="movieTitle">{movie.title}</span>
+                                                    <span className="movieTitle">{movie.title} ({movie.date})</span>
                                                     <p>{this.getDescription(movie.description)}</p>
                                                 </td>
-                                                <td>{movie.date}</td>
                                             </a>
                                         </tr>
                                     )

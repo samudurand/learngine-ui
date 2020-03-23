@@ -1,4 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
+@import "~flag-icon-css/sass/flag-icon";
 
 //$base-color: rgb(79, 44, 125);
 $base-color: black;
@@ -10,6 +11,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   &:hover {
     text-decoration: none;
   }
+
   h1 {
     font-family: $logo-font;
     color: $base-color;

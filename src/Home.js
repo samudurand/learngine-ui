@@ -2,9 +2,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import React from "react";
-import SearchForm from "./SearchForm";
+import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./Logo";
 import {withRouter} from "react-router-dom";
+import {sanitizedString} from "./Sanitizer";
 
 class Home extends React.Component {
 
@@ -13,8 +14,8 @@ class Home extends React.Component {
         this.searchAction = this.searchAction.bind(this);
     }
 
-    searchAction(title) {
-        this.props.history.push(`/search/movie?title=${title}&audio=en`);
+    searchAction(title, audio) {
+        this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
     }
 
     render() {
@@ -26,7 +27,7 @@ class Home extends React.Component {
             </Row>
             <Row>
                 <Col xs={{offset: 3, span: 6}}>
-                    <SearchForm onSubmitAction={this.searchAction} inlineLanguages={false}/>
+                    <SearchMoviesForm onSubmitAction={this.searchAction} inlineLanguages={false}/>
                 </Col>
             </Row>
         </Container>;

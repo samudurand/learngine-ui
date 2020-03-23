@@ -1,5 +1,5 @@
 import React from "react";
-import SearchForm from "./SearchForm";
+import SearchMoviesForm from "./SearchMoviesForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -25,7 +25,7 @@ function SearchStream() {
                     <Logo/>
                 </Col>
                 <Col xs={7}>
-                    <SearchForm className="align-middle"/>
+                    <SearchMoviesForm className="align-middle"/>
                 </Col>
             </Row>
             <Row>
