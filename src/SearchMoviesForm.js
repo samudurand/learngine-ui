@@ -6,6 +6,10 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import FlagIcon from "./FlagIcon";
 import {sanitizedString} from "./Sanitizer";
+import InputGroup from "react-bootstrap/InputGroup";
+import Button from "react-bootstrap/Button";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
 
 const languages = [
     {countryCode: "us", langCode: "en", langLabel: "English"},
@@ -54,27 +58,32 @@ class SearchMoviesForm extends React.Component {
     render() {
         return <Form id="searchForm" onSubmit={this.handleSubmit}>
             <Row>
-                <Col xs={this.inlineLanguages ? "9" : "12"}>
-                    <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
-                                  placeholder="Movie or Series title"
-                                  onChange={this.handleChange}/>
+                <Col xs={this.inlineLanguages ? "8" : "12"}>
+                    <InputGroup>
+                        <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
+                                      placeholder="Movie or Series title"
+                                      onChange={this.handleChange}/>
+                        <InputGroup.Append>
+                            <Button variant="outline-dark" type="submit"><FontAwesomeIcon icon={faSearch}/></Button>
+                        </InputGroup.Append>
+                    </InputGroup>
                 </Col>
                 {
                     this.inlineLanguages ?
-                        <Col xs="3" id="countrySelect">
-                            <Form.Control
-                                as="select"
-                                name="language"
-                                defaultValue={this.state.language}
-                                onChange={this.handleLanguageChange}>
-                                {languages.map(language => (
-                                    <option value={language.langCode}
-                                            key={language.countryCode + "OptionSearch"}>
-                                        {language.langLabel}
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Col>
+                            <Col xs="4" id="countrySelect">
+                                <Form.Control
+                                    as="select"
+                                    name="language"
+                                    defaultValue={this.state.language}
+                                    onChange={this.handleLanguageChange}>
+                                    {languages.map(language => (
+                                        <option value={language.langCode}
+                                                key={language.countryCode + "OptionSearch"}>
+                                            {language.langLabel} (Audio)
+                                        </option>
+                                    ))}
+                                </Form.Control>
+                            </Col>
                         : ''
                 }
             </Row>

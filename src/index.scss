@@ -87,8 +87,8 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
 #searchForm {
   .btn-outline-dark {
-    color: $base-color;
-    border-color: #696868;
+    color: #636262;
+    border-color: $base-color-light;
   }
 
   input[type='text'] {
