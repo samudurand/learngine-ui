@@ -11,7 +11,7 @@ import {sanitizedString} from "./Sanitizer";
 
 const maxDescriptionLength = 500;
 
-class SearchMovie extends React.Component {
+class SearchMovies extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,6 +24,7 @@ class SearchMovie extends React.Component {
         };
 
         this.performSearch = this.performSearch.bind(this);
+        this.updateAudio = this.updateAudio.bind(this);
         this.getMovies = this.getMovies.bind(this);
     }
 
@@ -32,7 +33,6 @@ class SearchMovie extends React.Component {
     }
 
     getMovies(title, audio) {
-        console.log("called getmovies");
         this.setState({
             isLoaded: false,
             movies: []
@@ -57,10 +57,15 @@ class SearchMovie extends React.Component {
 
     performSearch(title, audio) {
         let sanitizedTitle = sanitizedString(title);
-        if (sanitizedTitle !== this.movieTitle || audio !== this.movieAudio) {
+        if (sanitizedTitle !== this.movieTitle) {
             this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
             this.getMovies(sanitizedTitle, audio);
         }
+    }
+
+    updateAudio(audio) {
+        this.movieAudio = audio;
+        this.props.history.push(`/search/movie?title=${this.movieTitle}&audio=${audio}`);
     }
 
     getImage(imageUrl) {
@@ -80,7 +85,10 @@ class SearchMovie extends React.Component {
                         <Logo/>
                     </Col>
                     <Col xs={7}>
-                        <SearchMoviesForm onSubmitAction={this.performSearch} className="align-middle"/>
+                        <SearchMoviesForm
+                            onSubmitAction={this.performSearch}
+                            onLanguageChangeAction={this.updateAudio}
+                            className="align-middle"/>
                     </Col>
                 </Row>
                 <Row id="resultsRow">
@@ -112,4 +120,4 @@ class SearchMovie extends React.Component {
     }
 }
 
-export default withRouter(SearchMovie);
+export default withRouter(SearchMovies);

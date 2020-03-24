@@ -22,11 +22,19 @@ class SearchMoviesForm extends React.Component {
         this.inlineLanguages = props.inlineLanguages != null ? props.inlineLanguages : true;
         this.state = {
             title: this.urlParams.title || '',
-            language: languages[0].langCode
+            language: this.urlParams.audio || languages[0].langCode
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleLanguageChange = this.handleLanguageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleLanguageChange(event) {
+        if (this.props.onLanguageChangeAction) {
+            this.props.onLanguageChangeAction(event.target.value);
+        }
+        this.handleChange(event);
     }
 
     handleChange(event) {
@@ -54,10 +62,16 @@ class SearchMoviesForm extends React.Component {
                 {
                     this.inlineLanguages ?
                         <Col xs="3" id="countrySelect">
-                            <Form.Control as="select" onChange={this.handleChange}>
+                            <Form.Control
+                                as="select"
+                                name="language"
+                                defaultValue={this.state.language}
+                                onChange={this.handleLanguageChange}>
                                 {languages.map(language => (
                                     <option value={language.langCode}
-                                            key={language.countryCode + "OptionSearch"}>{language.langLabel}</option>
+                                            key={language.countryCode + "OptionSearch"}>
+                                        {language.langLabel}
+                                    </option>
                                 ))}
                             </Form.Control>
                         </Col>
