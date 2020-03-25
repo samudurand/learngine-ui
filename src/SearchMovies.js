@@ -97,7 +97,7 @@ class SearchMovies extends React.Component {
                         {
                             !isLoaded ? <div>Loading...</div> :
                                 movies.map(movie => {
-                                    const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=en`);
+                                    const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
                                     return (
                                         <tr>
                                             <a href={streamUrl}>

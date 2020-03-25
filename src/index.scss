@@ -85,6 +85,47 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 }
 
+#searchStreamPage {
+
+  a {
+    color: unset;
+    text-decoration: none;
+  }
+
+  #searchRow {
+    margin-top: 2em;
+  }
+
+  #logo h1 {
+    font-size: 2.5em;
+  }
+
+  #resultsRow {
+    padding-top: 2em;
+  }
+
+  #spinner {
+    text-align: center;
+  }
+
+  td.streamDesc {
+
+    .movieTitle {
+      font-size: 1.1em;
+      color: brown;
+      font-weight: bold;
+    }
+  }
+
+  td.sourceLogo {
+    width: 200px;
+
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
 #searchForm {
   .btn-outline-dark {
     color: #636262;

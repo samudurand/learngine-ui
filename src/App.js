@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "./Home";
 import SearchMovies from "./SearchMovies";
+import SearchStreams from "./SearchStreams";
 
 function App() {
     return (
@@ -10,6 +11,9 @@ function App() {
                 <Switch>
                     <Route path="/search/movie">
                         <SearchMovies/>
+                    </Route>
+                    <Route path="/search/stream">
+                        <SearchStreams/>
                     </Route>
                     <Route path="/">
                         <Home/>

@@ -4,13 +4,14 @@ class MoviesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {streams: []};
-        this.eventSource = new EventSource('http://localhost:9000/search/streams?title=contact&movieId=121&audio=en&engines=true');
+        this.eventSource = new EventSource('http://localhost:9000/search/streams?title=matrix&audio=en&engines=false');
     }
 
     componentDidMount() {
         // this.eventSource.addEventListener('message', (msg) => this.processStreamData(msg));
         this.eventSource.onmessage = (msg) => this.processStreamData(msg);
         this.eventSource.onerror = function () {
+            console.log("closed");
             this.close();
         };
     }

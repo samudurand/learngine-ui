@@ -70,20 +70,20 @@ class SearchMoviesForm extends React.Component {
                 </Col>
                 {
                     this.inlineLanguages ?
-                            <Col xs="4" id="countrySelect">
-                                <Form.Control
-                                    as="select"
-                                    name="language"
-                                    defaultValue={this.state.language}
-                                    onChange={this.handleLanguageChange}>
-                                    {languages.map(language => (
-                                        <option value={language.langCode}
-                                                key={language.countryCode + "OptionSearch"}>
-                                            {language.langLabel} (Audio)
-                                        </option>
-                                    ))}
-                                </Form.Control>
-                            </Col>
+                        <Col xs="4" id="countrySelect">
+                            <Form.Control
+                                as="select"
+                                name="language"
+                                defaultValue={this.state.language}
+                                onChange={this.handleLanguageChange}>
+                                {languages.map(language => (
+                                    <option value={language.langCode}
+                                            key={language.countryCode + "OptionSearch"}>
+                                        {language.langLabel} (Audio)
+                                    </option>
+                                ))}
+                            </Form.Control>
+                        </Col>
                         : ''
                 }
             </Row>
