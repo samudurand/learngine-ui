@@ -117,11 +117,30 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     }
   }
 
-  td.sourceLogo {
-    width: 200px;
+  .sourceCard {
+    .card-header {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+        cursor: pointer;
+      }
 
-    img {
-      max-width: 100%;
+      .sourceTitle {
+        font-size: 1.2em;
+        //font-weight: ;
+      }
+
+      .sourceLogo {
+        text-align: center;
+
+        img {
+          max-width: 200px;
+          max-height: 40px;
+        }
+      }
+
+      .sourceDesc {
+        text-align: right;
+      }
     }
   }
 }

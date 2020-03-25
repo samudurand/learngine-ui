@@ -3,10 +3,12 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import {Logo} from "./Logo";
-import Table from "react-bootstrap/Table";
 import Spinner from "react-bootstrap/Spinner";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import Table from "react-bootstrap/Table";
 
 const sources = {
     "5movies": "5movies.png",
@@ -32,7 +34,7 @@ class SearchStreams extends React.Component {
 
         this.state = {
             isLoaded: false,
-            streams: []
+            streams: {}
         };
     }
 
@@ -48,16 +50,31 @@ class SearchStreams extends React.Component {
     }
 
     processStreamData(message) {
-        console.log(message.data);
-        const streams = this.state.streams.slice();
-        streams.push(JSON.parse(message.data));
-        this.setState({streams: streams});
+        const stream = JSON.parse(message.data);
+        const {sourceId} = stream;
+        if (!this.state.streams[sourceId]) {
+            this.setState({
+                streams: {
+                    ...this.state.streams,
+                    [sourceId]: [stream]
+                }
+            });
+        } else {
+            const streams = this.state.streams[sourceId].slice();
+            streams.push(stream);
+            this.setState({
+                streams: {
+                    ...this.state.streams,
+                    [sourceId]: streams
+                }
+            });
+        }
+        console.log(this.state);
     }
 
     getSourceLogo(sourceId) {
         return `/sources/${sources[sourceId]}`;
     }
-
 
     render() {
         const {isLoaded, streams} = this.state;
@@ -69,23 +86,50 @@ class SearchStreams extends React.Component {
                     </Col>
                 </Row>
                 <Row id="resultsRow">
-                    <Table responsive hover>
-                        <tbody>
-                        {
-                            streams.map(stream => {
-                                return (
-                                    <tr>
-                                        <td className="sourceLogo"><img src={this.getSourceLogo(stream.sourceId)} alt={stream.source}/></td>
-                                        <td className="streamDesc">
-                                            <span className="movieTitle">{stream.title}</span>
-                                            <p><a href={stream.link}>See it on {stream.source}</a></p>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-                    </Table>
+                    <Col>
+                        <Accordion>
+                            {
+                                Object.entries(streams).map(([streamSource, streamData]) => (
+                                    <Card className="sourceCard">
+                                        <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
+                                            <Row>
+                                                <Col>
+                                                    <p className="sourceTitle">{streamData[0].source}</p>
+                                                </Col>
+                                                <Col className="sourceLogo" >
+                                                    <img src={this.getSourceLogo(streamSource)} alt={streamSource}/>
+                                                </Col>
+                                                <Col>
+                                                    <p className="sourceDesc">{streamData.length} results</p>
+                                                </Col>
+                                            </Row>
+                                        </Accordion.Toggle>
+                                        <Accordion.Collapse eventKey={streamSource}>
+                                            <Table responsive hover>
+                                                <tbody>
+                                                {
+                                                    streamData.map(stream => {
+                                                        return (
+                                                            <tr>
+                                                                {/*<td className="sourceLogo"><img src={this.getSourceLogo(stream.sourceId)} alt={stream.source}/></td>*/}
+                                                                <td className="streamDesc">
+                                                                    <span className="movieTitle">{stream.title}</span>
+                                                                    <p><a href={stream.link}>See it on {stream.source}</a></p>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+                                                </tbody>
+                                            </Table>
+                                        </Accordion.Collapse>
+                                    </Card>
+                                ))
+
+                            }
+                        </Accordion>
+                    </Col>
+
                 </Row>
                 <Row>
                     {!isLoaded ?
