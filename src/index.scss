@@ -108,6 +108,12 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     text-align: center;
   }
 
+  td.streamImg {
+    img {
+      height: 138px;
+    }
+  }
+
   td.streamDesc {
 
     .movieTitle {
@@ -126,11 +132,10 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
       .sourceTitle {
         font-size: 1.2em;
-        //font-weight: ;
       }
 
       .sourceLogo {
-        text-align: center;
+        text-align: right;
 
         img {
           max-width: 200px;
@@ -141,6 +146,44 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
       .sourceDesc {
         text-align: right;
       }
+    }
+  }
+
+  #streamCardsRow {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-bottom: 1.5rem;
+
+    .col-2 {
+      margin-top: 1rem;
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+    .col-3 {
+      margin-top: 1rem;
+    }
+
+    .card {
+      height: 100%;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .card-title {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 0;
+      font-weight: normal;
+    }
+  }
+
+  #spinnerRow {
+    padding-top: 2em;
+
+    .spinner-border {
+      margin-right: 1em;
     }
   }
 }

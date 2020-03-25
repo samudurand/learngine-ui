@@ -8,7 +8,6 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import Table from "react-bootstrap/Table";
 
 const sources = {
     "5movies": "5movies.png",
@@ -43,7 +42,7 @@ class SearchStreams extends React.Component {
         this.eventSource = new EventSource(encodeURI(url));
         this.eventSource.onmessage = (msg) => this.processStreamData(msg);
         this.eventSource.onerror = (error) => {
-            console.debug("Closing SSE connection");
+            console.info("Closing SSE connection");
             this.eventSource.close();
             this.setState({isLoaded: true});
         };
@@ -76,6 +75,10 @@ class SearchStreams extends React.Component {
         return `/sources/${sources[sourceId]}`;
     }
 
+    getImage(imageUrl) {
+        return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
+    }
+
     render() {
         const {isLoaded, streams} = this.state;
         return (
@@ -94,34 +97,35 @@ class SearchStreams extends React.Component {
                                         <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
                                             <Row>
                                                 <Col>
-                                                    <p className="sourceTitle">{streamData[0].source}</p>
+                                                    <p className="sourceTitle"><b>{streamData[0].source}</b> ({streamData.length} results)</p>
                                                 </Col>
-                                                <Col className="sourceLogo" >
+                                                <Col className="sourceLogo">
                                                     <img src={this.getSourceLogo(streamSource)} alt={streamSource}/>
                                                 </Col>
-                                                <Col>
-                                                    <p className="sourceDesc">{streamData.length} results</p>
-                                                </Col>
+                                                {/*<Col>*/}
+                                                {/*    <p className="sourceDesc">{streamData.length} results</p>*/}
+                                                {/*</Col>*/}
                                             </Row>
                                         </Accordion.Toggle>
                                         <Accordion.Collapse eventKey={streamSource}>
-                                            <Table responsive hover>
-                                                <tbody>
+                                            <Row id="streamCardsRow">
                                                 {
-                                                    streamData.map(stream => {
-                                                        return (
-                                                            <tr>
-                                                                {/*<td className="sourceLogo"><img src={this.getSourceLogo(stream.sourceId)} alt={stream.source}/></td>*/}
-                                                                <td className="streamDesc">
-                                                                    <span className="movieTitle">{stream.title}</span>
-                                                                    <p><a href={stream.link}>See it on {stream.source}</a></p>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    })
+                                                    streamData.map(stream => (
+                                                        <Col xs={2}>
+                                                            <a href={stream.link} target="_blank" title={`Go to ${stream.source} to watch ${stream.title}`}>
+                                                                <Card>
+                                                                    <Card.Img variant="top"
+                                                                              src={this.getImage(stream.imageUrl)}/>
+                                                                    <Card.Body>
+                                                                        <Card.Title>{stream.title}</Card.Title>
+                                                                    </Card.Body>
+                                                                </Card>
+                                                            </a>
+                                                        </Col>
+                                                    ))
                                                 }
-                                                </tbody>
-                                            </Table>
+                                            </Row>
+
                                         </Accordion.Collapse>
                                     </Card>
                                 ))
@@ -131,12 +135,13 @@ class SearchStreams extends React.Component {
                     </Col>
 
                 </Row>
-                <Row>
+                <Row id="spinnerRow">
                     {!isLoaded ?
                         <Col id="spinner">
                             <Spinner animation="border" role="status" variant="secondary">
                                 <span className="sr-only">Loading...</span>
                             </Spinner>
+                            <span>Searching for more streams...</span>
                         </Col>
                         : ''
                     }
