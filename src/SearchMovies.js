@@ -91,29 +91,32 @@ class SearchMovies extends React.Component {
                             className="align-middle"/>
                     </Col>
                 </Row>
-                <Row id="resultsRow">
-                    <Table responsive hover>
-                        <tbody>
-                        {
-                            !isLoaded ? <div>Loading...</div> :
-                                movies.map(movie => {
-                                    const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
-                                    return (
-                                        <tr>
-                                            <a href={streamUrl}>
-                                                <td><img src={this.getImage(movie.imageUrl)} alt={movie.title}/></td>
-                                                <td className="movieDesc">
-                                                    <span className="movieTitle">{movie.title} ({movie.date})</span>
-                                                    <p>{this.getDescription(movie.description)}</p>
-                                                </td>
-                                            </a>
-                                        </tr>
-                                    )
-                                })
-                        }
-                        </tbody>
-                    </Table>
-                </Row>
+                {movies && movies.length > 0 ?
+                    <Row id="resultsRow">
+                        <Table responsive hover>
+                            <tbody>
+                            {
+                                !isLoaded ? <div>Loading...</div> :
+                                    movies.map(movie => {
+                                        const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
+                                        return (
+                                            <tr>
+                                                <a href={streamUrl}>
+                                                    <td><img src={this.getImage(movie.imageUrl)} alt={movie.title}/>
+                                                    </td>
+                                                    <td className="movieDesc">
+                                                        <span className="movieTitle">{movie.title} ({movie.date})</span>
+                                                        <p>{this.getDescription(movie.description)}</p>
+                                                    </td>
+                                                </a>
+                                            </tr>
+                                        )
+                                    })
+                            }
+                            </tbody>
+                        </Table>
+                    </Row> : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                }
 
             </Container>
         );

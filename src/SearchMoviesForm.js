@@ -10,13 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-
-const languages = [
-    {countryCode: "us", langCode: "en", langLabel: "English"},
-    {countryCode: "es", langCode: "es", langLabel: "Spanish"},
-    {countryCode: "fr", langCode: "fr", langLabel: "French"},
-    {countryCode: "it", langCode: "it", langLabel: "Italian"}
-];
+import {languages} from "./Common";
 
 class SearchMoviesForm extends React.Component {
 

@@ -8,17 +8,9 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-
-const sources = {
-    "5movies": "5movies.png",
-    "altadefinizione": "altadefinizione.png",
-    "animealtadefinizione": "animealtadefinizione.png",
-    "filmfra": "filmfra.jpg",
-    "isubsmovies": "isubsmovies.png",
-    "netflix": "netflix.png",
-    "solarmovie": "solarmovie.png",
-    "streamcomplet": "streamcomplet.png"
-};
+import {languages, sources} from "./Common";
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class SearchStreams extends React.Component {
 
@@ -30,14 +22,37 @@ class SearchStreams extends React.Component {
             title: urlParams.title,
             audio: urlParams.audio
         };
-
         this.state = {
             isLoaded: false,
-            streams: {}
+            streams: {},
+            alternativeTitles: []
         };
+
+        this.updateStreamSearch = this.updateStreamSearch.bind(this);
     }
 
     componentDidMount() {
+        this.retrieveAlternativeTitles();
+        this.startEventStream();
+    }
+
+    retrieveAlternativeTitles() {
+        const url = `http://localhost:9000/search/alternatives?movieId=${this.movie.id}&audio=${this.movie.audio}`;
+        fetch(encodeURI(url))
+            .then(res => res.json())
+            .then((titles) => {
+                    this.setState({
+                        alternativeTitles: titles
+                    });
+                }
+            );
+    }
+
+    startEventStream() {
+        if (this.eventSource) {
+            this.eventSource.close();
+        }
+
         const url = `http://localhost:9000/search/streams?title=${this.movie.title}&audio=${this.movie.audio}&engines=false`;
         this.eventSource = new EventSource(encodeURI(url));
         this.eventSource.onmessage = (msg) => this.processStreamData(msg);
@@ -71,16 +86,30 @@ class SearchStreams extends React.Component {
         console.log(this.state);
     }
 
+    updateStreamSearch(movieTitle) {
+        this.movie.title = movieTitle;
+        this.props.history.push(encodeURI(`/search/stream?movieId=${this.movie.id}&title=${this.movie.title}&audio=${this.movie.audio}`));
+        this.setState({
+            streams: {},
+            isLoaded: false
+        });
+        this.startEventStream();
+    }
+
     getSourceLogo(sourceId) {
         return `/sources/${sources[sourceId]}`;
     }
 
-    getImage(imageUrl) {
+    static getImage(imageUrl) {
         return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
     }
 
+    static getLanguageLabel(langCode) {
+        return languages.find(lang => lang.langCode === langCode).langLabel;
+    }
+
     render() {
-        const {isLoaded, streams} = this.state;
+        const {isLoaded, streams, alternativeTitles} = this.state;
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
@@ -88,53 +117,78 @@ class SearchStreams extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                <Row id="resultsRow">
-                    <Col>
-                        <Accordion>
-                            {
-                                Object.entries(streams).map(([streamSource, streamData]) => (
-                                    <Card className="sourceCard">
-                                        <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
-                                            <Row>
-                                                <Col>
-                                                    <p className="sourceTitle"><b>{streamData[0].source}</b> ({streamData.length} results)</p>
-                                                </Col>
-                                                <Col className="sourceLogo">
-                                                    <img src={this.getSourceLogo(streamSource)} alt={streamSource}/>
-                                                </Col>
-                                                {/*<Col>*/}
-                                                {/*    <p className="sourceDesc">{streamData.length} results</p>*/}
-                                                {/*</Col>*/}
-                                            </Row>
-                                        </Accordion.Toggle>
-                                        <Accordion.Collapse eventKey={streamSource}>
-                                            <Row id="streamCardsRow">
-                                                {
-                                                    streamData.map(stream => (
-                                                        <Col xs={2}>
-                                                            <a href={stream.link} target="_blank" title={`Go to ${stream.source} to watch ${stream.title}`}>
-                                                                <Card>
-                                                                    <Card.Img variant="top"
-                                                                              src={this.getImage(stream.imageUrl)}/>
-                                                                    <Card.Body>
-                                                                        <Card.Title>{stream.title}</Card.Title>
-                                                                    </Card.Body>
-                                                                </Card>
-                                                            </a>
-                                                        </Col>
-                                                    ))
-                                                }
-                                            </Row>
-
-                                        </Accordion.Collapse>
-                                    </Card>
-                                ))
-
-                            }
-                        </Accordion>
-                    </Col>
-
-                </Row>
+                { alternativeTitles && alternativeTitles.length > 0 ?
+                    <Row id="alternativeTitlesRow">
+                        <Col>
+                            <Accordion>
+                                <Card>
+                                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                                        No finding what you want ? Try again with one of those suggested titles
+                                        (<b>{alternativeTitles.length}</b> available)
+                                    </Accordion.Toggle>
+                                    <Accordion.Collapse eventKey="0">
+                                        <Card.Body>
+                                            {
+                                                alternativeTitles.sort().map(title =>
+                                                    <div className="altTitle"
+                                                         onClick={this.updateStreamSearch.bind(this, title)}>
+                                                        <FontAwesomeIcon icon={faSearch}/> {title}</div>)
+                                            }
+                                        </Card.Body>
+                                    </Accordion.Collapse>
+                                </Card>
+                            </Accordion>
+                        </Col>
+                    </Row> : ""
+                }
+                {streams && streams.length > 0 ?
+                    <Row id="resultsRow">
+                        <Col>
+                            <Accordion>
+                                {
+                                    Object.entries(streams).map(([streamSource, streamData]) => (
+                                        <Card className="sourceCard">
+                                            <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
+                                                <Row>
+                                                    <Col>
+                                                        <p className="sourceTitle">
+                                                            <b>{streamData[0].source}</b> ({streamData.length} results)
+                                                        </p>
+                                                    </Col>
+                                                    <Col className="sourceLogo">
+                                                        <img src={this.getSourceLogo(streamSource)} alt={streamSource}/>
+                                                    </Col>
+                                                </Row>
+                                            </Accordion.Toggle>
+                                            <Accordion.Collapse eventKey={streamSource}>
+                                                <Row id="streamCardsRow">
+                                                    {
+                                                        streamData.map(stream => (
+                                                            <Col xs={2}>
+                                                                <a href={stream.link} target="_blank"
+                                                                   rel="noopener noreferrer"
+                                                                   title={`Go to ${stream.source} to watch ${stream.title}`}>
+                                                                    <Card>
+                                                                        <Card.Img variant="top"
+                                                                                  src={SearchStreams.getImage(stream.imageUrl)}/>
+                                                                        <Card.Body>
+                                                                            <Card.Title>{stream.title}</Card.Title>
+                                                                        </Card.Body>
+                                                                    </Card>
+                                                                </a>
+                                                            </Col>
+                                                        ))
+                                                    }
+                                                </Row>
+                                            </Accordion.Collapse>
+                                        </Card>
+                                    ))
+                                }
+                            </Accordion>
+                        </Col>
+                    </Row>
+                    : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                }
                 <Row id="spinnerRow">
                     {!isLoaded ?
                         <Col id="spinner">

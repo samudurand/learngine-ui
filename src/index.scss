@@ -81,6 +81,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
       font-size: 1.1em;
       color: brown;
       font-weight: bold;
+      text-transform: capitalize;
     }
   }
 }
@@ -120,6 +121,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
       font-size: 1.1em;
       color: brown;
       font-weight: bold;
+      text-transform: capitalize;
     }
   }
 
@@ -132,6 +134,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
       .sourceTitle {
         font-size: 1.2em;
+        text-transform: capitalize;
       }
 
       .sourceLogo {
@@ -156,11 +159,8 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
     .col-2 {
       margin-top: 1rem;
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
-    }
-    .col-3 {
-      margin-top: 1rem;
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
     }
 
     .card {
@@ -176,6 +176,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
       font-size: 1rem;
       margin-bottom: 0;
       font-weight: normal;
+      text-transform: capitalize;
     }
   }
 
@@ -185,6 +186,46 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     .spinner-border {
       margin-right: 1em;
     }
+  }
+}
+
+#alternativeTitlesRow {
+  margin-top: 1rem;
+
+  .card-header {
+    text-align: left;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .card-body {
+    padding: 0.5em;
+  }
+
+  div.altTitle {
+    background-color: #f8f9fa;
+    display: inline-block;
+    padding: .25em .4em;
+    border: 1px solid #ced4da;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .27rem;
+    margin: 0.15rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+#noResultsRow {
+  p {
+    margin-top: 2rem;
+    text-align: center;
   }
 }
 
