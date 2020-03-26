@@ -117,7 +117,6 @@ class SearchMovies extends React.Component {
                         </Table>
                     </Row> : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
                 }
-
             </Container>
         );
     }

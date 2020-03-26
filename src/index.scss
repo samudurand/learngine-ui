@@ -27,12 +27,21 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     font-size: 5em;
   }
 
+  .btn-info {
+    background-color: brown;
+    border-color: brown;
+  }
+
   #searchForm {
     margin-top: 3em;
+
+    #SearchInputCol {
+      padding-right: 0;
+    }
   }
 
   #flagsRow {
-    margin-top: 0.6em;
+    margin-top: 2rem;
   }
 
   .countryButton.form-check-inline {

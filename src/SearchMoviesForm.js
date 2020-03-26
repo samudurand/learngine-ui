@@ -10,7 +10,10 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {languages} from "./Common";
+import {languages, searchModes} from "./Common";
+import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Popover from "react-bootstrap/Popover";
 
 class SearchMoviesForm extends React.Component {
 
@@ -20,12 +23,14 @@ class SearchMoviesForm extends React.Component {
         this.inlineLanguages = props.inlineLanguages != null ? props.inlineLanguages : true;
         this.state = {
             title: this.urlParams.title || '',
-            language: this.urlParams.audio || languages[0].langCode
+            language: this.urlParams.audio || languages[0].langCode,
+            searchMode: searchModes.moviedb,
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleLanguageChange = this.handleLanguageChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.switchMode = this.switchMode.bind(this);
     }
 
     handleLanguageChange(event) {
@@ -46,13 +51,29 @@ class SearchMoviesForm extends React.Component {
             return;
         }
 
-        this.props.onSubmitAction(sanitizedString(this.state.title), this.state.language);
+        this.props.onSubmitAction(sanitizedString(this.state.title), this.state.language, this.state.searchMode.name);
+    }
+
+    switchMode(checked) {
+        if (checked) {
+            this.setState({searchMode: searchModes.moviedb});
+        } else {
+            this.setState({searchMode: searchModes.direct});
+        }
     }
 
     render() {
+        const modeInfoPopover = (
+            <Popover id="popover-basic">
+                <Popover.Content>
+                    {this.state.searchMode.info}
+                </Popover.Content>
+            </Popover>
+        );
+
         return <Form id="searchForm" onSubmit={this.handleSubmit}>
             <Row>
-                <Col xs={this.inlineLanguages ? "8" : "12"}>
+                <Col id="SearchInputCol" xs={this.inlineLanguages ? "8" : "10"}>
                     <InputGroup>
                         <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
                                       placeholder="Movie or Series title"
@@ -78,7 +99,21 @@ class SearchMoviesForm extends React.Component {
                                 ))}
                             </Form.Control>
                         </Col>
-                        : ''
+                        : <OverlayTrigger
+                            placement="right"
+                            overlay={modeInfoPopover}>
+                            <Col xs="2">
+                                <BootstrapSwitchButton
+                                    checked={this.state.searchMode.name === searchModes.moviedb.name}
+                                    onlabel='Database'
+                                    offlabel='Direct'
+                                    onstyle="secondary"
+                                    offstyle="info"
+                                    width="120"
+                                    onChange={this.switchMode}
+                                />
+                            </Col>
+                        </OverlayTrigger>
                 }
             </Row>
             {

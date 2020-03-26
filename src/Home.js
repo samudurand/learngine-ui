@@ -6,16 +6,22 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./Logo";
 import {withRouter} from "react-router-dom";
 import {sanitizedString} from "./Sanitizer";
+import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
+import {searchModes} from "./Common";
 
 class Home extends React.Component {
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
         this.searchAction = this.searchAction.bind(this);
     }
 
-    searchAction(title, audio) {
-        this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
+    searchAction(title, audio, searchMode) {
+        if (searchMode === searchModes.moviedb.name) {
+            this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
+        } else {
+            this.props.history.push(`/search/stream?title=${sanitizedString(title)}`);
+        }
     }
 
     render() {
