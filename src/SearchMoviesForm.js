@@ -100,15 +100,15 @@ class SearchMoviesForm extends React.Component {
                             </Form.Control>
                         </Col>
                         : <OverlayTrigger
-                            placement="right"
+                            placement="bottom"
                             overlay={modeInfoPopover}>
                             <Col xs="2">
                                 <BootstrapSwitchButton
                                     checked={this.state.searchMode.name === searchModes.moviedb.name}
                                     onlabel='Database'
                                     offlabel='Direct'
-                                    onstyle="secondary"
-                                    offstyle="info"
+                                    onstyle="dark"
+                                    offstyle="secondary"
                                     width="120"
                                     onChange={this.switchMode}
                                 />

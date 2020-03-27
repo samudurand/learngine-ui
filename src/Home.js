@@ -20,7 +20,7 @@ class Home extends React.Component {
         if (searchMode === searchModes.moviedb.name) {
             this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
         } else {
-            this.props.history.push(`/search/stream?title=${sanitizedString(title)}`);
+            this.props.history.push(`/search/stream?title=${sanitizedString(title)}&audio=${audio}`);
         }
     }
 

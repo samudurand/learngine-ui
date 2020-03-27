@@ -33,19 +33,21 @@ class SearchStreams extends React.Component {
 
     componentDidMount() {
         this.retrieveAlternativeTitles();
-        this.startEventStream();
+        // this.startEventStream();
     }
 
     retrieveAlternativeTitles() {
-        const url = `http://localhost:9000/search/alternatives?movieId=${this.movie.id}&audio=${this.movie.audio}`;
-        fetch(encodeURI(url))
-            .then(res => res.json())
-            .then((titles) => {
-                    this.setState({
-                        alternativeTitles: titles
-                    });
-                }
-            );
+        if (this.movie.id) {
+            const url = `http://localhost:9000/search/alternatives?movieId=${this.movie.id}&audio=${this.movie.audio}`;
+            fetch(encodeURI(url))
+                .then(res => res.json())
+                .then((titles) => {
+                        this.setState({
+                            alternativeTitles: titles
+                        });
+                    }
+                );
+        }
     }
 
     startEventStream() {
@@ -141,7 +143,7 @@ class SearchStreams extends React.Component {
                         </Col>
                     </Row> : ""
                 }
-                {streams && streams.length > 0 ?
+                {streams && Object.keys(streams).length > 0 ?
                     <Row id="resultsRow">
                         <Col>
                             <Accordion>

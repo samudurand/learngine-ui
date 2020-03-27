@@ -37,6 +37,10 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
     #SearchInputCol {
       padding-right: 0;
+
+      .form-control:focus {
+        box-shadow: 0 0 0 0.1rem $base-color-light;
+      }
     }
   }
 
@@ -239,7 +243,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 }
 
 #searchForm {
-  .btn-outline-dark {
+  button[type="submit"].btn-outline-dark {
     color: #636262;
     border-color: $base-color-light;
   }
