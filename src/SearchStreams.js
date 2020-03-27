@@ -33,7 +33,7 @@ class SearchStreams extends React.Component {
 
     componentDidMount() {
         this.retrieveAlternativeTitles();
-        // this.startEventStream();
+        this.startEventStream();
     }
 
     retrieveAlternativeTitles() {
@@ -112,6 +112,20 @@ class SearchStreams extends React.Component {
 
     render() {
         const {isLoaded, streams, alternativeTitles} = this.state;
+
+        const spinnerRow = (
+            <Row id="spinnerRow">
+                {!isLoaded ?
+                    <Col id="spinner">
+                        <Spinner animation="border" role="status" variant="secondary">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                        <span>Searching for more streams...</span>
+                    </Col>
+                    : ''
+                }
+            </Row>
+        );
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
@@ -119,7 +133,7 @@ class SearchStreams extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                { alternativeTitles && alternativeTitles.length > 0 ?
+                {alternativeTitles && alternativeTitles.length > 0 ?
                     <Row id="alternativeTitlesRow">
                         <Col>
                             <Accordion>
@@ -143,7 +157,7 @@ class SearchStreams extends React.Component {
                         </Col>
                     </Row> : ""
                 }
-                {streams && Object.keys(streams).length > 0 ?
+                {Object.keys(streams).length > 0 ?
                     <Row id="resultsRow">
                         <Col>
                             <Accordion>
@@ -188,20 +202,14 @@ class SearchStreams extends React.Component {
                                 }
                             </Accordion>
                         </Col>
-                    </Row>
-                    : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                    </Row> : ""
                 }
-                <Row id="spinnerRow">
-                    {!isLoaded ?
-                        <Col id="spinner">
-                            <Spinner animation="border" role="status" variant="secondary">
-                                <span className="sr-only">Loading...</span>
-                            </Spinner>
-                            <span>Searching for more streams...</span>
-                        </Col>
-                        : ''
-                    }
-                </Row>
+                {
+                    isLoaded && (Object.keys(streams).length <= 0) ? <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row> : ""
+                }
+                {
+                    !isLoaded ? spinnerRow : ""
+                }
 
             </Container>
         );
