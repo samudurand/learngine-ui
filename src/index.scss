@@ -18,6 +18,11 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 }
 
+#searchRow {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
 #homePage {
   #titleRow {
     margin-top: 150px;
@@ -35,7 +40,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   #searchForm {
     margin-top: 3em;
 
-    #SearchInputCol {
+    #searchInputCol {
       padding-right: 0;
 
       .form-control:focus {
@@ -70,21 +75,8 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     text-decoration: none;
   }
 
-  #searchRow {
-    margin-top: 2em;
-  }
-
   #logo h1 {
     font-size: 2.5em;
-  }
-
-  #searchForm {
-    margin-top: 0.5em;
-    margin-bottom: 0;
-  }
-
-  #resultsRow {
-    padding-top: 2em;
   }
 
   td.movieDesc {
@@ -104,10 +96,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   a {
     color: unset;
     text-decoration: none;
-  }
-
-  #searchRow {
-    margin-top: 2em;
   }
 
   #logo h1 {
@@ -243,6 +231,13 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 }
 
 #searchForm {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+
+  #searchInputCol {
+    padding-right: 0;
+  }
+
   button[type="submit"].btn-outline-dark {
     color: #636262;
     border-color: $base-color-light;
@@ -255,4 +250,14 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   #countrySelect {
     padding-left: 0;
   }
+
+  #inputSearchRow div.dropdown {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
+  .dropdownFlag {
+    margin-right: 5px;
+  }
+
 }

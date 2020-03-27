@@ -8,10 +8,11 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import {languages, sources} from "./Common";
+import {languages, searchModes, sources} from "./Common";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
+import {sanitizedString} from "./Sanitizer";
 
 class SearchStreams extends React.Component {
 
@@ -30,11 +31,12 @@ class SearchStreams extends React.Component {
         };
 
         this.updateStreamSearch = this.updateStreamSearch.bind(this);
+        this.performSearch = this.performSearch.bind(this);
     }
 
     componentDidMount() {
         this.retrieveAlternativeTitles();
-        // this.startEventStream();
+        this.startEventStream();
     }
 
     retrieveAlternativeTitles() {
@@ -86,12 +88,12 @@ class SearchStreams extends React.Component {
                 }
             });
         }
-        console.log(this.state);
     }
 
-    updateStreamSearch(movieTitle) {
+    updateStreamSearch(movieTitle, audio) {
         this.movie.title = movieTitle;
-        this.props.history.push(encodeURI(`/search/stream?movieId=${this.movie.id}&title=${this.movie.title}&audio=${this.movie.audio}`));
+        this.movie.audio = audio;
+        this.props.history.push(encodeURI(`/search/stream?movieId=${this.movie.id}&title=${movieTitle}&audio=${audio}`));
         this.setState({
             streams: {},
             isLoaded: false
@@ -109,6 +111,17 @@ class SearchStreams extends React.Component {
 
     static getLanguageLabel(langCode) {
         return languages.find(lang => lang.langCode === langCode).langLabel;
+    }
+
+    performSearch(title, audio, searchMode) {
+        const sanitizedTitle = sanitizedString(title);
+        if (searchMode === searchModes.direct.name) {
+            if (this.state.streams.length <= 0 || sanitizedTitle !== this.movie.title) {
+                this.updateStreamSearch(sanitizedTitle, audio);
+            }
+        } else {
+            this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
+        }
     }
 
     render() {
@@ -134,12 +147,14 @@ class SearchStreams extends React.Component {
                     <Col xs={3}>
                         <Logo/>
                     </Col>
-                    {/*<Col xs={7}>*/}
-                    {/*    <SearchMoviesForm*/}
-                    {/*        onSubmitAction={this.performSearch}*/}
-                    {/*        onLanguageChangeAction={this.updateAudio}*/}
-                    {/*        className="align-middle"/>*/}
-                    {/*</Col>*/}
+                    <Col xs={7}>
+                        <SearchMoviesForm
+                            onSubmitAction={this.performSearch}
+                            showLanguageDropdown={true}
+                            showLanguageRadios={false}
+                            showSearchMode={true}
+                            className="align-middle"/>
+                    </Col>
                 </Row>
                 {alternativeTitles && alternativeTitles.length > 0 ?
                     <Row id="alternativeTitlesRow">
@@ -155,7 +170,7 @@ class SearchStreams extends React.Component {
                                             {
                                                 alternativeTitles.sort().map(title =>
                                                     <div className="altTitle"
-                                                         onClick={this.updateStreamSearch.bind(this, title)}>
+                                                         onClick={this.updateStreamSearch.bind(this, title, this.movie.audio)}>
                                                         <FontAwesomeIcon icon={faSearch}/> {title}</div>)
                                             }
                                         </Card.Body>

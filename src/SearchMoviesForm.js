@@ -14,13 +14,17 @@ import {languages, searchModes} from "./Common";
 import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import Dropdown from "react-bootstrap/Dropdown";
 
 class SearchMoviesForm extends React.Component {
 
     constructor(props) {
         super(props);
         this.urlParams = queryString.parse(this.props.location.search);
-        this.inlineLanguages = props.inlineLanguages != null ? props.inlineLanguages : true;
+        this.showSearchMode = props.showSearchMode ? props.showSearchMode : false;
+        this.showLanguageDropdown = props.showLanguageDropdown ? props.showLanguageDropdown : false;
+        this.showLanguageRadios = props.showLanguageRadios ? props.showLanguageRadios : false;
+
         this.state = {
             title: this.urlParams.title || '',
             language: this.urlParams.audio || languages[0].langCode,
@@ -33,11 +37,11 @@ class SearchMoviesForm extends React.Component {
         this.switchMode = this.switchMode.bind(this);
     }
 
-    handleLanguageChange(event) {
+    handleLanguageChange(langCode) {
+        this.setState({language: langCode});
         if (this.props.onLanguageChangeAction) {
-            this.props.onLanguageChangeAction(event.target.value);
+            this.props.onLanguageChangeAction(langCode);
         }
-        this.handleChange(event);
     }
 
     handleChange(event) {
@@ -62,9 +66,21 @@ class SearchMoviesForm extends React.Component {
         }
     }
 
+    currentlySelectedCountry() {
+        return languages
+            .find(({langCode}) => this.state.language === langCode)
+            .countryCode;
+    }
+
+    calculateSearchInputSpace() {
+        const MODE_COL_WIDTH = 3;
+        const DROP_COL_WIDTH = 2;
+        return 12 - (this.showSearchMode * MODE_COL_WIDTH) - (this.showLanguageDropdown * DROP_COL_WIDTH);
+    }
+
     render() {
         const searchInput = (
-            <Col id="SearchInputCol" xs={this.inlineLanguages ? "8" : "10"}>
+            <Col id="searchInputCol" xs={this.calculateSearchInputSpace()}>
                 <InputGroup>
                     <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
                                   placeholder="Movie or Series title"
@@ -82,23 +98,6 @@ class SearchMoviesForm extends React.Component {
                     {this.state.searchMode.info}
                 </Popover.Content>
             </Popover>
-        );
-
-        const languageDropdown = (
-            <Col xs="4" id="countrySelect">
-                <Form.Control
-                    as="select"
-                    name="language"
-                    defaultValue={this.state.language}
-                    onChange={this.handleLanguageChange}>
-                    {languages.map(language => (
-                        <option value={language.langCode}
-                                key={language.countryCode + "OptionSearch"}>
-                            {language.langLabel} (Audio)
-                        </option>
-                    ))}
-                </Form.Control>
-            </Col>
         );
 
         const selectFlagsRow = (
@@ -130,27 +129,49 @@ class SearchMoviesForm extends React.Component {
             <OverlayTrigger
                 placement="bottom"
                 overlay={modeInfoPopover}>
-                <Col xs="2">
-                    <BootstrapSwitchButton
-                        checked={this.state.searchMode.name === searchModes.moviedb.name}
-                        onlabel='Database'
-                        offlabel='Direct'
-                        onstyle="dark"
-                        offstyle="secondary"
-                        width="120"
-                        onChange={this.switchMode}
-                    />
-                </Col>
+                {/*<Col xs="2">*/}
+                <BootstrapSwitchButton
+                    checked={this.state.searchMode.name === searchModes.moviedb.name}
+                    onlabel='Database'
+                    offlabel='Direct'
+                    onstyle="dark"
+                    offstyle="secondary"
+                    width="120"
+                    onChange={this.switchMode}
+                />
+                {/*</Col>*/}
             </OverlayTrigger>
+        );
+
+        const languagesDropdown = (
+            // <Col xs={2}>
+            <Dropdown
+                onSelect={eventKey => this.handleLanguageChange(eventKey)}>
+                <Dropdown.Toggle variant="light" id="languageDropdown" className="text-left">
+                    {<FlagIcon code={this.currentlySelectedCountry()}/>}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    {languages.map(({countryCode, langCode, langLabel}) => (
+                        <Dropdown.Item key={langCode} eventKey={langCode}><FlagIcon className="dropdownFlag"
+                                                                                    code={countryCode}/> {langLabel}
+                        </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
+            // </Col>
         );
 
         return (
             <Form id="searchForm" onSubmit={this.handleSubmit}>
-                <Row>
+                <Row id="inputSearchRow">
                     {searchInput}
-                    {this.inlineLanguages ? languageDropdown : searchModeToggle}
+                    <Col>
+                        {this.showLanguageDropdown ? languagesDropdown : ""}
+                        {this.showSearchMode ? searchModeToggle : ""}
+                    </Col>
                 </Row>
-                {!this.inlineLanguages ? selectFlagsRow : ''}
+                {this.showLanguageRadios ? selectFlagsRow : ''}
             </Form>
         );
     }

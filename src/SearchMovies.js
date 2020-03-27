@@ -57,7 +57,7 @@ class SearchMovies extends React.Component {
 
     performSearch(title, audio) {
         let sanitizedTitle = sanitizedString(title);
-        if (sanitizedTitle !== this.movieTitle) {
+        if (this.state.movies.length <= 0 || sanitizedTitle !== this.movieTitle) {
             this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
             this.getMovies(sanitizedTitle, audio);
         }
@@ -88,6 +88,9 @@ class SearchMovies extends React.Component {
                         <SearchMoviesForm
                             onSubmitAction={this.performSearch}
                             onLanguageChangeAction={this.updateAudio}
+                            showLanguageDropdown={true}
+                            showLanguageRadios={false}
+                            showSearchMode={false}
                             className="align-middle"/>
                     </Col>
                 </Row>

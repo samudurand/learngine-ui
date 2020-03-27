@@ -6,9 +6,7 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./Logo";
 import {withRouter} from "react-router-dom";
 import {sanitizedString} from "./Sanitizer";
-import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
 import {searchModes} from "./Common";
-import DropdownExperiment from "./DropdownExperiment";
 
 class Home extends React.Component {
 
@@ -34,7 +32,11 @@ class Home extends React.Component {
             </Row>
             <Row>
                 <Col xs={{offset: 3, span: 6}}>
-                    <SearchMoviesForm onSubmitAction={this.searchAction} inlineLanguages={false}/>
+                    <SearchMoviesForm onSubmitAction={this.searchAction}
+                                      showLanguageDropdown={false}
+                                      showLanguageRadios={true}
+                                      showSearchMode={true}
+                    />
                 </Col>
             </Row>
         </Container>;
