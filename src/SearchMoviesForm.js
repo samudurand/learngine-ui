@@ -63,6 +63,19 @@ class SearchMoviesForm extends React.Component {
     }
 
     render() {
+        const searchInput = (
+            <Col id="SearchInputCol" xs={this.inlineLanguages ? "8" : "10"}>
+                <InputGroup>
+                    <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
+                                  placeholder="Movie or Series title"
+                                  onChange={this.handleChange}/>
+                    <InputGroup.Append>
+                        <Button variant="outline-dark" type="submit"><FontAwesomeIcon icon={faSearch}/></Button>
+                    </InputGroup.Append>
+                </InputGroup>
+            </Col>
+        );
+
         const modeInfoPopover = (
             <Popover id="popover-basic">
                 <Popover.Content>
@@ -71,77 +84,75 @@ class SearchMoviesForm extends React.Component {
             </Popover>
         );
 
-        return <Form id="searchForm" onSubmit={this.handleSubmit}>
-            <Row>
-                <Col id="SearchInputCol" xs={this.inlineLanguages ? "8" : "10"}>
-                    <InputGroup>
-                        <Form.Control id="searchBox" value={this.state.title} name="title" type="text"
-                                      placeholder="Movie or Series title"
-                                      onChange={this.handleChange}/>
-                        <InputGroup.Append>
-                            <Button variant="outline-dark" type="submit"><FontAwesomeIcon icon={faSearch}/></Button>
-                        </InputGroup.Append>
-                    </InputGroup>
-                </Col>
-                {
-                    this.inlineLanguages ?
-                        <Col xs="4" id="countrySelect">
-                            <Form.Control
-                                as="select"
+        const languageDropdown = (
+            <Col xs="4" id="countrySelect">
+                <Form.Control
+                    as="select"
+                    name="language"
+                    defaultValue={this.state.language}
+                    onChange={this.handleLanguageChange}>
+                    {languages.map(language => (
+                        <option value={language.langCode}
+                                key={language.countryCode + "OptionSearch"}>
+                            {language.langLabel} (Audio)
+                        </option>
+                    ))}
+                </Form.Control>
+            </Col>
+        );
+
+        const selectFlagsRow = (
+            <Row id="flagsRow">
+                <Col className="text-center">
+                    <Form.Group>
+                        {languages.map(language => (
+                            <Form.Check
+                                inline
+                                className="countryButton"
+                                id={language.countryCode + "RadioSearch"}
+                                key={language.countryCode + "RadioSearch"}
                                 name="language"
-                                defaultValue={this.state.language}
-                                onChange={this.handleLanguageChange}>
-                                {languages.map(language => (
-                                    <option value={language.langCode}
-                                            key={language.countryCode + "OptionSearch"}>
-                                        {language.langLabel} (Audio)
-                                    </option>
-                                ))}
-                            </Form.Control>
-                        </Col>
-                        : <OverlayTrigger
-                            placement="bottom"
-                            overlay={modeInfoPopover}>
-                            <Col xs="2">
-                                <BootstrapSwitchButton
-                                    checked={this.state.searchMode.name === searchModes.moviedb.name}
-                                    onlabel='Database'
-                                    offlabel='Direct'
-                                    onstyle="dark"
-                                    offstyle="secondary"
-                                    width="120"
-                                    onChange={this.switchMode}
-                                />
-                            </Col>
-                        </OverlayTrigger>
-                }
+                                type="radio"
+                                value={language.langCode}
+                                checked={this.state.language === language.langCode}
+                                onChange={this.handleChange}
+                                title={language.langLabel}
+                                label={<FlagIcon className="countryIcon" code={language.countryCode}
+                                                 size="lg"/>}
+                            />
+                        ))}
+                    </Form.Group>
+                </Col>
             </Row>
-            {
-                !this.inlineLanguages ?
-                    <Row id="flagsRow">
-                        <Col className="text-center">
-                            <Form.Group>
-                                {languages.map(language => (
-                                    <Form.Check
-                                        inline
-                                        className="countryButton"
-                                        id={language.countryCode + "RadioSearch"}
-                                        key={language.countryCode + "RadioSearch"}
-                                        name="language"
-                                        type="radio"
-                                        value={language.langCode}
-                                        checked={this.state.language === language.langCode}
-                                        onChange={this.handleChange}
-                                        title={language.langLabel}
-                                        label={<FlagIcon className="countryIcon" code={language.countryCode}
-                                                         size="lg"/>}
-                                    />
-                                ))}
-                            </Form.Group>
-                        </Col>
-                    </Row> : ''
-            }
-        </Form>;
+        );
+
+        const searchModeToggle = (
+            <OverlayTrigger
+                placement="bottom"
+                overlay={modeInfoPopover}>
+                <Col xs="2">
+                    <BootstrapSwitchButton
+                        checked={this.state.searchMode.name === searchModes.moviedb.name}
+                        onlabel='Database'
+                        offlabel='Direct'
+                        onstyle="dark"
+                        offstyle="secondary"
+                        width="120"
+                        onChange={this.switchMode}
+                    />
+                </Col>
+            </OverlayTrigger>
+        );
+
+        return (
+            <Form id="searchForm" onSubmit={this.handleSubmit}>
+                <Row>
+                    {searchInput}
+                    {this.inlineLanguages ? languageDropdown : searchModeToggle}
+                </Row>
+                {!this.inlineLanguages ? selectFlagsRow : ''}
+            </Form>
+        );
     }
 }
 

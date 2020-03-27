@@ -8,6 +8,7 @@ import {withRouter} from "react-router-dom";
 import {sanitizedString} from "./Sanitizer";
 import BootstrapSwitchButton from "bootstrap-switch-button-react/lib/bootstrap-switch-button-react";
 import {searchModes} from "./Common";
+import DropdownExperiment from "./DropdownExperiment";
 
 class Home extends React.Component {
 

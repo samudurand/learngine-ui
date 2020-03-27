@@ -11,6 +11,7 @@ import Card from "react-bootstrap/Card";
 import {languages, sources} from "./Common";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import SearchMoviesForm from "./SearchMoviesForm";
 
 class SearchStreams extends React.Component {
 
@@ -33,7 +34,7 @@ class SearchStreams extends React.Component {
 
     componentDidMount() {
         this.retrieveAlternativeTitles();
-        this.startEventStream();
+        // this.startEventStream();
     }
 
     retrieveAlternativeTitles() {
@@ -126,12 +127,19 @@ class SearchStreams extends React.Component {
                 }
             </Row>
         );
+
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
                     <Col xs={3}>
                         <Logo/>
                     </Col>
+                    {/*<Col xs={7}>*/}
+                    {/*    <SearchMoviesForm*/}
+                    {/*        onSubmitAction={this.performSearch}*/}
+                    {/*        onLanguageChangeAction={this.updateAudio}*/}
+                    {/*        className="align-middle"/>*/}
+                    {/*</Col>*/}
                 </Row>
                 {alternativeTitles && alternativeTitles.length > 0 ?
                     <Row id="alternativeTitlesRow">
