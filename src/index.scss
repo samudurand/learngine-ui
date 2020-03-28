@@ -188,37 +188,37 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
       margin-right: 1em;
     }
   }
-}
 
-#alternativeTitlesRow {
-  margin-top: 1rem;
+  #alternativeTitlesRow {
+    margin-top: 1rem;
 
-  .card-header {
-    text-align: left;
+    .card-header {
+      text-align: left;
 
-    &:hover {
-      cursor: pointer;
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
 
-  .card-body {
-    padding: 0.5em;
-  }
+    .card-body {
+      padding: 0.5em;
+    }
 
-  div.altTitle {
-    background-color: #f8f9fa;
-    display: inline-block;
-    padding: .25em .4em;
-    border: 1px solid #ced4da;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .27rem;
-    margin: 0.15rem;
+    div.altTitle {
+      background-color: #f8f9fa;
+      display: inline-block;
+      padding: .25em .4em;
+      border: 1px solid #ced4da;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .27rem;
+      margin: 0.15rem;
 
-    &:hover {
-      cursor: pointer;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }
@@ -260,4 +260,8 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     margin-right: 5px;
   }
 
+  #tmdbLogo {
+    max-height: 35px;
+    margin-left: .2em;
+  }
 }

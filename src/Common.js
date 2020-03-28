@@ -20,11 +20,9 @@ export const sources = {
 
 export const searchModes = {
     moviedb: {
-        name: "moviedbMode",
-        info: <span>Uses <b>TheMovieDB</b> database to search for movies matching your search, allowing you to select which movie you are looking for. The following search will be more precise and will offer alternative titles in the target language.</span>,
+        name: "moviedbMode"
     },
     direct: {
-        name: "directMode",
-        info: <span>Perform the search directly, more flexible but less precise results. no alternative titles in the target language will be provided.</span>
+        name: "directMode"
     }
 };
