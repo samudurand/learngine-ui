@@ -9,7 +9,7 @@ import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import {languages, searchModes, sources} from "./Common";
-import {faBars, faChevronDown, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faChevronDown, faEllipsisV, faFilm, faSearch, faStream, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
 import {sanitizedString} from "./Sanitizer";
@@ -168,8 +168,9 @@ class SearchStreams extends React.Component {
                             <Accordion>
                                 <Card>
                                     <Accordion.Toggle as={Card.Header} eventKey="0">
-                                        <FontAwesomeIcon icon={faBars} id="barsIcon"/> Not finding what you want ? Try again with one of those suggested titles
-                                        (<b>{alternativeTitles.length}</b> available)
+                                        <FontAwesomeIcon icon={faBars} id="barsIcon"/>
+                                        Not finding what you want ? Try again with one of those titles
+                                        (<b>{alternativeTitles.length}</b> possible match in {SearchStreams.getLanguageLabel(this.movie.audio)})
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
                                         <Card.Body>
@@ -197,7 +198,7 @@ class SearchStreams extends React.Component {
                                                 <Row>
                                                     <Col>
                                                         <p className="sourceTitle">
-                                                            <b>{streamData[0].source}</b> ({streamData.length} results) <FontAwesomeIcon icon={faChevronDown}/>
+                                                            <FontAwesomeIcon icon={faFilm}/> <b>{streamData[0].source}</b> ({streamData.length} results)
                                                         </p>
                                                     </Col>
                                                     <Col className="sourceLogo">

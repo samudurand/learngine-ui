@@ -21,6 +21,10 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 #searchRow {
   margin-top: 2em;
   margin-bottom: 2em;
+
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 1rem;
+  padding: 1em .5em;
 }
 
 #homePage {
@@ -111,6 +115,11 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     img {
       height: 138px;
     }
+  }
+
+  .fa-film {
+    font-size: 1.2em;
+    margin-right: .3rem;
   }
 
   td.streamDesc {
