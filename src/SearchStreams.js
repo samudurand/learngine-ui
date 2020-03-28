@@ -145,8 +145,6 @@ class SearchStreams extends React.Component {
             </Row>
         );
 
-        let firstStreamFound = false;
-
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
@@ -176,9 +174,9 @@ class SearchStreams extends React.Component {
                                         <Card.Body>
                                             {
                                                 alternativeTitles.sort().map(title =>
-                                                    <div className="altTitle"
-                                                         onClick={this.updateStreamSearch.bind(this, title, this.movie.audio)}>
-                                                        <FontAwesomeIcon icon={faSearch}/> {title}</div>)
+                                                    <div className="altTitle">
+                                                        <a href={`/search/stream?title=${title}&audio=${this.movie.audio}`}><FontAwesomeIcon icon={faSearch}/> {title}</a>
+                                                    </div>)
                                             }
                                         </Card.Body>
                                     </Accordion.Collapse>
