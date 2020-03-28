@@ -95,7 +95,7 @@ class SearchMoviesForm extends React.Component {
             <Popover id="popover-basic">
                 <Popover.Content>
                     <span>
-                        Uses <b>TheMovieDB</b> database to search for movies matching your search.
+                        Uses <a href="https://www.themoviedb.org/" target="_blank"><b>TheMovieDB</b></a> database to search for movies matching your search.
                         The following search will be more precise and will offer alternative titles in the target language.
                         Disabling this will perform a <b>direct stream search</b>, allowing a more flexible but less precise search.
                     </span>
@@ -139,6 +139,7 @@ class SearchMoviesForm extends React.Component {
                 label={
                     <OverlayTrigger
                         placement="bottom"
+                        delay={{ show: 250, hide: 1000 }}
                         overlay={modeInfoPopover}>
                         <img id="tmdbLogo" alt="The Movie DB" src="/tmdb.png"/>
                     </OverlayTrigger>

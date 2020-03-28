@@ -102,9 +102,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     font-size: 2.5em;
   }
 
-  #resultsRow {
-    padding-top: 2em;
-  }
 
   #spinner {
     text-align: center;
@@ -191,12 +188,18 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
   #alternativeTitlesRow {
     margin-top: 1rem;
+    margin-bottom: 2rem;
 
     .card-header {
       text-align: left;
+      background-color: white;
 
       &:hover {
         cursor: pointer;
+      }
+
+      .fa-bars {
+        margin-right: .5rem;
       }
     }
 
@@ -263,5 +266,9 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   #tmdbLogo {
     max-height: 35px;
     margin-left: .2em;
+  }
+
+  #languageDropdown {
+    border-color: $base-color-light;
   }
 }

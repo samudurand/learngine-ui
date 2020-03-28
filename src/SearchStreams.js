@@ -9,7 +9,7 @@ import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import {languages, searchModes, sources} from "./Common";
-import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faChevronDown, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
 import {sanitizedString} from "./Sanitizer";
@@ -40,6 +40,7 @@ class SearchStreams extends React.Component {
     }
 
     retrieveAlternativeTitles() {
+        this.setState({alternativeTitles: []});
         if (this.movie.id) {
             const url = `http://localhost:9000/search/alternatives?movieId=${this.movie.id}&audio=${this.movie.audio}`;
             fetch(encodeURI(url))
@@ -93,11 +94,14 @@ class SearchStreams extends React.Component {
     updateStreamSearch(movieTitle, audio) {
         this.movie.title = movieTitle;
         this.movie.audio = audio;
-        this.props.history.push(encodeURI(`/search/stream?movieId=${this.movie.id}&title=${movieTitle}&audio=${audio}`));
+        this.movie.id = null;
+        this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
             streams: {},
             isLoaded: false
         });
+
+        this.retrieveAlternativeTitles();
         this.startEventStream();
     }
 
@@ -141,6 +145,8 @@ class SearchStreams extends React.Component {
             </Row>
         );
 
+        let firstStreamFound = false;
+
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
@@ -162,7 +168,7 @@ class SearchStreams extends React.Component {
                             <Accordion>
                                 <Card>
                                     <Accordion.Toggle as={Card.Header} eventKey="0">
-                                        No finding what you want ? Try again with one of those suggested titles
+                                        <FontAwesomeIcon icon={faBars} id="barsIcon"/> Not finding what you want ? Try again with one of those suggested titles
                                         (<b>{alternativeTitles.length}</b> available)
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
@@ -183,7 +189,7 @@ class SearchStreams extends React.Component {
                 {Object.keys(streams).length > 0 ?
                     <Row id="resultsRow">
                         <Col>
-                            <Accordion>
+                            <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
                                 {
                                     Object.entries(streams).map(([streamSource, streamData]) => (
                                         <Card className="sourceCard">
@@ -191,7 +197,7 @@ class SearchStreams extends React.Component {
                                                 <Row>
                                                     <Col>
                                                         <p className="sourceTitle">
-                                                            <b>{streamData[0].source}</b> ({streamData.length} results)
+                                                            <b>{streamData[0].source}</b> ({streamData.length} results) <FontAwesomeIcon icon={faChevronDown}/>
                                                         </p>
                                                     </Col>
                                                     <Col className="sourceLogo">
