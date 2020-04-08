@@ -10,7 +10,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {languages, searchModes} from "./Common";
+import {languages, SearchModes} from "./Common";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -27,7 +27,7 @@ class SearchMoviesForm extends React.Component {
         this.state = {
             title: this.urlParams.title || '',
             language: this.urlParams.audio || languages[0].langCode,
-            searchMode: searchModes.moviedb,
+            searchMode: SearchModes.MOVIEDB,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -54,7 +54,7 @@ class SearchMoviesForm extends React.Component {
             return;
         }
 
-        this.props.onSubmitAction(sanitizedString(this.state.title), this.state.language, this.state.searchMode.name);
+        this.props.onSubmitAction(sanitizedString(this.state.title), this.state.language, this.state.searchMode);
     }
 
     currentlySelectedCountry() {
@@ -71,9 +71,9 @@ class SearchMoviesForm extends React.Component {
 
     handleModeChange(event) {
         if (event.target.checked) {
-            this.setState({searchMode: searchModes.moviedb});
+            this.setState({searchMode: SearchModes.MOVIEDB});
         } else {
-            this.setState({searchMode: searchModes.direct});
+            this.setState({searchMode: SearchModes.DIRECT});
         }
     }
 
@@ -133,7 +133,7 @@ class SearchMoviesForm extends React.Component {
                 inline
                 type="checkbox"
                 id="dbSearchMode"
-                checked={this.state.searchMode === searchModes.moviedb}
+                checked={this.state.searchMode === SearchModes.MOVIEDB}
                 onChange={this.handleModeChange}
                 name="dbSearchMode"
                 label={

@@ -18,11 +18,7 @@ export const sources = {
     "streamcomplet": "streamcomplet.png"
 };
 
-export const searchModes = {
-    moviedb: {
-        name: "moviedbMode"
-    },
-    direct: {
-        name: "directMode"
-    }
-};
+export const SearchModes = Object.freeze({
+    MOVIEDB: Symbol("moviedb"),
+    DIRECT: Symbol("direct")
+});

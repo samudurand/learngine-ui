@@ -6,7 +6,7 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./Logo";
 import {withRouter} from "react-router-dom";
 import {sanitizedString} from "./Sanitizer";
-import {searchModes} from "./Common";
+import {SearchModes} from "./Common";
 
 class Home extends React.Component {
 
@@ -16,7 +16,7 @@ class Home extends React.Component {
     }
 
     searchAction(title, audio, searchMode) {
-        if (searchMode === searchModes.moviedb.name) {
+        if (searchMode === SearchModes.MOVIEDB) {
             this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
         } else {
             this.props.history.push(`/search/stream?title=${sanitizedString(title)}&audio=${audio}`);

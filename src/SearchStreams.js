@@ -8,7 +8,7 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import {languages, searchModes, sources} from "./Common";
+import {languages, SearchModes, sources} from "./Common";
 import {faBars, faChevronDown, faEllipsisV, faFilm, faSearch, faStream, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
@@ -42,7 +42,7 @@ class SearchStreams extends React.Component {
     retrieveAlternativeTitles() {
         this.setState({alternativeTitles: []});
         if (this.movie.id) {
-            const url = `http://localhost:9000/search/alternatives?movieId=${this.movie.id}&audio=${this.movie.audio}`;
+            const url = `http://localhost:9000/search/titles?movieId=${this.movie.id}&audio=${this.movie.audio}`;
             fetch(encodeURI(url))
                 .then(res => res.json())
                 .then((titles) => {
@@ -119,7 +119,7 @@ class SearchStreams extends React.Component {
 
     performSearch(title, audio, searchMode) {
         const sanitizedTitle = sanitizedString(title);
-        if (searchMode === searchModes.direct.name) {
+        if (searchMode === SearchModes.DIRECT) {
             if (this.state.streams.length <= 0 || sanitizedTitle !== this.movie.title) {
                 this.updateStreamSearch(sanitizedTitle, audio);
             }
