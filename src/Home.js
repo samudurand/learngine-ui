@@ -5,21 +5,21 @@ import React from "react";
 import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./Logo";
 import {withRouter} from "react-router-dom";
-import {sanitizedString} from "./Sanitizer";
+import {trimAndLowerCaseString} from "./utils/StringUtils";
 import {SearchModes} from "./Common";
 
 class Home extends React.Component {
 
     constructor(props) {
         super(props);
-        this.searchAction = this.searchAction.bind(this);
+        this.searchMovieOrStreamOnSubmit = this.searchMovieOrStreamOnSubmit.bind(this);
     }
 
-    searchAction(title, audio, searchMode) {
+    searchMovieOrStreamOnSubmit(title, audio, searchMode) {
         if (searchMode === SearchModes.MOVIEDB) {
-            this.props.history.push(`/search/movie?title=${sanitizedString(title)}&audio=${audio}`);
+            this.props.history.push(`/search/movie?title=${trimAndLowerCaseString(title)}&audio=${audio}`);
         } else {
-            this.props.history.push(`/search/stream?title=${sanitizedString(title)}&audio=${audio}`);
+            this.props.history.push(`/search/stream?title=${trimAndLowerCaseString(title)}&audio=${audio}`);
         }
     }
 
@@ -32,7 +32,7 @@ class Home extends React.Component {
             </Row>
             <Row>
                 <Col xs={{offset: 3, span: 6}}>
-                    <SearchMoviesForm onSubmitAction={this.searchAction}
+                    <SearchMoviesForm onSubmitAction={this.searchMovieOrStreamOnSubmit}
                                       showLanguageDropdown={false}
                                       showLanguageRadios={true}
                                       showSearchMode={true}

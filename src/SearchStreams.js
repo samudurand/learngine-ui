@@ -12,7 +12,7 @@ import {languages, SearchModes, sources} from "./Common";
 import {faBars, faChevronDown, faEllipsisV, faFilm, faSearch, faStream, faTv} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
-import {sanitizedString} from "./Sanitizer";
+import {trimAndLowerCaseString} from "./utils/StringUtils";
 
 class SearchStreams extends React.Component {
 
@@ -118,7 +118,7 @@ class SearchStreams extends React.Component {
     }
 
     performSearch(title, audio, searchMode) {
-        const sanitizedTitle = sanitizedString(title);
+        const sanitizedTitle = trimAndLowerCaseString(title);
         if (searchMode === SearchModes.DIRECT) {
             if (this.state.streams.length <= 0 || sanitizedTitle !== this.movie.title) {
                 this.updateStreamSearch(sanitizedTitle, audio);

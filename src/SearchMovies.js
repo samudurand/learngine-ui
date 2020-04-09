@@ -7,7 +7,7 @@ import {Logo} from "./Logo";
 import Table from "react-bootstrap/Table";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
-import {sanitizedString} from "./Sanitizer";
+import {trimAndLowerCaseString} from "./utils/StringUtils";
 
 const maxDescriptionLength = 500;
 
@@ -56,7 +56,7 @@ class SearchMovies extends React.Component {
     }
 
     performSearch(title, audio) {
-        let sanitizedTitle = sanitizedString(title);
+        let sanitizedTitle = trimAndLowerCaseString(title);
         if (this.state.movies.length <= 0 || sanitizedTitle !== this.movieTitle) {
             this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
             this.getMovies(sanitizedTitle, audio);

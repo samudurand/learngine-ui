@@ -5,7 +5,7 @@ import queryString from 'query-string'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import FlagIcon from "./FlagIcon";
-import {sanitizedString} from "./Sanitizer";
+import {trimAndLowerCaseString} from "./utils/StringUtils";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -54,7 +54,7 @@ class SearchMoviesForm extends React.Component {
             return;
         }
 
-        this.props.onSubmitAction(sanitizedString(this.state.title), this.state.language, this.state.searchMode);
+        this.props.onSubmitAction(trimAndLowerCaseString(this.state.title), this.state.language, this.state.searchMode);
     }
 
     currentlySelectedCountry() {

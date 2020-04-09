@@ -12,6 +12,8 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.4.1",
     "bootstrap-switch-button-react": "^1.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "flag-icon-css": "^3.4.6",
     "node-sass": "^4.13.1",
     "query-string": "^6.11.1",
