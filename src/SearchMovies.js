@@ -9,71 +9,82 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
 
-const maxDescriptionLength = 500;
+const MAX_DESCRIPTION_LENGTH = 500;
 
 class SearchMovies extends React.Component {
 
     constructor(props) {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
-        this.movieTitle = urlParams.title;
-        this.movieAudio = urlParams.audio;
+        this.movieTitle = trimAndLowerCaseString(urlParams.title);
+        this.movieAudio = trimAndLowerCaseString(urlParams.audio);
         this.state = {
             isLoaded: false,
             movies: []
         };
 
-        this.performSearch = this.performSearch.bind(this);
-        this.updateAudio = this.updateAudio.bind(this);
-        this.getMovies = this.getMovies.bind(this);
+        this.updateUrlAndStartSearch = this.updateUrlAndStartSearch.bind(this);
+        this.updateUrlAndAudio = this.updateUrlAndAudio.bind(this);
+        this.fetchMovies = this.fetchMovies.bind(this);
     }
 
     componentDidMount() {
-        this.getMovies(this.movieTitle, this.movieAudio);
+        this.fetchMovies(this.movieTitle);
     }
 
-    getMovies(title, audio) {
+    fetchMovies(title) {
+        const cleanedTitle = trimAndLowerCaseString(title);
+
         this.setState({
             isLoaded: false,
             movies: []
         });
 
-        fetch(encodeURI(`http://localhost:9000/search/movies?title=${title}`))
+        return fetch(encodeURI(`http://localhost:9000/search/movies?title=${cleanedTitle}`))
             .then(res => res.json())
-            .then(
-                (movies) => {
-                    this.setState({
-                        isLoaded: true,
-                        movies: movies
-                    });
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true
-                    });
-                }
-            );
+            .then(this.stopLoadingAndSaveMovies())
+            .catch(this.stopLoading());
     }
 
-    performSearch(title, audio) {
-        let sanitizedTitle = trimAndLowerCaseString(title);
-        if (this.state.movies.length <= 0 || sanitizedTitle !== this.movieTitle) {
-            this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
-            this.getMovies(sanitizedTitle, audio);
-        }
+    stopLoading() {
+        return (error) => {
+            this.setState({
+                isLoaded: true
+            });
+        };
     }
 
-    updateAudio(audio) {
+    stopLoadingAndSaveMovies() {
+        return (movies) => {
+            this.setState({
+                isLoaded: true,
+                movies: movies
+            });
+        };
+    }
+
+    updateUrlAndStartSearch(title, audio) {
+        this.props.history.push(this.buildUrl(title, audio));
+        this.fetchMovies(trimAndLowerCaseString(title));
+    }
+
+    updateUrlAndAudio(audio) {
         this.movieAudio = audio;
-        this.props.history.push(`/search/movie?title=${this.movieTitle}&audio=${audio}`);
+        this.props.history.push(this.buildUrl(this.movieTitle, audio));
     }
 
-    getImage(imageUrl) {
+    buildUrl(title, audio) {
+        let cleanedTitle = trimAndLowerCaseString(title);
+        let cleanedAudio = trimAndLowerCaseString(audio);
+        return `/search/movie?title=${cleanedTitle}&audio=${cleanedAudio}`;
+    }
+
+    getMovieCoverOrDefaultCover(imageUrl) {
         return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
     }
 
-    getDescription(desc) {
-        return !desc || desc.length < maxDescriptionLength ? desc : desc.substring(0, maxDescriptionLength - 3) + "...";
+    truncateDescription(desc) {
+        return !desc || desc.length < MAX_DESCRIPTION_LENGTH ? desc : desc.substring(0, MAX_DESCRIPTION_LENGTH - 3) + "...";
     }
 
     render() {
@@ -86,8 +97,8 @@ class SearchMovies extends React.Component {
                     </Col>
                     <Col xs={7}>
                         <SearchMoviesForm
-                            onSubmitAction={this.performSearch}
-                            onLanguageChangeAction={this.updateAudio}
+                            onSubmitAction={this.updateUrlAndStartSearch}
+                            onLanguageChangeAction={this.updateUrlAndAudio}
                             showLanguageDropdown={true}
                             showLanguageRadios={false}
                             showSearchMode={false}
@@ -103,13 +114,13 @@ class SearchMovies extends React.Component {
                                     movies.map(movie => {
                                         const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
                                         return (
-                                            <tr>
+                                            <tr key={movie.id}>
                                                 <a href={streamUrl}>
-                                                    <td><img src={this.getImage(movie.imageUrl)} alt={movie.title}/>
+                                                    <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)} alt={movie.title}/>
                                                     </td>
                                                     <td className="movieDesc">
                                                         <span className="movieTitle">{movie.title} ({movie.date})</span>
-                                                        <p>{this.getDescription(movie.description)}</p>
+                                                        <p>{this.truncateDescription(movie.description)}</p>
                                                     </td>
                                                 </a>
                                             </tr>

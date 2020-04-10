@@ -1,3 +1,7 @@
 export function trimAndLowerCaseString(str) {
-    return str.trim().toLowerCase();
+    if (str) {
+        return str.trim().toLowerCase();
+    } else {
+        return "";
+    }
 }
