@@ -8,8 +8,7 @@ import Table from "react-bootstrap/Table";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
-
-const MAX_DESCRIPTION_LENGTH = 500;
+import MovieRow from "./MovieRow";
 
 class SearchMovies extends React.Component {
 
@@ -76,15 +75,7 @@ class SearchMovies extends React.Component {
     buildUrl(title, audio) {
         let cleanedTitle = trimAndLowerCaseString(title);
         let cleanedAudio = trimAndLowerCaseString(audio);
-        return `/search/movie?title=${cleanedTitle}&audio=${cleanedAudio}`;
-    }
-
-    getMovieCoverOrDefaultCover(imageUrl) {
-        return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
-    }
-
-    truncateDescription(desc) {
-        return !desc || desc.length < MAX_DESCRIPTION_LENGTH ? desc : desc.substring(0, MAX_DESCRIPTION_LENGTH - 3) + "...";
+        return encodeURI(`/search/movie?title=${cleanedTitle}&audio=${cleanedAudio}`);
     }
 
     render() {
@@ -110,23 +101,9 @@ class SearchMovies extends React.Component {
                         <Table responsive hover>
                             <tbody>
                             {
-                                !isLoaded ? <div>Loading...</div> :
-                                    movies.map(movie => {
-                                        const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
-                                        return (
-                                            <tr className="movieTableRow" key={movie.id}>
-                                                <a href={streamUrl}>
-                                                    <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)}
-                                                             alt={movie.title}/>
-                                                    </td>
-                                                    <td className="movieDesc">
-                                                        <span className="movieTitle">{movie.title} ({movie.date})</span>
-                                                        <p>{this.truncateDescription(movie.description)}</p>
-                                                    </td>
-                                                </a>
-                                            </tr>
-                                        )
-                                    })
+                                !isLoaded ?
+                                    <div>Loading...</div> :
+                                    movies.map(movie => <MovieRow key={movie.id} movie={movie} audio={this.movieAudio}/>)
                             }
                             </tbody>
                         </Table>
