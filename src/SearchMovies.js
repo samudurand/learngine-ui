@@ -114,7 +114,7 @@ class SearchMovies extends React.Component {
                                     movies.map(movie => {
                                         const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${this.movieAudio}`);
                                         return (
-                                            <tr key={movie.id}>
+                                            <tr className="movieTableRow" key={movie.id}>
                                                 <a href={streamUrl}>
                                                     <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)} alt={movie.title}/>
                                                     </td>

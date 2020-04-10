@@ -2,12 +2,11 @@ import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import React from "react";
 import SearchMovies from "./SearchMovies";
-import {shallow} from "enzyme";
+import {shallow, mount} from "enzyme";
+import SearchMoviesForm from "./SearchMoviesForm";
+import {flushPromises} from "./TestCommons";
 
 describe('SearchMovies init', () => {
-    beforeEach(() => {
-        fetch.resetMocks();
-    });
 
     it('renders without crashing', () => {
         const div = document.createElement('div');
@@ -132,22 +131,66 @@ describe('SearchMovies', () => {
         "ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. " +
         "Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget" +
         " condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum."
-
-    const matrixMovies = [
-        {
-            id: 591955,
-            title: "the matrix",
-            imageUrl: "http://store.com/img.jpg",
-            date: "2004",
-            description: "the matrix movie",
-            voteAverage: 9.0
-        },
-        {
-            id: 193255,
-            title: "the matrix revolution",
-            imageUrl: "http://store.com/img2.jpg",
-            date: "2008",
-            description: "the matrix revolution movie",
-            voteAverage: 4
-        }];
 });
+
+describe('SearchMovies rendering', () => {
+    beforeEach(() => {
+        fetch.resetMocks();
+    });
+
+    it('displays the search form', () => {
+        fetch.once(JSON.stringify(matrixMovies));
+
+        const wrapper = shallow(
+            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+        );
+
+        expect(wrapper.find(SearchMoviesForm)).toHaveLength(1);
+    });
+
+    it('displays the empty results row if no movies found', async () => {
+        fetch.once("[]");
+
+        const wrapper = shallow(
+            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+        );
+        await flushPromises();
+
+        expect(wrapper.find(".movieTableRow")).toHaveLength(0);
+        expect(wrapper.find("#noResultsRow")).toHaveLength(1);
+    });
+
+    it('displays the list of movies with links to corresponding search', async () => {
+        fetch.once(JSON.stringify(matrixMovies));
+
+        const wrapper = shallow(
+            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+        );
+        await flushPromises();
+
+        expect(wrapper.find("#noResultsRow")).toHaveLength(0);
+        const movieRows = wrapper.find(".movieTableRow a");
+        expect(movieRows.at(0).props())
+            .toHaveProperty("href", "/search/stream?movieId=591955&title=the%20matrix&audio=en");
+        expect(movieRows.at(1).props())
+            .toHaveProperty("href", "/search/stream?movieId=193255&title=the%20matrix%20revolution&audio=en");
+    });
+});
+
+const matrixMovies = [
+    {
+        id: 591955,
+        title: "the matrix",
+        imageUrl: "http://store.com/img.jpg",
+        date: "2004",
+        description: "the matrix movie",
+        voteAverage: 9.0
+    },
+    {
+        id: 193255,
+        title: "the matrix revolution",
+        imageUrl: "http://store.com/img2.jpg",
+        date: "2008",
+        description: "the matrix revolution movie",
+        voteAverage: 4
+    }];
