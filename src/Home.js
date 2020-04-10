@@ -3,10 +3,10 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import React from "react";
 import SearchMoviesForm from "./SearchMoviesForm";
-import {Logo} from "./Logo";
+import {Logo} from "./common/Logo";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
-import {SearchModes} from "./Common";
+import {SearchModes} from "./common/Common";
 
 class Home extends React.Component {
 

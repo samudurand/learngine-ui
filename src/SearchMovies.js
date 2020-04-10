@@ -3,7 +3,7 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Logo} from "./Logo";
+import {Logo} from "./common/Logo";
 import Table from "react-bootstrap/Table";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
@@ -116,7 +116,8 @@ class SearchMovies extends React.Component {
                                         return (
                                             <tr className="movieTableRow" key={movie.id}>
                                                 <a href={streamUrl}>
-                                                    <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)} alt={movie.title}/>
+                                                    <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)}
+                                                             alt={movie.title}/>
                                                     </td>
                                                     <td className="movieDesc">
                                                         <span className="movieTitle">{movie.title} ({movie.date})</span>

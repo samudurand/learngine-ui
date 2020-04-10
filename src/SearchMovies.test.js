@@ -2,9 +2,9 @@ import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import React from "react";
 import SearchMovies from "./SearchMovies";
-import {shallow, mount} from "enzyme";
+import {shallow} from "enzyme";
 import SearchMoviesForm from "./SearchMoviesForm";
-import {flushPromises} from "./TestCommons";
+import {flushPromises} from "./common/TestCommons";
 
 describe('SearchMovies init', () => {
 

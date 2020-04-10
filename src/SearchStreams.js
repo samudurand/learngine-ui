@@ -2,14 +2,14 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Logo} from "./Logo";
+import {Logo} from "./common/Logo";
 import Spinner from "react-bootstrap/Spinner";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import {languages, SearchModes, sources} from "./Common";
-import {faBars, faChevronDown, faEllipsisV, faFilm, faSearch, faStream, faTv} from "@fortawesome/free-solid-svg-icons";
+import {languages, SearchModes, sources} from "./common/Common";
+import {faBars, faFilm, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
@@ -32,6 +32,14 @@ class SearchStreams extends React.Component {
 
         this.updateStreamSearch = this.updateStreamSearch.bind(this);
         this.performSearch = this.performSearch.bind(this);
+    }
+
+    static getImage(imageUrl) {
+        return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
+    }
+
+    static getLanguageLabel(langCode) {
+        return languages.find(lang => lang.langCode === langCode).langLabel;
     }
 
     componentDidMount() {
@@ -109,14 +117,6 @@ class SearchStreams extends React.Component {
         return `/sources/${sources[sourceId]}`;
     }
 
-    static getImage(imageUrl) {
-        return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
-    }
-
-    static getLanguageLabel(langCode) {
-        return languages.find(lang => lang.langCode === langCode).langLabel;
-    }
-
     performSearch(title, audio, searchMode) {
         const sanitizedTitle = trimAndLowerCaseString(title);
         if (searchMode === SearchModes.DIRECT) {
@@ -168,14 +168,16 @@ class SearchStreams extends React.Component {
                                     <Accordion.Toggle as={Card.Header} eventKey="0">
                                         <FontAwesomeIcon icon={faBars} id="barsIcon"/>
                                         Not finding what you want ? Try again with one of those titles
-                                        (<b>{alternativeTitles.length}</b> possible match in {SearchStreams.getLanguageLabel(this.movie.audio)})
+                                        (<b>{alternativeTitles.length}</b> possible match
+                                        in {SearchStreams.getLanguageLabel(this.movie.audio)})
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
                                         <Card.Body>
                                             {
                                                 alternativeTitles.sort().map(title =>
                                                     <div className="altTitle">
-                                                        <a href={`/search/stream?title=${title}&audio=${this.movie.audio}`}><FontAwesomeIcon icon={faSearch}/> {title}</a>
+                                                        <a href={`/search/stream?title=${title}&audio=${this.movie.audio}`}><FontAwesomeIcon
+                                                            icon={faSearch}/> {title}</a>
                                                     </div>)
                                             }
                                         </Card.Body>
@@ -196,7 +198,8 @@ class SearchStreams extends React.Component {
                                                 <Row>
                                                     <Col>
                                                         <p className="sourceTitle">
-                                                            <FontAwesomeIcon icon={faFilm}/> <b>{streamData[0].source}</b> ({streamData.length} results)
+                                                            <FontAwesomeIcon icon={faFilm}/>
+                                                            <b>{streamData[0].source}</b> ({streamData.length} results)
                                                         </p>
                                                     </Col>
                                                     <Col className="sourceLogo">
@@ -233,7 +236,8 @@ class SearchStreams extends React.Component {
                     </Row> : ""
                 }
                 {
-                    isLoaded && (Object.keys(streams).length <= 0) ? <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row> : ""
+                    isLoaded && (Object.keys(streams).length <= 0) ?
+                        <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row> : ""
                 }
                 {
                     !isLoaded ? spinnerRow : ""

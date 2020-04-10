@@ -3,7 +3,7 @@ import Home from "./Home";
 import ReactDOM from 'react-dom';
 
 import {BrowserRouter} from "react-router-dom";
-import {SearchModes} from "./Common";
+import {SearchModes} from "./common/Common";
 import {shallow} from "enzyme";
 
 describe('Home', () => {

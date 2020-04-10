@@ -4,13 +4,13 @@ import {withRouter} from "react-router";
 import queryString from 'query-string'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import FlagIcon from "./FlagIcon";
+import FlagIcon from "./common/FlagIcon";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {languages, SearchModes} from "./Common";
+import {languages, SearchModes} from "./common/Common";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -139,7 +139,7 @@ class SearchMoviesForm extends React.Component {
                 label={
                     <OverlayTrigger
                         placement="bottom"
-                        delay={{ show: 250, hide: 1000 }}
+                        delay={{show: 250, hide: 1000}}
                         overlay={modeInfoPopover}>
                         <img id="tmdbLogo" alt="The Movie DB" src="/tmdb.png"/>
                     </OverlayTrigger>

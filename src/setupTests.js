@@ -7,8 +7,8 @@ import 'jest-extended';
 import "jest-enzyme";
 import jjj from "jest-fetch-mock";
 
-import { configure } from 'enzyme';
+import {configure} from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-configure({ adapter: new Adapter() });
+configure({adapter: new Adapter()});
 jjj.enableMocks();
