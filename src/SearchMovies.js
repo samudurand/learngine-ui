@@ -15,11 +15,11 @@ class SearchMovies extends React.Component {
     constructor(props) {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
-        this.movieTitle = trimAndLowerCaseString(urlParams.title);
-        this.movieAudio = trimAndLowerCaseString(urlParams.audio);
         this.state = {
             isLoaded: false,
-            movies: []
+            movies: [],
+            movieTitle: trimAndLowerCaseString(urlParams.title),
+            movieAudio: trimAndLowerCaseString(urlParams.audio)
         };
 
         this.updateUrlAndStartSearch = this.updateUrlAndStartSearch.bind(this);
@@ -28,7 +28,7 @@ class SearchMovies extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchMovies(this.movieTitle);
+        this.fetchMovies(this.state.movieTitle);
     }
 
     fetchMovies(title) {
@@ -68,8 +68,10 @@ class SearchMovies extends React.Component {
     }
 
     updateUrlAndAudio(audio) {
-        this.movieAudio = audio;
-        this.props.history.push(this.buildUrl(this.movieTitle, audio));
+        this.props.history.push(this.buildUrl(this.state.movieTitle, audio));
+        this.setState({
+            movieAudio: audio
+        });
     }
 
     buildUrl(title, audio) {
@@ -103,7 +105,7 @@ class SearchMovies extends React.Component {
                             {
                                 !isLoaded ?
                                     <div>Loading...</div> :
-                                    movies.map(movie => <MovieRow key={movie.id} movie={movie} audio={this.movieAudio}/>)
+                                    movies.map(movie => <MovieRow key={movie.id} movie={movie} audio={this.state.movieAudio}/>)
                             }
                             </tbody>
                         </Table>

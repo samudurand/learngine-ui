@@ -14,6 +14,7 @@
     "bootstrap-switch-button-react": "^1.2.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "eventsourcemock": "^2.0.0",
     "flag-icon-css": "^3.4.6",
     "jest-enzyme": "^7.1.2",
     "jest-extended": "^0.11.5",

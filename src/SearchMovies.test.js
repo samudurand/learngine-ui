@@ -21,11 +21,11 @@ describe('SearchMovies init', () => {
             }
         });
 
-        expect(component.movieTitle).toBe("matrix");
-        expect(component.movieAudio).toBe("en");
         expect(component.state).toStrictEqual({
             isLoaded: false,
-            movies: []
+            movies: [],
+            movieTitle: "matrix",
+            movieAudio: "en"
         });
     });
 });
