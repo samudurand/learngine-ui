@@ -9,11 +9,11 @@ import {shallow} from "enzyme";
 describe('Home', () => {
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<BrowserRouter><Home /></BrowserRouter>, div);
+        ReactDOM.render(<BrowserRouter><Home/></BrowserRouter>, div);
     });
 
     it('searches movies on submit if mode is set to MovieDB Search', () => {
-        const historyMock = { push: jest.fn() };
+        const historyMock = {push: jest.fn()};
 
         const wrapper = shallow(<Home.WrappedComponent history={historyMock}/>);
         wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SearchModes.MOVIEDB);
@@ -22,7 +22,7 @@ describe('Home', () => {
     });
 
     it('searches streams on submit if mode is set to Direct Search', () => {
-        const historyMock = { push: jest.fn() };
+        const historyMock = {push: jest.fn()};
 
         const wrapper = shallow(<Home.WrappedComponent history={historyMock}/>);
         wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SearchModes.DIRECT);
