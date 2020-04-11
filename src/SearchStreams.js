@@ -15,6 +15,10 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
 import getCoverUrlOrDefaultCover from "./utils/TemplateUtils";
 import {Language} from "./common/Language";
+import {config} from "./common/Config";
+
+const ALT_TITLES_URL = `${config.backend.url}/search/titles`;
+const STREAM_SEARCH_URL = `${config.backend.url}/search/streams`;
 
 class SearchStreams extends React.Component {
 
@@ -30,8 +34,10 @@ class SearchStreams extends React.Component {
             movieAudio: trimAndLowerCaseString(urlParams.audio)
         };
 
-        this.updateStreamSearch = this.updateStreamSearch.bind(this);
+        this._updateStreamSearch = this._updateStreamSearch.bind(this);
         this.performSearch = this.performSearch.bind(this);
+        this._processStreamData = this._processStreamData.bind(this);
+        this._endLoadingAndCloseEventSource = this._endLoadingAndCloseEventSource.bind(this);
     }
 
     componentDidMount() {
@@ -42,7 +48,7 @@ class SearchStreams extends React.Component {
     retrieveAlternativeTitles() {
         this.setState({alternativeTitles: []});
         if (this.state.movieId) {
-            const url = `http://localhost:9000/search/titles?movieId=${this.state.movieId}&audio=${this.state.movieAudio}`;
+            const url = `${ALT_TITLES_URL}?movieId=${this.state.movieId}&audio=${this.state.movieAudio}`;
             return fetch(encodeURI(url))
                 .then(res => res.json())
                 .then((titles) => {
@@ -61,17 +67,13 @@ class SearchStreams extends React.Component {
             this.eventSource.close();
         }
 
-        const url = `http://localhost:9000/search/streams?title=${this.state.movieTitle}&audio=${this.state.movieAudio}&engines=false`;
+        const url = `${STREAM_SEARCH_URL}?title=${this.state.movieTitle}&audio=${this.state.movieAudio}`;
         this.eventSource = new EventSource(encodeURI(url));
-        this.eventSource.onmessage = (msg) => this.processStreamData(msg);
-        this.eventSource.onerror = (error) => {
-            console.info("Closing SSE connection");
-            this.eventSource.close();
-            this.setState({isLoaded: true});
-        };
+        this.eventSource.addEventListener('message', this._processStreamData);
+        this.eventSource.addEventListener('error', this._endLoadingAndCloseEventSource);
     }
 
-    processStreamData(message) {
+    _processStreamData(message) {
         const stream = JSON.parse(message.data);
         const {sourceId} = stream;
         if (!this.state.streams[sourceId]) {
@@ -93,7 +95,29 @@ class SearchStreams extends React.Component {
         }
     }
 
-    updateStreamSearch(movieTitle, audio) {
+    _endLoadingAndCloseEventSource(error) {
+        console.info("Closing SSE connection");
+        this.eventSource.close();
+        this.setState({isLoaded: true});
+    }
+
+    static getSourceLogo(sourceId) {
+        return `/sources/${STREAM_SOURCES[sourceId]}`;
+    }
+
+    performSearch(title, audio, searchMode) {
+        const sanitizedTitle = trimAndLowerCaseString(title);
+        if (searchMode === SEARCH_MODES.DIRECT) {
+            if (this.state.streams.length <= 0 || sanitizedTitle !== this.state.movieTitle) {
+                return this._updateStreamSearch(sanitizedTitle, audio);
+            }
+        } else {
+            this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
+        }
+        return Promise.resolve();
+    }
+
+    _updateStreamSearch(movieTitle, audio) {
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
             streams: {},
@@ -103,23 +127,8 @@ class SearchStreams extends React.Component {
             movieId: null
         });
 
-        this.retrieveAlternativeTitles();
         this.startEventStream();
-    }
-
-    getSourceLogo(sourceId) {
-        return `/sources/${STREAM_SOURCES[sourceId]}`;
-    }
-
-    performSearch(title, audio, searchMode) {
-        const sanitizedTitle = trimAndLowerCaseString(title);
-        if (searchMode === SEARCH_MODES.DIRECT) {
-            if (this.state.streams.length <= 0 || sanitizedTitle !== this.state.movieTitle) {
-                this.updateStreamSearch(sanitizedTitle, audio);
-            }
-        } else {
-            this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
-        }
+        return this.retrieveAlternativeTitles();
     }
 
     render() {
@@ -197,7 +206,7 @@ class SearchStreams extends React.Component {
                                                         </p>
                                                     </Col>
                                                     <Col className="sourceLogo">
-                                                        <img src={this.getSourceLogo(streamSource)} alt={streamSource}/>
+                                                        <img src={SearchStreams.getSourceLogo(streamSource)} alt={streamSource}/>
                                                     </Col>
                                                 </Row>
                                             </Accordion.Toggle>

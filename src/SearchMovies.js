@@ -9,7 +9,9 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
 import MovieRow from "./MovieRow";
+import {config} from "./common/Config";
 
+const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
 class SearchMovies extends React.Component {
 
     constructor(props) {
@@ -39,7 +41,7 @@ class SearchMovies extends React.Component {
             movies: []
         });
 
-        return fetch(encodeURI(`http://localhost:9000/search/movies?title=${cleanedTitle}`))
+        return fetch(encodeURI(`${SEARCH_MOVIE_URL}?title=${cleanedTitle}`))
             .then(res => res.json())
             .then(this.stopLoadingAndSaveMovies())
             .catch(this.stopLoading());
