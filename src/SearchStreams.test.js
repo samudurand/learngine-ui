@@ -14,15 +14,23 @@ describe('SearchStreams init', () => {
     it('initialize state', () => {
         const component = new SearchStreams.WrappedComponent({
             location: {
-                search: 'id=603&title=matrix&audio=en'
+                search: 'movieId=603&title=matrix&audio=en'
             }
         });
 
-        // expect(component.movieTitle).toBe("matrix");
-        // expect(component.movieAudio).toBe("en");
-        // expect(component.state).toStrictEqual({
-        //     isLoaded: false,
-        //     movies: []
-        // });
+        expect(component.state).toStrictEqual({
+            isLoaded: false,
+            streams: {},
+            alternativeTitles: [],
+            movieId: "603",
+            movieTitle: "matrix",
+            movieAudio: "en"
+        });
+    });
+});
+
+describe('SearchStreams', () => {
+    it('retrieve alternative titles', () => {
+
     });
 });

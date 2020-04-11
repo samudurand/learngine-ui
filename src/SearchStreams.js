@@ -8,38 +8,30 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import {languages, SearchModes, sources} from "./common/Common";
+import {LANGUAGES, SEARCH_MODES, STREAM_SOURCES} from "./common/Common";
 import {faBars, faFilm, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import SearchMoviesForm from "./SearchMoviesForm";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
+import getCoverUrlOrDefaultCover from "./utils/TemplateUtils";
+import {Language} from "./common/Language";
 
 class SearchStreams extends React.Component {
 
     constructor(props) {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
-        this.movie = {
-            id: urlParams.movieId,
-            title: urlParams.title,
-            audio: urlParams.audio
-        };
         this.state = {
             isLoaded: false,
             streams: {},
-            alternativeTitles: []
+            alternativeTitles: [],
+            movieId: trimAndLowerCaseString(urlParams.movieId),
+            movieTitle: trimAndLowerCaseString(urlParams.title),
+            movieAudio: trimAndLowerCaseString(urlParams.audio)
         };
 
         this.updateStreamSearch = this.updateStreamSearch.bind(this);
         this.performSearch = this.performSearch.bind(this);
-    }
-
-    static getImage(imageUrl) {
-        return imageUrl && imageUrl.length > 0 ? imageUrl : "/no-cover.jpg";
-    }
-
-    static getLanguageLabel(langCode) {
-        return languages.find(lang => lang.langCode === langCode).langLabel;
     }
 
     componentDidMount() {
@@ -49,9 +41,9 @@ class SearchStreams extends React.Component {
 
     retrieveAlternativeTitles() {
         this.setState({alternativeTitles: []});
-        if (this.movie.id) {
-            const url = `http://localhost:9000/search/titles?movieId=${this.movie.id}&audio=${this.movie.audio}`;
-            fetch(encodeURI(url))
+        if (this.state.movieId) {
+            const url = `http://localhost:9000/search/titles?movieId=${this.state.movieId}&audio=${this.state.movieAudio}`;
+            return fetch(encodeURI(url))
                 .then(res => res.json())
                 .then((titles) => {
                         this.setState({
@@ -59,6 +51,8 @@ class SearchStreams extends React.Component {
                         });
                     }
                 );
+        } else {
+            return Promise.resolve();
         }
     }
 
@@ -67,7 +61,7 @@ class SearchStreams extends React.Component {
             this.eventSource.close();
         }
 
-        const url = `http://localhost:9000/search/streams?title=${this.movie.title}&audio=${this.movie.audio}&engines=false`;
+        const url = `http://localhost:9000/search/streams?title=${this.state.movieTitle}&audio=${this.state.movieAudio}&engines=false`;
         this.eventSource = new EventSource(encodeURI(url));
         this.eventSource.onmessage = (msg) => this.processStreamData(msg);
         this.eventSource.onerror = (error) => {
@@ -100,13 +94,13 @@ class SearchStreams extends React.Component {
     }
 
     updateStreamSearch(movieTitle, audio) {
-        this.movie.title = movieTitle;
-        this.movie.audio = audio;
-        this.movie.id = null;
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
             streams: {},
-            isLoaded: false
+            isLoaded: false,
+            movieTitle: movieTitle,
+            movieAudio: audio,
+            movieId: null
         });
 
         this.retrieveAlternativeTitles();
@@ -114,13 +108,13 @@ class SearchStreams extends React.Component {
     }
 
     getSourceLogo(sourceId) {
-        return `/sources/${sources[sourceId]}`;
+        return `/sources/${STREAM_SOURCES[sourceId]}`;
     }
 
     performSearch(title, audio, searchMode) {
         const sanitizedTitle = trimAndLowerCaseString(title);
-        if (searchMode === SearchModes.DIRECT) {
-            if (this.state.streams.length <= 0 || sanitizedTitle !== this.movie.title) {
+        if (searchMode === SEARCH_MODES.DIRECT) {
+            if (this.state.streams.length <= 0 || sanitizedTitle !== this.state.movieTitle) {
                 this.updateStreamSearch(sanitizedTitle, audio);
             }
         } else {
@@ -169,14 +163,14 @@ class SearchStreams extends React.Component {
                                         <FontAwesomeIcon icon={faBars} id="barsIcon"/>
                                         Not finding what you want ? Try again with one of those titles
                                         (<b>{alternativeTitles.length}</b> possible match
-                                        in {SearchStreams.getLanguageLabel(this.movie.audio)})
+                                        in {Language.findByCode(LANGUAGES, this.state.movieAudio).label})
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
                                         <Card.Body>
                                             {
                                                 alternativeTitles.sort().map(title =>
-                                                    <div className="altTitle">
-                                                        <a href={`/search/stream?title=${title}&audio=${this.movie.audio}`}><FontAwesomeIcon
+                                                    <div key={title} className="altTitle">
+                                                        <a href={`/search/stream?title=${title}&audio=${this.state.movieAudio}`}><FontAwesomeIcon
                                                             icon={faSearch}/> {title}</a>
                                                     </div>)
                                             }
@@ -193,7 +187,7 @@ class SearchStreams extends React.Component {
                             <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
                                 {
                                     Object.entries(streams).map(([streamSource, streamData]) => (
-                                        <Card className="sourceCard">
+                                        <Card key={streamSource} className="sourceCard">
                                             <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
                                                 <Row>
                                                     <Col>
@@ -211,13 +205,13 @@ class SearchStreams extends React.Component {
                                                 <Row id="streamCardsRow">
                                                     {
                                                         streamData.map(stream => (
-                                                            <Col xs={2}>
+                                                            <Col key={stream.source + " " + stream.title} xs={2}>
                                                                 <a href={stream.link} target="_blank"
                                                                    rel="noopener noreferrer"
                                                                    title={`Go to ${stream.source} to watch ${stream.title}`}>
                                                                     <Card>
                                                                         <Card.Img variant="top"
-                                                                                  src={SearchStreams.getImage(stream.imageUrl)}/>
+                                                                                  src={getCoverUrlOrDefaultCover(stream.imageUrl)}/>
                                                                         <Card.Body>
                                                                             <Card.Title>{stream.title}</Card.Title>
                                                                         </Card.Body>

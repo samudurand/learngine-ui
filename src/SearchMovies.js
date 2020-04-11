@@ -64,7 +64,7 @@ class SearchMovies extends React.Component {
 
     updateUrlAndStartSearch(title, audio) {
         this.props.history.push(this.buildUrl(title, audio));
-        this.fetchMovies(trimAndLowerCaseString(title));
+        return this.fetchMovies(trimAndLowerCaseString(title));
     }
 
     updateUrlAndAudio(audio) {

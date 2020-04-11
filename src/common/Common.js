@@ -1,13 +1,14 @@
 import React from "react";
+import {Language} from "./Language";
 
-export const languages = [
-    {countryCode: "us", langCode: "en", langLabel: "English"},
-    {countryCode: "es", langCode: "es", langLabel: "Spanish"},
-    {countryCode: "fr", langCode: "fr", langLabel: "French"},
-    {countryCode: "it", langCode: "it", langLabel: "Italian"}
+export const LANGUAGES = [
+    new Language("en", "us", "English"),
+    new Language("es", "es", "Spanish"),
+    new Language("fr", "fr", "French"),
+    new Language("it", "it", "Italian")
 ];
 
-export const sources = {
+export const STREAM_SOURCES = {
     "5movies": "5movies.png",
     "altadefinizione": "altadefinizione.png",
     "animealtadefinizione": "animealtadefinizione.png",
@@ -18,7 +19,7 @@ export const sources = {
     "streamcomplet": "streamcomplet.png"
 };
 
-export const SearchModes = Object.freeze({
+export const SEARCH_MODES = Object.freeze({
     MOVIEDB: Symbol("moviedb"),
     DIRECT: Symbol("direct")
 });

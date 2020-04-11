@@ -3,7 +3,7 @@ import Home from "./Home";
 import ReactDOM from 'react-dom';
 
 import {BrowserRouter} from "react-router-dom";
-import {SearchModes} from "./common/Common";
+import {SEARCH_MODES} from "./common/Common";
 import {shallow} from "enzyme";
 
 describe('Home', () => {
@@ -16,7 +16,7 @@ describe('Home', () => {
         const historyMock = {push: jest.fn()};
 
         const wrapper = shallow(<Home.WrappedComponent history={historyMock}/>);
-        wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SearchModes.MOVIEDB);
+        wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SEARCH_MODES.MOVIEDB);
 
         expect(historyMock.push).toHaveBeenCalledWith('/search/movie?title=matrix&audio=en');
     });
@@ -25,7 +25,7 @@ describe('Home', () => {
         const historyMock = {push: jest.fn()};
 
         const wrapper = shallow(<Home.WrappedComponent history={historyMock}/>);
-        wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SearchModes.DIRECT);
+        wrapper.instance().searchMovieOrStreamOnSubmit('Matrix', 'en', SEARCH_MODES.DIRECT);
 
         expect(historyMock.push).toHaveBeenCalledWith('/search/stream?title=matrix&audio=en');
     });

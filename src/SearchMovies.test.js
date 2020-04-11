@@ -65,11 +65,11 @@ describe('SearchMovies', () => {
         expect(state.movies).toEqual([]);
     });
 
-    it('performs search and update url', () => {
+    it('performs search and update url', async () => {
         const mockFetch = jest.fn();
         component.instance().fetchMovies = mockFetch;
 
-        component.instance().updateUrlAndStartSearch("Matrix", "EN");
+        await component.instance().updateUrlAndStartSearch("Matrix", "EN");
 
         expect(historyMock.push).toHaveBeenCalledWith('/search/movie?title=matrix&audio=en');
         expect(mockFetch).toHaveBeenCalledWith("matrix");

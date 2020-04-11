@@ -10,10 +10,11 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {languages, SearchModes} from "./common/Common";
+import {LANGUAGES, SEARCH_MODES} from "./common/Common";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Dropdown from "react-bootstrap/Dropdown";
+import {Language} from "./common/Language";
 
 class SearchMoviesForm extends React.Component {
 
@@ -26,8 +27,8 @@ class SearchMoviesForm extends React.Component {
 
         this.state = {
             title: this.urlParams.title || '',
-            language: this.urlParams.audio || languages[0].langCode,
-            searchMode: SearchModes.MOVIEDB,
+            language: this.urlParams.audio || LANGUAGES[0].code,
+            searchMode: SEARCH_MODES.MOVIEDB,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -57,12 +58,6 @@ class SearchMoviesForm extends React.Component {
         this.props.onSubmitAction(trimAndLowerCaseString(this.state.title), this.state.language, this.state.searchMode);
     }
 
-    currentlySelectedCountry() {
-        return languages
-            .find(({langCode}) => this.state.language === langCode)
-            .countryCode;
-    }
-
     calculateSearchInputSpace() {
         const MODE_COL_WIDTH = 3;
         const DROP_COL_WIDTH = 3;
@@ -71,9 +66,9 @@ class SearchMoviesForm extends React.Component {
 
     handleModeChange(event) {
         if (event.target.checked) {
-            this.setState({searchMode: SearchModes.MOVIEDB});
+            this.setState({searchMode: SEARCH_MODES.MOVIEDB});
         } else {
-            this.setState({searchMode: SearchModes.DIRECT});
+            this.setState({searchMode: SEARCH_MODES.DIRECT});
         }
     }
 
@@ -95,7 +90,7 @@ class SearchMoviesForm extends React.Component {
             <Popover id="popover-basic">
                 <Popover.Content>
                     <span>
-                        Uses <a href="https://www.themoviedb.org/" target="_blank"><b>TheMovieDB</b></a> database to search for movies matching your search.
+                        Uses <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"><b>TheMovieDB</b></a> database to search for movies matching your search.
                         The following search will be more precise and will offer alternative titles in the target language.
                         Disabling this will perform a <b>direct stream search</b>, allowing a more flexible but less precise search.
                     </span>
@@ -107,19 +102,19 @@ class SearchMoviesForm extends React.Component {
             <Row id="flagsRow">
                 <Col className="text-center">
                     <Form.Group>
-                        {languages.map(language => (
+                        {LANGUAGES.map(language => (
                             <Form.Check
                                 inline
                                 className="countryButton"
-                                id={language.countryCode + "RadioSearch"}
-                                key={language.countryCode + "RadioSearch"}
+                                id={language.country + "RadioSearch"}
+                                key={language.country + "RadioSearch"}
                                 name="language"
                                 type="radio"
-                                value={language.langCode}
-                                checked={this.state.language === language.langCode}
+                                value={language.code}
+                                checked={this.state.language === language.code}
                                 onChange={this.handleChange}
-                                title={language.langLabel}
-                                label={<FlagIcon className="countryIcon" code={language.countryCode}
+                                title={language.label}
+                                label={<FlagIcon className="countryIcon" code={language.country}
                                                  size="lg"/>}
                             />
                         ))}
@@ -133,7 +128,7 @@ class SearchMoviesForm extends React.Component {
                 inline
                 type="checkbox"
                 id="dbSearchMode"
-                checked={this.state.searchMode === SearchModes.MOVIEDB}
+                checked={this.state.searchMode === SEARCH_MODES.MOVIEDB}
                 onChange={this.handleModeChange}
                 name="dbSearchMode"
                 label={
@@ -151,13 +146,13 @@ class SearchMoviesForm extends React.Component {
             <Dropdown
                 onSelect={eventKey => this.handleLanguageChange(eventKey)}>
                 <Dropdown.Toggle variant="light" id="languageDropdown" className="text-left">
-                    {<FlagIcon code={this.currentlySelectedCountry()}/>}
+                    {<FlagIcon code={Language.findByCode(LANGUAGES, this.state.language).country}/>}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                    {languages.map(({countryCode, langCode, langLabel}) => (
-                        <Dropdown.Item key={langCode} eventKey={langCode}><FlagIcon className="dropdownFlag"
-                                                                                    code={countryCode}/> {langLabel}
+                    {LANGUAGES.map(lang => (
+                        <Dropdown.Item key={lang.code} eventKey={lang.code}>
+                            <FlagIcon className="dropdownFlag" code={lang.country}/> {lang.label}
                         </Dropdown.Item>
                     ))}
                 </Dropdown.Menu>

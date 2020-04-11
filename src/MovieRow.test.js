@@ -9,21 +9,6 @@ describe('MovieRow', () => {
         component = shallow(<MovieRow movie={matrix} audio={'en'}/>, {disableLifecycleMethods: true});
     });
 
-    it('gets movie cover url when available', () => {
-        expect(component.instance().getMovieCoverOrDefaultCover("http://my/img.jpg"))
-            .toBe("http://my/img.jpg");
-    });
-
-    it('gets defaut cover when movie cover is empty', () => {
-        expect(component.instance().getMovieCoverOrDefaultCover(""))
-            .toBe("/no-cover.jpg");
-    });
-
-    it('gets defaut cover when movie cover is missing', () => {
-        expect(component.instance().getMovieCoverOrDefaultCover(null))
-            .toBe("/no-cover.jpg");
-    });
-
     it('formats description by truncating it if too long', () => {
         const formattedDesc = component.instance().truncateDescription(veryLongText);
 

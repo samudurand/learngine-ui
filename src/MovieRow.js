@@ -1,4 +1,5 @@
 import React from "react";
+import getCoverUrlOrDefaultCover from "./utils/TemplateUtils";
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
@@ -10,14 +11,6 @@ export default class MovieRow extends React.Component {
         this.state = {
             movie: props.movie,
             audio: props.audio
-        }
-    }
-
-    getMovieCoverOrDefaultCover(imageUrl) {
-        if (imageUrl && imageUrl.length > 0) {
-            return imageUrl;
-        } else {
-            return "/no-cover.jpg";
         }
     }
 
@@ -35,7 +28,7 @@ export default class MovieRow extends React.Component {
         return (
             <tr className="movieTableRow" key={movie.id}>
                 <a href={streamUrl}>
-                    <td><img src={this.getMovieCoverOrDefaultCover(movie.imageUrl)}
+                    <td><img src={getCoverUrlOrDefaultCover(movie.imageUrl)}
                              alt={movie.title}/>
                     </td>
                     <td className="movieDesc">

@@ -6,7 +6,7 @@ import SearchMoviesForm from "./SearchMoviesForm";
 import {Logo} from "./common/Logo";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
-import {SearchModes} from "./common/Common";
+import {SEARCH_MODES} from "./common/Common";
 
 class Home extends React.Component {
 
@@ -16,7 +16,7 @@ class Home extends React.Component {
     }
 
     searchMovieOrStreamOnSubmit(title, audio, searchMode) {
-        if (searchMode === SearchModes.MOVIEDB) {
+        if (searchMode === SEARCH_MODES.MOVIEDB) {
             this.props.history.push(`/search/movie?title=${trimAndLowerCaseString(title)}&audio=${audio}`);
         } else {
             this.props.history.push(`/search/stream?title=${trimAndLowerCaseString(title)}&audio=${audio}`);
