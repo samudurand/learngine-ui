@@ -90,7 +90,8 @@ class SearchMoviesForm extends React.Component {
             <Popover id="popover-basic">
                 <Popover.Content>
                     <span>
-                        Uses <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer"><b>TheMovieDB</b></a> database to search for movies matching your search.
+                        Uses <a href="https://www.themoviedb.org/" target="_blank"
+                                rel="noopener noreferrer"><b>TheMovieDB</b></a> database to search for movies matching your search.
                         The following search will be more precise and will offer alternative titles in the target language.
                         Disabling this will perform a <b>direct stream search</b>, allowing a more flexible but less precise search.
                     </span>

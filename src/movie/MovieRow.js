@@ -1,5 +1,5 @@
 import React from "react";
-import getCoverUrlOrDefaultCover from "./utils/TemplateUtils";
+import getCoverUrlOrDefaultCover from "../utils/TemplateUtils";
 
 const MAX_DESCRIPTION_LENGTH = 500;
 

@@ -3,8 +3,8 @@ import {BrowserRouter} from "react-router-dom";
 import React from "react";
 import SearchMovies from "./SearchMovies";
 import {shallow} from "enzyme";
-import SearchMoviesForm from "./SearchMoviesForm";
-import {flushPromises} from "./common/TestCommons";
+import SearchMoviesForm from "../SearchMoviesForm";
+import {flushPromises} from "../common/TestCommons";
 import MovieRow from "./MovieRow";
 
 describe('SearchMovies init', () => {

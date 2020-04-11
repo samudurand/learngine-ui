@@ -1,17 +1,18 @@
 import React from "react";
-import SearchMoviesForm from "./SearchMoviesForm";
+import SearchMoviesForm from "../SearchMoviesForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Logo} from "./common/Logo";
+import {Logo} from "../common/Logo";
 import Table from "react-bootstrap/Table";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
-import {trimAndLowerCaseString} from "./utils/StringUtils";
+import {trimAndLowerCaseString} from "../utils/StringUtils";
 import MovieRow from "./MovieRow";
-import {config} from "./common/Config";
+import {config} from "../common/Config";
 
 const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
+
 class SearchMovies extends React.Component {
 
     constructor(props) {
@@ -107,7 +108,8 @@ class SearchMovies extends React.Component {
                             {
                                 !isLoaded ?
                                     <div>Loading...</div> :
-                                    movies.map(movie => <MovieRow key={movie.id} movie={movie} audio={this.state.movieAudio}/>)
+                                    movies.map(movie => <MovieRow key={movie.id} movie={movie}
+                                                                  audio={this.state.movieAudio}/>)
                             }
                             </tbody>
                         </Table>

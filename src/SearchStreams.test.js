@@ -4,7 +4,7 @@ import React from "react";
 import SearchStreams from "./SearchStreams";
 import {shallow} from "enzyme";
 import {sources} from 'eventsourcemock';
-import {flushPromises, getFirstProperty} from "./common/TestCommons";
+import {getFirstProperty} from "./common/TestCommons";
 import {SEARCH_MODES} from "./common/Common";
 
 describe('SearchStreams', () => {

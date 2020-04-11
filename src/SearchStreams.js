@@ -40,6 +40,10 @@ class SearchStreams extends React.Component {
         this._endLoadingAndCloseEventSource = this._endLoadingAndCloseEventSource.bind(this);
     }
 
+    static getSourceLogo(sourceId) {
+        return `/sources/${STREAM_SOURCES[sourceId]}`;
+    }
+
     componentDidMount() {
         this.retrieveAlternativeTitles();
         this.startEventStream();
@@ -99,10 +103,6 @@ class SearchStreams extends React.Component {
         console.info("Closing SSE connection");
         this.eventSource.close();
         this.setState({isLoaded: true});
-    }
-
-    static getSourceLogo(sourceId) {
-        return `/sources/${STREAM_SOURCES[sourceId]}`;
     }
 
     performSearch(title, audio, searchMode) {
@@ -206,7 +206,8 @@ class SearchStreams extends React.Component {
                                                         </p>
                                                     </Col>
                                                     <Col className="sourceLogo">
-                                                        <img src={SearchStreams.getSourceLogo(streamSource)} alt={streamSource}/>
+                                                        <img src={SearchStreams.getSourceLogo(streamSource)}
+                                                             alt={streamSource}/>
                                                     </Col>
                                                 </Row>
                                             </Accordion.Toggle>
