@@ -2,7 +2,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import React from "react";
-import SearchMoviesForm from "./SearchMoviesForm";
+import SearchMoviesForm from "./form/SearchMoviesForm";
 import {Logo} from "./common/Logo";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";

@@ -7,7 +7,7 @@ import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import {SEARCH_MODES} from "../common/Common";
-import SearchMoviesForm from "../SearchMoviesForm";
+import SearchMoviesForm from "../form/SearchMoviesForm";
 import {trimAndLowerCaseString} from "../utils/StringUtils";
 import {config} from "../common/Config";
 import SpinnerRow from "./SpinnerRow";
@@ -112,6 +112,8 @@ class SearchStreams extends React.Component {
                             showLanguageDropdown={true}
                             showLanguageRadios={false}
                             showSearchMode={true}
+                            title={this.state.movieTitle}
+                            language={this.state.movieAudio}
                             className="align-middle"/>
                     </Col>
                 </Row>

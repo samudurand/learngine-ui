@@ -1,5 +1,5 @@
 import React from "react";
-import SearchMoviesForm from "../SearchMoviesForm";
+import SearchMoviesForm from "../form/SearchMoviesForm";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -98,6 +98,8 @@ class SearchMovies extends React.Component {
                             showLanguageDropdown={true}
                             showLanguageRadios={false}
                             showSearchMode={false}
+                            title={this.state.movieTitle}
+                            language={this.state.movieAudio}
                             className="align-middle"/>
                     </Col>
                 </Row>
