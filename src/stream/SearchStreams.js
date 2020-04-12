@@ -6,16 +6,13 @@ import {Logo} from "../common/Logo";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
-import Card from "react-bootstrap/Card";
-import {LANGUAGES, SEARCH_MODES} from "../common/Common";
-import {faBars, faSearch} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {SEARCH_MODES} from "../common/Common";
 import SearchMoviesForm from "../SearchMoviesForm";
 import {trimAndLowerCaseString} from "../utils/StringUtils";
-import {Language} from "../common/Language";
 import {config} from "../common/Config";
 import SpinnerRow from "./SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
+import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 
 const ALT_TITLES_URL = `${config.backend.url}/search/titles`;
 const STREAM_SEARCH_URL = `${config.backend.url}/search/streams`;
@@ -96,9 +93,61 @@ class SearchStreams extends React.Component {
     }
 
     _endLoadingAndCloseEventSource(error) {
-        console.info("Closing SSE connection");
+        console.debug("Closing SSE connection");
         this.eventSource.close();
         this.setState({isLoaded: true});
+    }
+
+    render() {
+        const {isLoaded, streams, alternativeTitles, movieAudio} = this.state;
+        return (
+            <Container id="searchStreamPage">
+                <Row id="searchRow">
+                    <Col xs={3}>
+                        <Logo/>
+                    </Col>
+                    <Col xs={7}>
+                        <SearchMoviesForm
+                            onSubmitAction={this.performSearch}
+                            showLanguageDropdown={true}
+                            showLanguageRadios={false}
+                            showSearchMode={true}
+                            className="align-middle"/>
+                    </Col>
+                </Row>
+                {
+                    alternativeTitles && alternativeTitles.length > 0 ?
+                        <AlternativeTitlesRow titles={alternativeTitles} audio={movieAudio}/>
+                        : ""
+                }
+                {
+                    Object.keys(streams).length > 0 ?
+                        <Row id="resultsRow">
+                            <Col>
+                                <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
+                                    {
+                                        Object.entries(streams).map(([streamSource, streamData]) =>
+                                            <SourcePanel key={streamSource} source={streamSource} streams={streamData}/>
+                                        )
+                                    }
+                                </Accordion>
+                            </Col>
+                        </Row> : ""
+                }
+                {
+                    isLoaded && (Object.keys(streams).length <= 0) ?
+                        <Row id="noResultsRow">
+                            <Col>
+                                <p>No results found...</p>
+                            </Col>
+                        </Row> : ""
+                }
+                {
+                    !isLoaded ? <SpinnerRow/> : ""
+                }
+
+            </Container>
+        );
     }
 
     performSearch(title, audio, searchMode) {
@@ -125,77 +174,6 @@ class SearchStreams extends React.Component {
 
         this.startEventStream();
         return this.retrieveAlternativeTitles();
-    }
-
-    render() {
-        const {isLoaded, streams, alternativeTitles} = this.state;
-        return (
-            <Container id="searchStreamPage">
-                <Row id="searchRow">
-                    <Col xs={3}>
-                        <Logo/>
-                    </Col>
-                    <Col xs={7}>
-                        <SearchMoviesForm
-                            onSubmitAction={this.performSearch}
-                            showLanguageDropdown={true}
-                            showLanguageRadios={false}
-                            showSearchMode={true}
-                            className="align-middle"/>
-                    </Col>
-                </Row>
-                {alternativeTitles && alternativeTitles.length > 0 ?
-                    <Row id="alternativeTitlesRow">
-                        <Col>
-                            <Accordion>
-                                <Card>
-                                    <Accordion.Toggle as={Card.Header} eventKey="0">
-                                        <FontAwesomeIcon icon={faBars} id="barsIcon"/>
-                                        Not finding what you want ? Try again with one of those titles
-                                        (<b>{alternativeTitles.length}</b> possible match
-                                        in {Language.findByCode(LANGUAGES, this.state.movieAudio).label})
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey="0">
-                                        <Card.Body>
-                                            {
-                                                alternativeTitles.sort().map(title =>
-                                                    <div key={title} className="altTitle">
-                                                        <a href={`/search/stream?title=${title}&audio=${this.state.movieAudio}`}>
-                                                            <FontAwesomeIcon icon={faSearch}/> {title}
-                                                        </a>
-                                                    </div>)
-                                            }
-                                        </Card.Body>
-                                    </Accordion.Collapse>
-                                </Card>
-                            </Accordion>
-                        </Col>
-                    </Row> : ""
-                }
-                {
-                    Object.keys(streams).length > 0 ?
-                        <Row id="resultsRow">
-                            <Col>
-                                <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
-                                    {
-                                        Object.entries(streams).map(([streamSource, streamData]) =>
-                                            <SourcePanel key={streamSource} source={streamSource} streams={streamData}/>
-                                        )
-                                    }
-                                </Accordion>
-                            </Col>
-                        </Row> : ""
-                }
-                {
-                    isLoaded && (Object.keys(streams).length <= 0) ?
-                        <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row> : ""
-                }
-                {
-                    !isLoaded ? <SpinnerRow/> : ""
-                }
-
-            </Container>
-        );
     }
 }
 

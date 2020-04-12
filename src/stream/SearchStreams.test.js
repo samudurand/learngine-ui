@@ -6,6 +6,10 @@ import {shallow} from "enzyme";
 import {sources} from 'eventsourcemock';
 import {SEARCH_MODES} from "../common/Common";
 import {config} from "../common/Config";
+import {flushPromises} from "../common/TestCommons";
+import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
+import SpinnerRow from "./SpinnerRow";
+import {SourcePanel} from "./SourcePanel";
 
 describe('SearchStreams', () => {
 
@@ -88,18 +92,10 @@ describe('SearchStreams Fetch Streams', () => {
     });
 
     it('search for streams, process each event, then closes the connection', () => {
-        const matrixEvent = new MessageEvent('message', {
-            data: JSON.stringify(matrix)
-        });
-        const matrixRevEvent = new MessageEvent('message', {
-            data: JSON.stringify(matrixRevolution)
-        });
-        const matrixEventOtherSouce = new MessageEvent('message', {
-            data: JSON.stringify(matrix2)
-        });
-        const errorEvent = new MessageEvent('error', {
-            data: 'connection closed'
-        });
+        const matrixEvent = buildEvent('message', matrix);
+        const matrixRevEvent = buildEvent('message', matrixRevolution);
+        const matrixEventOtherSouce = buildEvent('message', matrix2);
+        const errorEvent = buildEvent('error', 'connection closed');
 
         wrapper.instance().startEventStream();
         const source = sources[`${config.backend.url}/search/streams?title=matrix&audio=en`];
@@ -158,12 +154,8 @@ describe('SearchStreams Performs Search', () => {
     });
 
     it('performs a direct search and refreshes the current page without pulling new titles', async () => {
-        const daredevilEvent = new MessageEvent('message', {
-            data: JSON.stringify(daredevil)
-        });
-        const errorEvent = new MessageEvent('error', {
-            data: 'connection closed'
-        });
+        const daredevilEvent = buildEvent('message', daredevil)
+        const errorEvent = buildEvent('error', 'connection closed');
 
         await wrapper.instance().performSearch("daredevil", "it", SEARCH_MODES.DIRECT);
         const source = sources[`${config.backend.url}/search/streams?title=daredevil&audio=it`];
@@ -195,3 +187,57 @@ describe('SearchStreams Performs Search', () => {
         source: "Alta Definizione"
     };
 });
+
+describe('SearchStreams rendering', () => {
+
+    beforeEach(() => {
+        fetch.resetMocks();
+    })
+
+    it('renders the page with alternative titles and streams components', async () => {
+        fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]))
+        const wrapper = shallow(
+            <SearchStreams.WrappedComponent
+                location={{search: 'movieId=550&title=fight%20club&audio=en'}}/>
+        );
+        const fightClubEvent = buildEvent('message', fightClub);
+        const fightClub2Event = buildEvent('message', fightClub2);
+        const errorEvent = buildEvent('error', 'connection closed');
+
+        await flushPromises();
+        const source = sources[`${config.backend.url}/search/streams?title=fight%20club&audio=en`];
+        source.emitOpen();
+        source.emit(fightClubEvent.type, fightClubEvent);
+        source.emit(fightClub2Event.type, fightClub2Event);
+        source.emit(errorEvent.type, errorEvent);
+
+        expect(wrapper.find("#searchRow")).toHaveLength(1);
+        expect(wrapper.find(AlternativeTitlesRow)).toHaveLength(1);
+        expect(wrapper.find("#resultsRow")).toHaveLength(1);
+        expect(wrapper.find(SourcePanel)).toHaveLength(2);
+        expect(wrapper.find("#noResultsRow")).toHaveLength(0);
+        expect(wrapper.find(SpinnerRow)).toHaveLength(0);
+    });
+
+    const fightClub = {
+        title: "Fight Club",
+        link: "https://altadefinizione.rocks/fightclub/",
+        imageUrl: "http://imgur/fc.jpg",
+        sourceId: "solarmovie",
+        source: "Solar Movie"
+    }
+
+    const fightClub2 = {
+        title: "Fight Club",
+        link: "https://altadefinizione.rocks/fightclub/",
+        imageUrl: "http://imgur/fc.jpg",
+        sourceId: "isubsmovies",
+        source: "I Subs Movies"
+    }
+});
+
+function buildEvent(type, data) {
+    return new MessageEvent(type, {
+        data: JSON.stringify(data)
+    });
+}

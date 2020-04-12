@@ -33,8 +33,8 @@ export class SourcePanel extends React.Component {
                 <Accordion.Collapse eventKey={source}>
                     <Row id="streamCardsRow">
                         {
-                            streams.map(stream => <StreamCard key={stream.source + " " + stream.title}
-                                                              stream={stream}/>)
+                            streams.map(stream =>
+                                <StreamCard key={stream.source + " " + stream.title} stream={stream}/>)
                         }
                     </Row>
                 </Accordion.Collapse>
