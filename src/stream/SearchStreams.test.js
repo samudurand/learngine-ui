@@ -4,8 +4,8 @@ import React from "react";
 import SearchStreams from "./SearchStreams";
 import {shallow} from "enzyme";
 import {sources} from 'eventsourcemock';
-import {getFirstProperty} from "./common/TestCommons";
-import {SEARCH_MODES} from "./common/Common";
+import {SEARCH_MODES} from "../common/Common";
+import {config} from "../common/Config";
 
 describe('SearchStreams', () => {
 
@@ -29,11 +29,6 @@ describe('SearchStreams', () => {
             movieTitle: "matrix",
             movieAudio: "en"
         });
-    });
-
-    it('initialize state', () => {
-        expect(SearchStreams.getSourceLogo("altadefinizione"))
-            .toBe("/sources/altadefinizione.png")
     });
 });
 
@@ -107,7 +102,7 @@ describe('SearchStreams Fetch Streams', () => {
         });
 
         wrapper.instance().startEventStream();
-        const source = getFirstProperty(sources);
+        const source = sources[`${config.backend.url}/search/streams?title=matrix&audio=en`];
         source.emitOpen();
         source.emit(matrixEvent.type, matrixEvent)
         source.emit(matrixRevEvent.type, matrixRevEvent)
@@ -171,7 +166,7 @@ describe('SearchStreams Performs Search', () => {
         });
 
         await wrapper.instance().performSearch("daredevil", "it", SEARCH_MODES.DIRECT);
-        const source = getFirstProperty(sources);
+        const source = sources[`${config.backend.url}/search/streams?title=daredevil&audio=it`];
         source.emitOpen();
         source.emit(daredevilEvent.type, daredevilEvent)
         source.emit(errorEvent.type, errorEvent)

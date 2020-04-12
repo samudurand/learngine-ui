@@ -2,20 +2,20 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Logo} from "./common/Logo";
-import Spinner from "react-bootstrap/Spinner";
+import {Logo} from "../common/Logo";
 import queryString from "query-string";
 import {withRouter} from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
-import {LANGUAGES, SEARCH_MODES, STREAM_SOURCES} from "./common/Common";
-import {faBars, faFilm, faSearch} from "@fortawesome/free-solid-svg-icons";
+import {LANGUAGES, SEARCH_MODES} from "../common/Common";
+import {faBars, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import SearchMoviesForm from "./SearchMoviesForm";
-import {trimAndLowerCaseString} from "./utils/StringUtils";
-import getCoverUrlOrDefaultCover from "./utils/TemplateUtils";
-import {Language} from "./common/Language";
-import {config} from "./common/Config";
+import SearchMoviesForm from "../SearchMoviesForm";
+import {trimAndLowerCaseString} from "../utils/StringUtils";
+import {Language} from "../common/Language";
+import {config} from "../common/Config";
+import SpinnerRow from "./SpinnerRow";
+import {SourcePanel} from "./SourcePanel";
 
 const ALT_TITLES_URL = `${config.backend.url}/search/titles`;
 const STREAM_SEARCH_URL = `${config.backend.url}/search/streams`;
@@ -38,10 +38,6 @@ class SearchStreams extends React.Component {
         this.performSearch = this.performSearch.bind(this);
         this._processStreamData = this._processStreamData.bind(this);
         this._endLoadingAndCloseEventSource = this._endLoadingAndCloseEventSource.bind(this);
-    }
-
-    static getSourceLogo(sourceId) {
-        return `/sources/${STREAM_SOURCES[sourceId]}`;
     }
 
     componentDidMount() {
@@ -133,21 +129,6 @@ class SearchStreams extends React.Component {
 
     render() {
         const {isLoaded, streams, alternativeTitles} = this.state;
-
-        const spinnerRow = (
-            <Row id="spinnerRow">
-                {!isLoaded ?
-                    <Col id="spinner">
-                        <Spinner animation="border" role="status" variant="secondary">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
-                        <span>Searching for more streams...</span>
-                    </Col>
-                    : ''
-                }
-            </Row>
-        );
-
         return (
             <Container id="searchStreamPage">
                 <Row id="searchRow">
@@ -179,8 +160,9 @@ class SearchStreams extends React.Component {
                                             {
                                                 alternativeTitles.sort().map(title =>
                                                     <div key={title} className="altTitle">
-                                                        <a href={`/search/stream?title=${title}&audio=${this.state.movieAudio}`}><FontAwesomeIcon
-                                                            icon={faSearch}/> {title}</a>
+                                                        <a href={`/search/stream?title=${title}&audio=${this.state.movieAudio}`}>
+                                                            <FontAwesomeIcon icon={faSearch}/> {title}
+                                                        </a>
                                                     </div>)
                                             }
                                         </Card.Body>
@@ -190,61 +172,26 @@ class SearchStreams extends React.Component {
                         </Col>
                     </Row> : ""
                 }
-                {Object.keys(streams).length > 0 ?
-                    <Row id="resultsRow">
-                        <Col>
-                            <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
-                                {
-                                    Object.entries(streams).map(([streamSource, streamData]) => (
-                                        <Card key={streamSource} className="sourceCard">
-                                            <Accordion.Toggle as={Card.Header} eventKey={streamSource}>
-                                                <Row>
-                                                    <Col>
-                                                        <p className="sourceTitle">
-                                                            <FontAwesomeIcon icon={faFilm}/>
-                                                            <b>{streamData[0].source}</b> ({streamData.length} results)
-                                                        </p>
-                                                    </Col>
-                                                    <Col className="sourceLogo">
-                                                        <img src={SearchStreams.getSourceLogo(streamSource)}
-                                                             alt={streamSource}/>
-                                                    </Col>
-                                                </Row>
-                                            </Accordion.Toggle>
-                                            <Accordion.Collapse eventKey={streamSource}>
-                                                <Row id="streamCardsRow">
-                                                    {
-                                                        streamData.map(stream => (
-                                                            <Col key={stream.source + " " + stream.title} xs={2}>
-                                                                <a href={stream.link} target="_blank"
-                                                                   rel="noopener noreferrer"
-                                                                   title={`Go to ${stream.source} to watch ${stream.title}`}>
-                                                                    <Card>
-                                                                        <Card.Img variant="top"
-                                                                                  src={getCoverUrlOrDefaultCover(stream.imageUrl)}/>
-                                                                        <Card.Body>
-                                                                            <Card.Title>{stream.title}</Card.Title>
-                                                                        </Card.Body>
-                                                                    </Card>
-                                                                </a>
-                                                            </Col>
-                                                        ))
-                                                    }
-                                                </Row>
-                                            </Accordion.Collapse>
-                                        </Card>
-                                    ))
-                                }
-                            </Accordion>
-                        </Col>
-                    </Row> : ""
+                {
+                    Object.keys(streams).length > 0 ?
+                        <Row id="resultsRow">
+                            <Col>
+                                <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
+                                    {
+                                        Object.entries(streams).map(([streamSource, streamData]) =>
+                                            <SourcePanel key={streamSource} source={streamSource} streams={streamData}/>
+                                        )
+                                    }
+                                </Accordion>
+                            </Col>
+                        </Row> : ""
                 }
                 {
                     isLoaded && (Object.keys(streams).length <= 0) ?
                         <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row> : ""
                 }
                 {
-                    !isLoaded ? spinnerRow : ""
+                    !isLoaded ? <SpinnerRow/> : ""
                 }
 
             </Container>
