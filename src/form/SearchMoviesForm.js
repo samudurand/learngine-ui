@@ -1,7 +1,5 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import {withRouter} from "react-router";
-import queryString from 'query-string'
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import {trimAndLowerCaseString} from "../utils/StringUtils";

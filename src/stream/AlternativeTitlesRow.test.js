@@ -1,10 +1,7 @@
-import {SourcePanel} from "./SourcePanel";
 import ReactDOM from "react-dom";
 import React from "react";
-import SpinnerRow from "./SpinnerRow";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import {shallow} from "enzyme";
-import {StreamCard} from "./StreamCard";
 
 describe('AlternativeTitlesRow', () => {
 

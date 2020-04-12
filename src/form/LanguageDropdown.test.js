@@ -1,8 +1,5 @@
 import ReactDOM from "react-dom";
-import SearchMoviesForm from "./SearchMoviesForm";
-import {LANGUAGES, SEARCH_MODES} from "../common/Common";
 import React from "react";
-import {FlagsRow} from "./FlagsRow";
 import {LanguageDropdown} from "./LanguageDropdown";
 
 describe('LanguageDropdown init', () => {

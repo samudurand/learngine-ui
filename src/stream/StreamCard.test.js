@@ -1,7 +1,5 @@
-import {SourcePanel} from "./SourcePanel";
 import ReactDOM from "react-dom";
 import React from "react";
-import SpinnerRow from "./SpinnerRow";
 import {StreamCard} from "./StreamCard";
 
 describe('StreamCard', () => {
