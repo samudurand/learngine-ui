@@ -7,6 +7,7 @@ import {faFilm} from "@fortawesome/free-solid-svg-icons";
 import {StreamCard} from "./StreamCard";
 import React from "react";
 import {STREAM_SOURCES} from "../common/Common";
+import PropTypes from "prop-types";
 
 export class SourcePanel extends React.Component {
 
@@ -45,3 +46,8 @@ export class SourcePanel extends React.Component {
         </Card>;
     }
 }
+
+SourcePanel.propTypes = {
+    source: PropTypes.string.isRequired,
+    streams: PropTypes.array.isRequired
+};

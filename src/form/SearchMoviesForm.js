@@ -11,21 +11,30 @@ import {LANGUAGES, SEARCH_MODES} from "../common/Common";
 import {LanguageDropdown} from "./LanguageDropdown";
 import {SearchModeToggle} from "./SearchModeToggle";
 import {FlagsRow} from "./FlagsRow";
+import PropTypes from "prop-types";
 
 const MIN_CHARS_VALID_SEARCH = 1;
 
 class SearchMoviesForm extends React.Component {
 
+    static defaultProps = {
+        language: LANGUAGES[0].code,
+        showLanguageDropdown: false,
+        showLanguageRadios: false,
+        showSearchModeToggle: false,
+        title: ""
+    }
+
     constructor(props) {
         super(props);
-        this.showSearchModeToggle = props.showSearchModeToggle || false;
-        this.showLanguageDropdown = props.showLanguageDropdown || false;
-        this.showLanguageRadios = props.showLanguageRadios || false;
+        this.showSearchModeToggle = props.showSearchModeToggle;
+        this.showLanguageDropdown = props.showLanguageDropdown;
+        this.showLanguageRadios = props.showLanguageRadios;
 
         this.state = {
-            language: this.props.language || LANGUAGES[0].code,
+            language: this.props.language,
             searchMode: SEARCH_MODES.MOVIEDB,
-            title: this.props.title || ""
+            title: this.props.title
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -113,5 +122,15 @@ class SearchMoviesForm extends React.Component {
         );
     }
 }
+
+SearchMoviesForm.propTypes = {
+    handleLanguageChange: PropTypes.func,
+    handleSubmit: PropTypes.func.isRequired,
+    language: PropTypes.string,
+    showLanguageDropdown: PropTypes.bool,
+    showLanguageRadios: PropTypes.bool,
+    showSearchModeToggle: PropTypes.bool,
+    title: PropTypes.string
+};
 
 export default SearchMoviesForm;

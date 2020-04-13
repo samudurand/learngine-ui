@@ -2,6 +2,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import getCoverUrlOrDefaultCover from "../utils/TemplateUtils";
 import React from "react";
+import PropTypes from "prop-types";
 
 export function StreamCard(props) {
     const {stream} = props;
@@ -17,3 +18,7 @@ export function StreamCard(props) {
         </a>
     </Col>;
 }
+
+StreamCard.propTypes = {
+    stream: PropTypes.object.isRequired
+};

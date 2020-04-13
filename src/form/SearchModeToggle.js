@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import {SEARCH_MODES} from "../common/Common";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import React from "react";
+import PropTypes from "prop-types";
 
 export function SearchModeToggle(props) {
     const {mode, handleChange} = props;
@@ -38,3 +39,8 @@ export function SearchModeToggle(props) {
             type="checkbox"
         />);
 }
+
+SearchModeToggle.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    mode: PropTypes.symbol.isRequired
+};

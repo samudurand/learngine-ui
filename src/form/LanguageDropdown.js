@@ -3,6 +3,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import FlagIcon from "../common/FlagIcon";
 import {Language} from "../common/Language";
 import {LANGUAGES} from "../common/Common";
+import PropTypes from "prop-types";
 
 export function LanguageDropdown(props) {
     const {language, handleChange} = props;
@@ -24,3 +25,8 @@ export function LanguageDropdown(props) {
         </Dropdown>
     );
 }
+
+LanguageDropdown.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    language: PropTypes.string.isRequired
+};

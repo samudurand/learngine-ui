@@ -17,3 +17,7 @@ Run all tests once
 ```
 CI=true yarn test --coverage
 ```
+Run eslint 
+```
+yarn eslint "src/**/*.js"
+```

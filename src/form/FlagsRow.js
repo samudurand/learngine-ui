@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import {LANGUAGES} from "../common/Common";
 import FlagIcon from "../common/FlagIcon";
 import React from "react";
+import PropTypes from "prop-types";
 
 export function FlagsRow(props) {
     const {currentLanguage, handleChange} = props;
@@ -34,3 +35,8 @@ export function FlagsRow(props) {
         </Row>
     );
 }
+
+FlagsRow.propTypes = {
+    currentLanguage: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired
+};

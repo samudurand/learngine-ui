@@ -1,5 +1,6 @@
 import React from "react";
 import getCoverUrlOrDefaultCover from "../utils/TemplateUtils";
+import PropTypes from "prop-types";
 
 const MAX_DESCRIPTION_LENGTH = 500;
 
@@ -45,3 +46,8 @@ export default class MovieRow extends React.Component {
         );
     }
 }
+
+MovieRow.propTypes = {
+    audio: PropTypes.string.isRequired,
+    movie: PropTypes.object.isRequired
+};

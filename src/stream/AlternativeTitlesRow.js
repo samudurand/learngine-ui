@@ -7,6 +7,7 @@ import {faBars, faSearch} from "@fortawesome/free-solid-svg-icons";
 import {Language} from "../common/Language";
 import {LANGUAGES} from "../common/Common";
 import React from "react";
+import PropTypes from "prop-types";
 
 export function AlternativeTitlesRow(props) {
     const {titles, audio} = props;
@@ -40,3 +41,8 @@ export function AlternativeTitlesRow(props) {
         </Row>
     );
 }
+
+AlternativeTitlesRow.propTypes = {
+    audio: PropTypes.string.isRequired,
+    titles: PropTypes.array.isRequired
+};
