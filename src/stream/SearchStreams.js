@@ -51,7 +51,7 @@ class SearchStreams extends React.Component {
         if (this.state.movieId) {
             const url = `${ALT_TITLES_URL}?movieId=${this.state.movieId}&audio=${this.state.movieAudio}`;
             return fetch(encodeURI(url))
-                .then(res => res.json())
+                .then((res) => res.json())
                 .then((titles) => {
                         this.setState({
                             alternativeTitles: titles
@@ -69,8 +69,8 @@ class SearchStreams extends React.Component {
 
         const url = `${STREAM_SEARCH_URL}?title=${this.state.movieTitle}&audio=${this.state.movieAudio}`;
         this.eventSource = new EventSource(encodeURI(url));
-        this.eventSource.addEventListener('message', this.processStreamData);
-        this.eventSource.addEventListener('error', this.endLoadingAndCloseEventSource);
+        this.eventSource.addEventListener("message", this.processStreamData);
+        this.eventSource.addEventListener("error", this.endLoadingAndCloseEventSource);
     }
 
     processStreamData(message) {
@@ -113,39 +113,40 @@ class SearchStreams extends React.Component {
                     </Col>
                     <Col xs={7}>
                         <SearchMoviesForm
+                            className="align-middle"
+                            language={this.state.movieAudio}
                             onSubmitAction={this.performSearch}
                             showLanguageDropdown
                             showSearchMode
                             title={this.state.movieTitle}
-                            language={this.state.movieAudio}
-                            className="align-middle"/>
+                        />
                     </Col>
                 </Row>
                 {
                     alternativeTitles && alternativeTitles.length > 0 &&
-                        <AlternativeTitlesRow titles={alternativeTitles} audio={movieAudio}/>
+                    <AlternativeTitlesRow audio={movieAudio} titles={alternativeTitles}/>
                 }
                 {
                     Object.keys(streams).length > 0 &&
-                        <Row id="resultsRow">
-                            <Col>
-                                <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
-                                    {
-                                        Object.entries(streams).map(([streamSource, streamData]) =>
-                                            <SourcePanel key={streamSource} source={streamSource} streams={streamData}/>
-                                        )
-                                    }
-                                </Accordion>
-                            </Col>
-                        </Row>
+                    <Row id="resultsRow">
+                        <Col>
+                            <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
+                                {
+                                    Object.entries(streams).map(([streamSource, streamData]) =>
+                                        <SourcePanel key={streamSource} source={streamSource} streams={streamData}/>
+                                    )
+                                }
+                            </Accordion>
+                        </Col>
+                    </Row>
                 }
                 {
                     isLoaded && Object.keys(streams).length <= 0 &&
-                        <Row id="noResultsRow">
-                            <Col>
-                                <p>No results found...</p>
-                            </Col>
-                        </Row>
+                    <Row id="noResultsRow">
+                        <Col>
+                            <p>No results found...</p>
+                        </Col>
+                    </Row>
                 }
                 {
                     !isLoaded && <SpinnerRow/>
@@ -170,11 +171,11 @@ class SearchStreams extends React.Component {
     updateStreamSearch(movieTitle, audio) {
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
-            streams: {},
             isLoaded: false,
-            movieTitle: movieTitle,
             movieAudio: audio,
-            movieId: null
+            movieId: null,
+            movieTitle: movieTitle,
+            streams: {}
         });
 
         this.startEventStream();

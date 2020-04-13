@@ -28,7 +28,7 @@ class Home extends React.Component {
     }
 
     render() {
-        return <Container id="homePage" fluid>
+        return <Container fluid id="homePage">
             <Row id="titleRow">
                 <Col xs={{offset: 3, span: 6}}>
                     <Logo/>
@@ -38,8 +38,8 @@ class Home extends React.Component {
                 <Col xs={{offset: 3, span: 6}}>
                     <SearchMoviesForm onSubmitAction={this.searchMovieOrStreamOnSubmit}
                                       showLanguageDropdown={false}
-                                      showLanguageRadios={true}
-                                      showSearchMode={true}
+                                      showLanguageRadios
+                                      showSearchMode
                     />
                 </Col>
             </Row>

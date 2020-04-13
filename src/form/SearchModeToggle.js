@@ -7,7 +7,7 @@ import React from "react";
 export function SearchModeToggle(props) {
     const {mode, handleChange} = props;
 
-    const modeInfoPopover = (
+    const modeInfoPopover =
         <Popover id="popover-basic">
             <Popover.Content>
                     <span>
@@ -18,8 +18,7 @@ export function SearchModeToggle(props) {
                         allowing a more flexible but less precise search.
                     </span>
             </Popover.Content>
-        </Popover>
-    );
+        </Popover>;
 
     return (
         <Form.Check
@@ -28,10 +27,10 @@ export function SearchModeToggle(props) {
             inline
             label={
                 <OverlayTrigger
-                    delay={{show: 250, hide: 1000}}
+                    delay={{hide: 1000, show: 250}}
                     overlay={modeInfoPopover}
                     placement="bottom">
-                    <img id="tmdbLogo" alt="The Movie DB" src="/tmdb.png"/>
+                    <img alt="The Movie DB" id="tmdbLogo" src="/tmdb.png"/>
                 </OverlayTrigger>
             }
             name="dbSearchMode"

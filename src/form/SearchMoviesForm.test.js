@@ -7,13 +7,13 @@ import {LanguageDropdown} from "./LanguageDropdown";
 import {SearchModeToggle} from "./SearchModeToggle";
 import {FlagsRow} from "./FlagsRow";
 
-describe('SearchMoviesForm init', () => {
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
-        ReactDOM.render(<SearchMoviesForm title="matrix" audio="en"/>, div);
+describe("SearchMoviesForm init", () => {
+    it("renders without crashing", () => {
+        const div = document.createElement("div");
+        ReactDOM.render(<SearchMoviesForm audio="en" title="matrix"/>, div);
     });
 
-    it('initialize state', () => {
+    it("initialize state", () => {
         const component = new SearchMoviesForm({
             title: "matrix",
             language: "en"
@@ -26,7 +26,7 @@ describe('SearchMoviesForm init', () => {
         });
     });
 
-    it('initialize state with default values', () => {
+    it("initialize state with default values", () => {
         const component = new SearchMoviesForm({});
 
         expect(component.state).toStrictEqual({
@@ -37,8 +37,8 @@ describe('SearchMoviesForm init', () => {
     });
 });
 
-describe('SearchMovieForm', () => {
-    it('handles language change if action provided', () => {
+describe("SearchMovieForm", () => {
+    it("handles language change if action provided", () => {
         const changeAction = jest.fn();
         const wrapper = shallow(<SearchMoviesForm language="en" onLanguageChangeAction={changeAction}/>);
 
@@ -48,7 +48,7 @@ describe('SearchMovieForm', () => {
         expect(changeAction).toHaveBeenCalledWith("it");
     });
 
-    it('does not do anything if language change action not provided', () => {
+    it("does not do anything if language change action not provided", () => {
         const wrapper = shallow(<SearchMoviesForm language="en"/>);
 
         wrapper.instance().handleLanguageChange("it");
@@ -56,9 +56,9 @@ describe('SearchMovieForm', () => {
         expect(wrapper.state().language).toBe("it");
     });
 
-    it('perform action on submit if search term long enough', () => {
+    it("perform action on submit if search term long enough", () => {
         const submitAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm title="mAtrix " language="EN" onSubmitAction={submitAction}/>);
+        const wrapper = shallow(<SearchMoviesForm language="EN" onSubmitAction={submitAction} title="mAtrix "/>);
         wrapper.state().searchMode = SEARCH_MODES.DIRECT;
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
@@ -66,19 +66,17 @@ describe('SearchMovieForm', () => {
         expect(submitAction).toHaveBeenCalledWith("matrix", "en", SEARCH_MODES.DIRECT);
     });
 
-    it('does not perform action on submit if search term too short', () => {
+    it("does not perform action on submit if search term too short", () => {
         const submitAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm title="m" language="EN" onSubmitAction={submitAction}/>);
+        const wrapper = shallow(<SearchMoviesForm language="EN" onSubmitAction={submitAction} title="m"/>);
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
         expect(submitAction).not.toHaveBeenCalled();
     });
 
-    it('calculate search input field grid width when neither toggle nor dropdown displayed', () => {
-        const wrapper = shallow(<SearchMoviesForm
-            language="EN" title="m"
-        />);
+    it("calculate search input field grid width when neither toggle nor dropdown displayed", () => {
+        const wrapper = shallow(<SearchMoviesForm language="EN" title="m"/>);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
@@ -86,12 +84,14 @@ describe('SearchMovieForm', () => {
         expect(result).toBe(12);
     });
 
-    it('calculate search input field grid width when only search mode toggle displayed', () => {
-        const wrapper = shallow(<SearchMoviesForm
-            language="EN"
-            showSearchModeToggle
-            title="m"
-        />);
+    it("calculate search input field grid width when only search mode toggle displayed", () => {
+        const wrapper = shallow(
+            <SearchMoviesForm
+                language="EN"
+                showSearchModeToggle
+                title="m"
+            />
+        );
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
@@ -99,7 +99,7 @@ describe('SearchMovieForm', () => {
         expect(result).toBe(9);
     });
 
-    it('calculate search input field grid width when only language dropdown displayed', () => {
+    it("calculate search input field grid width when only language dropdown displayed", () => {
         const wrapper = shallow(<SearchMoviesForm
             language="EN"
             showLanguageDropdown
@@ -112,7 +112,7 @@ describe('SearchMovieForm', () => {
         expect(result).toBe(9);
     });
 
-    it('calculate search input field grid width when both toggle and dropdown displayed', () => {
+    it("calculate search input field grid width when both toggle and dropdown displayed", () => {
         const wrapper = shallow(<SearchMoviesForm
             language="EN"
             showLanguageDropdown
@@ -126,7 +126,7 @@ describe('SearchMovieForm', () => {
         expect(result).toBe(6);
     });
 
-    it('handles search mode change', () => {
+    it("handles search mode change", () => {
         const wrapper = shallow(<SearchMoviesForm/>);
 
         wrapper.instance().handleModeChange({target: {checked: false}});
@@ -139,30 +139,30 @@ describe('SearchMovieForm', () => {
     });
 });
 
-describe('SearchMovieForm rendering', () => {
-    it('renders no optional components', () => {
+describe("SearchMovieForm rendering", () => {
+    it("renders no optional components", () => {
         const wrapper = shallow(<SearchMoviesForm/>);
 
         expect(wrapper.find(LanguageDropdown)).toHaveLength(0);
         expect(wrapper.find(SearchModeToggle)).toHaveLength(0);
         expect(wrapper.find(FlagsRow)).toHaveLength(0);
-    })
+    });
 
-    it('renders language dropdown', () => {
+    it("renders language dropdown", () => {
         const wrapper = shallow(<SearchMoviesForm showLanguageDropdown/>);
 
         expect(wrapper.find(LanguageDropdown)).toHaveLength(1);
-    })
+    });
 
-    it('renders search mode toggle', () => {
+    it("renders search mode toggle", () => {
         const wrapper = shallow(<SearchMoviesForm showSearchModeToggle/>);
 
         expect(wrapper.find(SearchModeToggle)).toHaveLength(1);
-    })
+    });
 
-    it('renders flags radios', () => {
+    it("renders flags radios", () => {
         const wrapper = shallow(<SearchMoviesForm showLanguageRadios/>);
 
         expect(wrapper.find(FlagsRow)).toHaveLength(1);
-    })
+    });
 });

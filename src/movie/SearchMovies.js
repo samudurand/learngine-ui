@@ -47,7 +47,7 @@ class SearchMovies extends React.Component {
         });
 
         return fetch(encodeURI(`${SEARCH_MOVIE_URL}?title=${cleanedTitle}`))
-            .then(res => res.json())
+            .then((res) => res.json())
             .then(this.stopLoadingAndSaveMovies())
             .catch(this.stopLoading());
     }
@@ -82,13 +82,13 @@ class SearchMovies extends React.Component {
     }
 
     buildUrl(title, audio) {
-        let cleanedTitle = trimAndLowerCaseString(title);
-        let cleanedAudio = trimAndLowerCaseString(audio);
+        const cleanedTitle = trimAndLowerCaseString(title);
+        const cleanedAudio = trimAndLowerCaseString(audio);
         return encodeURI(`/search/movie?title=${cleanedTitle}&audio=${cleanedAudio}`);
     }
 
     render() {
-        const {isLoaded, movies} = this.state;
+        const {isLoaded, movies, movieTitle, movieAudio} = this.state;
         return (
             <Container id="searchMoviePage">
                 <Row id="searchRow">
@@ -97,33 +97,37 @@ class SearchMovies extends React.Component {
                     </Col>
                     <Col xs={7}>
                         <SearchMoviesForm
-                            onSubmitAction={this.updateUrlAndStartSearch}
+                            className="align-middle"
+                            language={movieAudio}
                             onLanguageChangeAction={this.updateUrlAndAudio}
-                            showLanguageDropdown={true}
-                            showLanguageRadios={false}
-                            showSearchMode={false}
-                            title={this.state.movieTitle}
-                            language={this.state.movieAudio}
-                            className="align-middle"/>
+                            onSubmitAction={this.updateUrlAndStartSearch}
+                            showLanguageDropdown
+                            title={movieTitle}
+                        />
                     </Col>
                 </Row>
                 {
                     // eslint-disable-next-line no-ternary
-                    movies && movies.length > 0 ?
+                    movies && movies.length > 0
                         // eslint-disable-next-line multiline-ternary
-                        <Row id="resultsRow">
-                            <Table responsive hover>
+                        ? <Row id="resultsRow">
+                            <Table hover responsive>
                                 <tbody>
                                 {
                                     // eslint-disable-next-line no-ternary
                                     isLoaded
-                                        ? movies.map(movie => <MovieRow key={movie.id} movie={movie}
-                                                                        audio={this.state.movieAudio}/>)
+                                        ? movies.map((movie) =>
+                                            <MovieRow audio={movieAudio}
+                                                      key={movie.id}
+                                                      movie={movie}
+                                            />
+                                        )
                                         : <div>Loading...</div>
                                 }
                                 </tbody>
                             </Table>
-                        </Row> : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                        </Row>
+                        : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
                 }
             </Container>
         );

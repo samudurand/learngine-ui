@@ -11,22 +11,23 @@ export function FlagsRow(props) {
         <Row id="flagsRow">
             <Col className="text-center">
                 <Form.Group>
-                    {LANGUAGES.map(language => (
+                    {LANGUAGES.map((language) =>
                         <Form.Check
-                            inline
-                            className="countryButton"
-                            id={language.country + "RadioSearch"}
-                            key={language.country + "RadioSearch"}
-                            name="language"
-                            type="radio"
-                            value={language.code}
                             checked={currentLanguage === language.code}
+                            className="countryButton"
+                            id={`${language.country}RadioSearch`}
+                            inline
+                            key={`${language.country}RadioSearch`}
+                            label={<FlagIcon className="countryIcon"
+                                             code={language.country}
+                                             size="lg"/>}
+                            name="language"
                             onChange={handleChange}
                             title={language.label}
-                            label={<FlagIcon className="countryIcon" code={language.country}
-                                             size="lg"/>}
+                            type="radio"
+                            value={language.code}
                         />
-                    ))}
+                    )}
                 </Form.Group>
             </Col>
         </Row>

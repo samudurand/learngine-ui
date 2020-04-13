@@ -7,8 +7,7 @@ import {LANGUAGES} from "../common/Common";
 export function LanguageDropdown(props) {
     const {language, handleChange} = props;
     return (
-        <Dropdown
-            onSelect={(eventKey) => handleChange(eventKey)}>
+        <Dropdown onSelect={(eventKey) => handleChange(eventKey)}>
             {/* eslint-disable-next-line react/forbid-component-props */}
             <Dropdown.Toggle className="text-left" id="languageDropdown" variant="light">
                 <FlagIcon code={Language.findByCode(LANGUAGES, language).country}/>

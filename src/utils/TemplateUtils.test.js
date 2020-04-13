@@ -1,7 +1,7 @@
 import getCoverUrlOrDefaultCover from "./TemplateUtils";
 
-describe('TemplateUtils', () => {
-    it('gets cover url when available', () => {
+describe("TemplateUtils", () => {
+    it("gets cover url when available", () => {
         expect(getCoverUrlOrDefaultCover("http://my/img.jpg")).toBe("http://my/img.jpg");
     });
 
@@ -9,7 +9,7 @@ describe('TemplateUtils', () => {
         expect(getCoverUrlOrDefaultCover("")).toBe("/no-cover.jpg");
     });
 
-    it('gets defaut cover when cover url is missing', () => {
+    it("gets defaut cover when cover url is missing", () => {
         expect(getCoverUrlOrDefaultCover(null)).toBe("/no-cover.jpg");
     });
 });

@@ -3,7 +3,7 @@ import {BrowserRouter} from "react-router-dom";
 import React from "react";
 import SearchStreams from "./SearchStreams";
 import {shallow} from "enzyme";
-import {sources} from 'eventsourcemock';
+import {sources} from "eventsourcemock";
 import {SEARCH_MODES} from "../common/Common";
 import {config} from "../common/Config";
 import {flushPromises} from "../common/TestCommons";
@@ -11,44 +11,44 @@ import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import SpinnerRow from "./SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 
-describe('SearchStreams', () => {
+describe("SearchStreams", () => {
 
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
+    it("renders without crashing", () => {
+        const div = document.createElement("div");
         ReactDOM.render(<BrowserRouter><SearchStreams/></BrowserRouter>, div);
     });
 
-    it('initialize state', () => {
+    it("initialize state", () => {
         const component = new SearchStreams.WrappedComponent({
             location: {
-                search: 'movieId=603&title=matrix&audio=en'
+                search: "movieId=603&title=matrix&audio=en"
             }
         });
 
         expect(component.state).toStrictEqual({
-            isLoaded: false,
-            streams: {},
             alternativeTitles: [],
+            isLoaded: false,
+            movieAudio: "en",
             movieId: "603",
             movieTitle: "matrix",
-            movieAudio: "en"
+            streams: {}
         });
     });
 });
 
-describe('SearchStreams Alternative Titles', () => {
+describe("SearchStreams Alternative Titles", () => {
     let wrapper;
 
     beforeEach(() => {
         wrapper = shallow(
-            <SearchStreams.WrappedComponent location={{search: 'movieId=603&title=matrix&audio=en'}}/>,
+            <SearchStreams.WrappedComponent location={{search: "movieId=603&title=matrix&audio=en"}}/>,
             {disableLifecycleMethods: true}
         );
-        fetch.resetMocks()
+        fetch.resetMocks();
     });
 
-    it('retrieve alternative titles', async() => {
-        fetch.once(JSON.stringify(["The Matrix", "Matrix Revolution"]))
+    it("retrieve alternative titles", async () => {
+        fetch.once(JSON.stringify(["The Matrix", "Matrix Revolution"]));
 
         await wrapper.instance().retrieveAlternativeTitles();
 
@@ -58,8 +58,8 @@ describe('SearchStreams Alternative Titles', () => {
             .toEqual(new Set(["The Matrix", "Matrix Revolution"]));
     });
 
-    it('retrieve alternative titles with no results', async() => {
-        fetch.once("[]")
+    it("retrieve alternative titles with no results", async () => {
+        fetch.once("[]");
 
         await wrapper.instance().retrieveAlternativeTitles();
 
@@ -67,9 +67,9 @@ describe('SearchStreams Alternative Titles', () => {
         expect(wrapper.state().alternativeTitles).toBeEmpty();
     });
 
-    it('retrieve alternative titles skipped when no movie ID available', async() => {
+    it("retrieve alternative titles skipped when no movie ID available", async () => {
         const wrapperNoId = shallow(
-            <SearchStreams.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>,
+            <SearchStreams.WrappedComponent location={{search: "title=matrix&audio=en"}}/>,
             {disableLifecycleMethods: true}
         );
 
@@ -80,30 +80,31 @@ describe('SearchStreams Alternative Titles', () => {
     });
 });
 
-describe('SearchStreams Fetch Streams', () => {
+describe("SearchStreams Fetch Streams", () => {
     let wrapper;
 
     beforeEach(() => {
         wrapper = shallow(
             <SearchStreams.WrappedComponent
-                location={{search: 'movieId=603&title=matrix&audio=en'}}/>,
+                location={{search: "movieId=603&title=matrix&audio=en"}}
+            />,
             {disableLifecycleMethods: true}
         );
     });
 
-    it('search for streams, process each event, then closes the connection', () => {
-        const matrixEvent = buildEvent('message', matrix);
-        const matrixRevEvent = buildEvent('message', matrixRevolution);
-        const matrixEventOtherSouce = buildEvent('message', matrix2);
-        const errorEvent = buildEvent('error', 'connection closed');
+    it("search for streams, process each event, then closes the connection", () => {
+        const matrixEvent = buildEvent("message", matrix);
+        const matrixRevEvent = buildEvent("message", matrixRevolution);
+        const matrixEventOtherSouce = buildEvent("message", matrix2);
+        const errorEvent = buildEvent("error", "connection closed");
 
         wrapper.instance().startEventStream();
         const source = sources[`${config.backend.url}/search/streams?title=matrix&audio=en`];
         source.emitOpen();
-        source.emit(matrixEvent.type, matrixEvent)
-        source.emit(matrixRevEvent.type, matrixRevEvent)
-        source.emit(matrixEventOtherSouce.type, matrixEventOtherSouce)
-        source.emit(errorEvent.type, errorEvent)
+        source.emit(matrixEvent.type, matrixEvent);
+        source.emit(matrixRevEvent.type, matrixRevEvent);
+        source.emit(matrixEventOtherSouce.type, matrixEventOtherSouce);
+        source.emit(errorEvent.type, errorEvent);
 
         expect(wrapper.state().streams).toStrictEqual({
             altadefinizione: [matrix, matrixRevolution],
@@ -114,31 +115,31 @@ describe('SearchStreams Fetch Streams', () => {
     });
 
     const matrix = {
-        title: "matrix",
-        link: "https://altadefinizione.rocks/matrix-streaming-ita/",
         imageUrl: "http://imgur/m.jpg",
+        link: "https://altadefinizione.rocks/matrix-streaming-ita/",
+        source: "Alta Definizione",
         sourceId: "altadefinizione",
-        source: "Alta Definizione"
+        title: "matrix"
     };
 
     const matrix2 = {
-        title: "matrix",
-        link: "https://altadefinizione.rocks/matrix-streaming-ita/",
         imageUrl: "http://imgur/m.jpg",
+        link: "https://altadefinizione.rocks/matrix-streaming-ita/",
+        source: "Some Source",
         sourceId: "somesource",
-        source: "Some Source"
+        title: "matrix"
     };
 
     const matrixRevolution = {
-        title: "matrix revolution",
-        link: "https://altadefinizione.rocks/matrix-revolutions-streaming-ita/",
         imageUrl: "http://imgur/mr.jpg",
+        link: "https://altadefinizione.rocks/matrix-revolutions-streaming-ita/",
+        source: "Alta Definizione",
         sourceId: "altadefinizione",
-        source: "Alta Definizione"
+        title: "matrix revolution"
     };
 });
 
-describe('SearchStreams Performs Search', () => {
+describe("SearchStreams Performs Search", () => {
     let wrapper;
     let history;
 
@@ -147,62 +148,63 @@ describe('SearchStreams Performs Search', () => {
         wrapper = shallow(
             <SearchStreams.WrappedComponent
                 history={history}
-                location={{search: 'movieId=603&title=matrix&audio=en'}}/>,
+                location={{search: "movieId=603&title=matrix&audio=en"}}
+            />,
             {disableLifecycleMethods: true}
         );
-        fetch.resetMocks()
+        fetch.resetMocks();
     });
 
-    it('performs a direct search and refreshes the current page without pulling new titles', async () => {
-        const daredevilEvent = buildEvent('message', daredevil)
-        const errorEvent = buildEvent('error', 'connection closed');
+    it("performs a direct search and refreshes the current page without pulling new titles", async () => {
+        const daredevilEvent = buildEvent("message", daredevil);
+        const errorEvent = buildEvent("error", "connection closed");
 
         await wrapper.instance().performSearch("daredevil", "it", SEARCH_MODES.DIRECT);
         const source = sources[`${config.backend.url}/search/streams?title=daredevil&audio=it`];
         source.emitOpen();
-        source.emit(daredevilEvent.type, daredevilEvent)
-        source.emit(errorEvent.type, errorEvent)
-        wrapper.update()
+        source.emit(daredevilEvent.type, daredevilEvent);
+        source.emit(errorEvent.type, errorEvent);
+        wrapper.update();
 
         expect(wrapper.state().streams).toStrictEqual({
-            altadefinizione: [daredevil],
+            altadefinizione: [daredevil]
         });
-        expect(history.push).toHaveBeenCalledWith('/search/stream?title=daredevil&audio=it');
+        expect(history.push).toHaveBeenCalledWith("/search/stream?title=daredevil&audio=it");
         expect(fetch.mock.calls.length).toBe(0);
         expect(wrapper.state().alternativeTitles).toEqual([]);
     });
 
-    it('redirects to movie search', async () => {
+    it("redirects to movie search", async () => {
         await wrapper.instance().performSearch("daredevil", "it", SEARCH_MODES.MOVIEDB);
 
-        expect(history.push).toHaveBeenCalledWith('/search/movie?title=daredevil&audio=it');
+        expect(history.push).toHaveBeenCalledWith("/search/movie?title=daredevil&audio=it");
         expect(fetch.mock.calls.length).toBe(0);
     });
 
     const daredevil = {
-        title: "daredevil",
-        link: "https://altadefinizione.rocks/daredevil-streaming-ita/",
         imageUrl: "http://imgur/m.jpg",
+        link: "https://altadefinizione.rocks/daredevil-streaming-ita/",
+        source: "Alta Definizione",
         sourceId: "altadefinizione",
-        source: "Alta Definizione"
+        title: "daredevil"
     };
 });
 
-describe('SearchStreams rendering', () => {
+describe("SearchStreams rendering", () => {
 
     beforeEach(() => {
         fetch.resetMocks();
-    })
+    });
 
-    it('renders the page with alternative titles and streams components', async () => {
+    it("renders the page with alternative titles and streams components", async () => {
         fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]));
         const wrapper = shallow(
             <SearchStreams.WrappedComponent
-                location={{search: 'movieId=550&title=fight%20club&audio=en'}}/>
+                location={{search: "movieId=550&title=fight%20club&audio=en"}}/>
         );
-        const fightClubEvent = buildEvent('message', fightClub);
-        const fightClub2Event = buildEvent('message', fightClub2);
-        const errorEvent = buildEvent('error', 'connection closed');
+        const fightClubEvent = buildEvent("message", fightClub);
+        const fightClub2Event = buildEvent("message", fightClub2);
+        const errorEvent = buildEvent("error", "connection closed");
 
         await flushPromises();
         const source = sources[`${config.backend.url}/search/streams?title=fight%20club&audio=en`];
@@ -221,20 +223,20 @@ describe('SearchStreams rendering', () => {
     });
 
     const fightClub = {
-        title: "Fight Club",
-        link: "https://altadefinizione.rocks/fightclub/",
         imageUrl: "http://imgur/fc.jpg",
+        link: "https://altadefinizione.rocks/fightclub/",
+        source: "Solar Movie",
         sourceId: "solarmovie",
-        source: "Solar Movie"
-    }
+        title: "Fight Club"
+    };
 
     const fightClub2 = {
-        title: "Fight Club",
-        link: "https://altadefinizione.rocks/fightclub/",
         imageUrl: "http://imgur/fc.jpg",
+        link: "https://altadefinizione.rocks/fightclub/",
+        source: "I Subs Movies",
         sourceId: "isubsmovies",
-        source: "I Subs Movies"
-    }
+        title: "Fight Club"
+    };
 });
 
 function buildEvent(type, data) {

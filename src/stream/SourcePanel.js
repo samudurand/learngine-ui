@@ -21,28 +21,27 @@ export class SourcePanel extends React.Component {
     render() {
         const {source, streams} = this.props;
         return <Card className="sourceCard">
-                <Accordion.Toggle as={Card.Header} eventKey={source}>
-                    <Row>
-                        <Col>
-                            <p className="sourceTitle">
-                                <FontAwesomeIcon icon={faFilm}/>
-                                <b>{streams[0].source}</b> ({streams.length} results)
-                            </p>
-                        </Col>
-                        <Col className="sourceLogo">
-                            <img alt={source} src={SourcePanel.getSourceLogo(source)}/>
-                        </Col>
-                    </Row>
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey={source}>
-                    <Row id="streamCardsRow">
-                        {
-                            streams.map((stream) =>
-                                <StreamCard key={`${stream.source} ${stream.title}`} stream={stream}/>)
-                        }
-                    </Row>
-                </Accordion.Collapse>
-            </Card>
-        ;
+            <Accordion.Toggle as={Card.Header} eventKey={source}>
+                <Row>
+                    <Col>
+                        <p className="sourceTitle">
+                            <FontAwesomeIcon icon={faFilm}/>
+                            <b>{streams[0].source}</b> ({streams.length} results)
+                        </p>
+                    </Col>
+                    <Col className="sourceLogo">
+                        <img alt={source} src={SourcePanel.getSourceLogo(source)}/>
+                    </Col>
+                </Row>
+            </Accordion.Toggle>
+            <Accordion.Collapse eventKey={source}>
+                <Row id="streamCardsRow">
+                    {
+                        streams.map((stream) =>
+                            <StreamCard key={`${stream.source} ${stream.title}`} stream={stream}/>)
+                    }
+                </Row>
+            </Accordion.Collapse>
+        </Card>;
     }
 }

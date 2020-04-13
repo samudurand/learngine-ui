@@ -2,28 +2,30 @@ import {shallow} from "enzyme";
 import React from "react";
 import MovieRow from "./MovieRow";
 
-describe('MovieRow', () => {
+describe("MovieRow", () => {
     let component;
 
     beforeEach(() => {
-        component = shallow(<MovieRow movie={matrix} audio={'en'}/>, {disableLifecycleMethods: true});
+        component = shallow(<MovieRow audio="en" movie={matrix}/>, {disableLifecycleMethods: true});
     });
 
-    it('formats description by truncating it if too long', () => {
+    it("formats description by truncating it if too long", () => {
         const formattedDesc = component.instance().truncateDescription(veryLongText);
 
+        // eslint-disable-next-line no-magic-numbers
         expect(formattedDesc).toHaveLength(500);
         expect(formattedDesc).toEndWith("...");
     });
 
-    it('does not truncate a not too long description', () => {
+    it("does not truncate a not too long description", () => {
         const formattedDesc = component.instance().truncateDescription(shortEnoughText);
 
+        // eslint-disable-next-line no-magic-numbers
         expect(formattedDesc).toHaveLength(499);
         expect(formattedDesc).not.toEndWith("...");
     });
 
-    it('does not truncate an empty description', () => {
+    it("does not truncate an empty description", () => {
         const formattedDesc = component.instance().truncateDescription("");
         expect(formattedDesc).toBe("");
     });
@@ -52,7 +54,7 @@ describe('MovieRow', () => {
 describe("MovieRow render", () => {
     it("displays the details of a movie with links to corresponding search", () => {
         const wrapper = shallow(
-            <MovieRow movie={matrix} audio={'en'}/>
+            <MovieRow audio="en" movie={matrix}/>
         );
 
         const link = wrapper.find(".movieTableRow a");
@@ -62,10 +64,10 @@ describe("MovieRow render", () => {
 });
 
 const matrix = {
-    id: 591955,
-    title: "the matrix",
-    imageUrl: "http://store.com/img.jpg",
     date: "2004",
     description: "the matrix movie",
+    id: 591955,
+    imageUrl: "http://store.com/img.jpg",
+    title: "the matrix",
     voteAverage: 9.0
 };

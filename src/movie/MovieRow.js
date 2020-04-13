@@ -11,7 +11,7 @@ export default class MovieRow extends React.Component {
         this.state = {
             movie: props.movie,
             audio: props.audio
-        }
+        };
     }
 
     shouldComponentUpdate() {
@@ -32,8 +32,9 @@ export default class MovieRow extends React.Component {
         return (
             <tr className="movieTableRow" key={movie.id}>
                 <a href={streamUrl}>
-                    <td><img src={getCoverUrlOrDefaultCover(movie.imageUrl)}
-                             alt={movie.title}/>
+                    <td>
+                        <img alt={movie.title}
+                             src={getCoverUrlOrDefaultCover(movie.imageUrl)}/>
                     </td>
                     <td className="movieDesc">
                         <span className="movieTitle">{movie.title} ({movie.date})</span>
@@ -41,6 +42,6 @@ export default class MovieRow extends React.Component {
                     </td>
                 </a>
             </tr>
-        )
+        );
     }
 }

@@ -6,6 +6,6 @@ export class Language {
     }
 
     static findByCode(languages, code) {
-        return languages.find(lang => lang.code === code);
+        return languages.find((lang) => lang.code === code);
     }
 }

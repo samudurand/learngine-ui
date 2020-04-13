@@ -23,9 +23,9 @@ class SearchMoviesForm extends React.Component {
         this.showLanguageRadios = props.showLanguageRadios || false;
 
         this.state = {
-            title: this.props.title || '',
+            title: this.props.title || "",
             language: this.props.language || LANGUAGES[0].code,
-            searchMode: SEARCH_MODES.MOVIEDB,
+            searchMode: SEARCH_MODES.MOVIEDB
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -81,11 +81,16 @@ class SearchMoviesForm extends React.Component {
                 <Row id="inputSearchRow">
                     <Col id="searchInputCol" xs={this.calculateSearchInputWidth()}>
                         <InputGroup>
-                            <Form.Control id="searchBox" value={title} name="title" type="text"
+                            <Form.Control id="searchBox"
+                                          name="title"
+                                          onChange={this.handleChange}
                                           placeholder="Movie or Series title"
-                                          onChange={this.handleChange}/>
+                                          type="text"
+                                          value={title}/>
                             <InputGroup.Append>
-                                <Button variant="outline-dark" type="submit"><FontAwesomeIcon icon={faSearch}/></Button>
+                                <Button type="submit" variant="outline-dark">
+                                    <FontAwesomeIcon icon={faSearch}/>
+                                </Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>

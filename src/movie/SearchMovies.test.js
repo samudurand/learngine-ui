@@ -7,17 +7,17 @@ import SearchMoviesForm from "../form/SearchMoviesForm";
 import {flushPromises} from "../common/TestCommons";
 import MovieRow from "./MovieRow";
 
-describe('SearchMovies init', () => {
+describe("SearchMovies init", () => {
 
-    it('renders without crashing', () => {
-        const div = document.createElement('div');
+    it("renders without crashing", () => {
+        const div = document.createElement("div");
         ReactDOM.render(<BrowserRouter><SearchMovies/></BrowserRouter>, div);
     });
 
-    it('initialize state', () => {
+    it("initialize state", () => {
         const component = new SearchMovies.WrappedComponent({
             location: {
-                search: 'title=matrix&audio=en'
+                search: "title=matrix&audio=en"
             }
         });
 
@@ -30,7 +30,7 @@ describe('SearchMovies init', () => {
     });
 });
 
-describe('SearchMovies', () => {
+describe("SearchMovies", () => {
     let component;
     let historyMock;
 
@@ -39,13 +39,13 @@ describe('SearchMovies', () => {
         component = shallow(
             <SearchMovies.WrappedComponent
                 history={historyMock}
-                location={{search: 'title=matrix&audio=en'}}/>,
+                location={{search: "title=matrix&audio=en"}}/>,
             {disableLifecycleMethods: true}
         );
         fetch.resetMocks();
     });
 
-    it('fetch movies on mount and save them on success', async () => {
+    it("fetch movies on mount and save them on success", async () => {
         fetch.once(JSON.stringify(matrixMovies));
 
         await component.instance().fetchMovies();
@@ -55,7 +55,7 @@ describe('SearchMovies', () => {
         expect(state.movies).toEqual(matrixMovies);
     });
 
-    it('fetch movies and fails', async () => {
+    it("fetch movies and fails", async () => {
         fetch.mockReject();
 
         await component.instance().fetchMovies();
@@ -65,42 +65,42 @@ describe('SearchMovies', () => {
         expect(state.movies).toEqual([]);
     });
 
-    it('performs search and update url', async () => {
+    it("performs search and update url", async () => {
         const mockFetch = jest.fn();
         component.instance().fetchMovies = mockFetch;
 
         await component.instance().updateUrlAndStartSearch("Matrix", "EN");
 
-        expect(historyMock.push).toHaveBeenCalledWith('/search/movie?title=matrix&audio=en');
+        expect(historyMock.push).toHaveBeenCalledWith("/search/movie?title=matrix&audio=en");
         expect(mockFetch).toHaveBeenCalledWith("matrix");
     });
 
-    it('build url', () => {
-        expect(component.instance().buildUrl("Daredevil  ", "IT")).toBe('/search/movie?title=daredevil&audio=it')
+    it("build url", () => {
+        expect(component.instance().buildUrl("Daredevil  ", "IT")).toBe("/search/movie?title=daredevil&audio=it");
     });
 
 });
 
-describe('SearchMovies rendering', () => {
+describe("SearchMovies rendering", () => {
     beforeEach(() => {
         fetch.resetMocks();
     });
 
-    it('displays the search form', () => {
+    it("displays the search form", () => {
         fetch.once(JSON.stringify(matrixMovies));
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
         );
 
         expect(wrapper.find(SearchMoviesForm)).toHaveLength(1);
     });
 
-    it('displays the empty results row if no movies found', async () => {
+    it("displays the empty results row if no movies found", async () => {
         fetch.once("[]");
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
         );
         await flushPromises();
 
@@ -108,11 +108,11 @@ describe('SearchMovies rendering', () => {
         expect(wrapper.find("#noResultsRow")).toHaveLength(1);
     });
 
-    it('displays the list of movies', async () => {
+    it("displays the list of movies", async () => {
         fetch.once(JSON.stringify(matrixMovies));
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>
+            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
         );
         await flushPromises();
 
