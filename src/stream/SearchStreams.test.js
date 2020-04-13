@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, MemoryRouter} from "react-router-dom";
 import React from "react";
 import SearchStreams from "./SearchStreams";
 import {shallow} from "enzyme";
@@ -15,7 +15,11 @@ describe("SearchStreams", () => {
 
     it("renders without crashing", () => {
         const div = document.createElement("div");
-        ReactDOM.render(<BrowserRouter><SearchStreams/></BrowserRouter>, div);
+        ReactDOM.render(
+            <MemoryRouter initialEntries={["/?movieId=603&title=matrix&audio=en"]}>
+                <SearchStreams location={{search: "movieId=603&title=matrix&audio=en"}}/>
+            </MemoryRouter>, div
+        );
     });
 
     it("initialize state", () => {
@@ -200,13 +204,14 @@ describe("SearchStreams rendering", () => {
         fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]));
         const wrapper = shallow(
             <SearchStreams.WrappedComponent
-                location={{search: "movieId=550&title=fight%20club&audio=en"}}/>
+                location={{search: "movieId=550&title=fight%20club&audio=en"}}/>,
+            {disableLifecycleMethods: true}
         );
         const fightClubEvent = buildEvent("message", fightClub);
         const fightClub2Event = buildEvent("message", fightClub2);
         const errorEvent = buildEvent("error", "connection closed");
 
-        await flushPromises();
+        await wrapper.instance().componentDidMount();
         const source = sources[`${config.backend.url}/search/streams?title=fight%20club&audio=en`];
         source.emitOpen();
         source.emit(fightClubEvent.type, fightClubEvent);

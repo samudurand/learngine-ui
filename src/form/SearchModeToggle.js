@@ -40,7 +40,11 @@ export function SearchModeToggle(props) {
         />);
 }
 
+SearchModeToggle.defaultProps = {
+    mode: SEARCH_MODES.MOVIEDB
+};
+
 SearchModeToggle.propTypes = {
     handleChange: PropTypes.func.isRequired,
-    mode: PropTypes.symbol.isRequired
+    mode: PropTypes.symbol
 };

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, MemoryRouter} from "react-router-dom";
 import React from "react";
 import SearchMovies from "./SearchMovies";
 import {shallow} from "enzyme";
@@ -11,7 +11,11 @@ describe("SearchMovies init", () => {
 
     it("renders without crashing", () => {
         const div = document.createElement("div");
-        ReactDOM.render(<BrowserRouter><SearchMovies/></BrowserRouter>, div);
+        ReactDOM.render(
+            <MemoryRouter initialEntries={["/?title=matrix&audio=en"]}>
+                <SearchMovies/>
+            </MemoryRouter>, div
+        );
     });
 
     it("initialize state", () => {

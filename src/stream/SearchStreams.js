@@ -38,8 +38,8 @@ class SearchStreams extends React.Component {
     }
 
     componentDidMount() {
-        this.retrieveAlternativeTitles();
         this.startEventStream();
+        return this.retrieveAlternativeTitles();
     }
 
     shouldComponentUpdate() {
@@ -98,7 +98,7 @@ class SearchStreams extends React.Component {
     }
 
     endLoadingAndCloseEventSource(error) {
-        console.debug("Closing SSE connection");
+        // console.debug("Closing SSE connection");
         this.eventSource.close();
         this.setState({isLoaded: true});
     }

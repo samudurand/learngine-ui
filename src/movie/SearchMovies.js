@@ -18,6 +18,7 @@ class SearchMovies extends React.Component {
     constructor(props) {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
+
         this.state = {
             isLoaded: false,
             movieAudio: trimAndLowerCaseString(urlParams.audio),

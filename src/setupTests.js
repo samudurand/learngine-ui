@@ -13,3 +13,18 @@ Object.defineProperty(window, "EventSource", {
 
 configure({adapter: new Adapter()});
 jjj.enableMocks();
+
+const originalConsoleError = global.console.error
+
+beforeEach(() => {
+    global.console.error = (...args) => {
+        // eslint-disable-next-line require-unicode-regexp
+        const propTypeFailures = [/Failed prop type/, /Warning: Received/];
+
+        if (propTypeFailures.some((propF) => propF.test(args[0]))) {
+            throw new Error(args[0]);
+        }
+
+        originalConsoleError(...args);
+    };
+});

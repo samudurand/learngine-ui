@@ -10,7 +10,7 @@ import {FlagsRow} from "./FlagsRow";
 describe("SearchMoviesForm init", () => {
     it("renders without crashing", () => {
         const div = document.createElement("div");
-        ReactDOM.render(<SearchMoviesForm audio="en" title="matrix"/>, div);
+        ReactDOM.render(<SearchMoviesForm audio="en" handleSubmit={jest.fn()} title="matrix"/>, div);
     });
 
     it("initialize state", () => {
@@ -27,9 +27,9 @@ describe("SearchMoviesForm init", () => {
     });
 
     it("initialize state with default values", () => {
-        const component = new SearchMoviesForm({});
+        const component = shallow(<SearchMoviesForm handleSubmit={jest.fn()}/>);
 
-        expect(component.state).toStrictEqual({
+        expect(component.state()).toStrictEqual({
             language: "en",
             searchMode: SEARCH_MODES.MOVIEDB,
             title: ""
@@ -40,7 +40,8 @@ describe("SearchMoviesForm init", () => {
 describe("SearchMovieForm", () => {
     it("handles language change if action provided", () => {
         const changeAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm handleLanguageChange={changeAction} language="en"/>);
+        const wrapper = shallow(
+            <SearchMoviesForm handleLanguageChange={changeAction} handleSubmit={jest.fn()} language="en"/>);
 
         wrapper.instance().handleLanguageChange("it");
 
@@ -49,7 +50,7 @@ describe("SearchMovieForm", () => {
     });
 
     it("does not do anything if language change action not provided", () => {
-        const wrapper = shallow(<SearchMoviesForm language="en"/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} language="en"/>);
 
         wrapper.instance().handleLanguageChange("it");
 
@@ -76,7 +77,7 @@ describe("SearchMovieForm", () => {
     });
 
     it("calculate search input field grid width when neither toggle nor dropdown displayed", () => {
-        const wrapper = shallow(<SearchMoviesForm language="EN" title="m"/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} language="EN" title="m"/>);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
@@ -87,6 +88,7 @@ describe("SearchMovieForm", () => {
     it("calculate search input field grid width when only search mode toggle displayed", () => {
         const wrapper = shallow(
             <SearchMoviesForm
+                handleSubmit={jest.fn()}
                 language="EN"
                 showSearchModeToggle
                 title="m"
@@ -101,6 +103,7 @@ describe("SearchMovieForm", () => {
 
     it("calculate search input field grid width when only language dropdown displayed", () => {
         const wrapper = shallow(<SearchMoviesForm
+            handleSubmit={jest.fn()}
             language="EN"
             showLanguageDropdown
             title="m"
@@ -114,6 +117,7 @@ describe("SearchMovieForm", () => {
 
     it("calculate search input field grid width when both toggle and dropdown displayed", () => {
         const wrapper = shallow(<SearchMoviesForm
+            handleSubmit={jest.fn()}
             language="EN"
             showLanguageDropdown
             showSearchModeToggle
@@ -127,7 +131,7 @@ describe("SearchMovieForm", () => {
     });
 
     it("handles search mode change", () => {
-        const wrapper = shallow(<SearchMoviesForm/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()}/>);
 
         wrapper.instance().handleModeChange({target: {checked: false}});
 
@@ -141,7 +145,7 @@ describe("SearchMovieForm", () => {
 
 describe("SearchMovieForm rendering", () => {
     it("renders no optional components", () => {
-        const wrapper = shallow(<SearchMoviesForm/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()}/>);
 
         expect(wrapper.find(LanguageDropdown)).toHaveLength(0);
         expect(wrapper.find(SearchModeToggle)).toHaveLength(0);
@@ -149,19 +153,19 @@ describe("SearchMovieForm rendering", () => {
     });
 
     it("renders language dropdown", () => {
-        const wrapper = shallow(<SearchMoviesForm showLanguageDropdown/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} showLanguageDropdown/>);
 
         expect(wrapper.find(LanguageDropdown)).toHaveLength(1);
     });
 
     it("renders search mode toggle", () => {
-        const wrapper = shallow(<SearchMoviesForm showSearchModeToggle/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} showSearchModeToggle/>);
 
         expect(wrapper.find(SearchModeToggle)).toHaveLength(1);
     });
 
     it("renders flags radios", () => {
-        const wrapper = shallow(<SearchMoviesForm showLanguageRadios/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} showLanguageRadios/>);
 
         expect(wrapper.find(FlagsRow)).toHaveLength(1);
     });
