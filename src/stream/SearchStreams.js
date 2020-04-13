@@ -23,12 +23,12 @@ class SearchStreams extends React.Component {
         super(props);
         const urlParams = queryString.parse(this.props.location.search);
         this.state = {
-            isLoaded: false,
-            streams: {},
             alternativeTitles: [],
+            isLoaded: false,
+            movieAudio: trimAndLowerCaseString(urlParams.audio),
             movieId: trimAndLowerCaseString(urlParams.movieId),
             movieTitle: trimAndLowerCaseString(urlParams.title),
-            movieAudio: trimAndLowerCaseString(urlParams.audio)
+            streams: {}
         };
 
         this.updateStreamSearch = this.updateStreamSearch.bind(this);
@@ -114,8 +114,8 @@ class SearchStreams extends React.Component {
                     <Col xs={7}>
                         <SearchMoviesForm
                             className="align-middle"
+                            handleSubmit={this.performSearch}
                             language={this.state.movieAudio}
-                            onSubmitAction={this.performSearch}
                             showLanguageDropdown
                             showSearchMode
                             title={this.state.movieTitle}

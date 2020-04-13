@@ -23,9 +23,9 @@ class SearchMoviesForm extends React.Component {
         this.showLanguageRadios = props.showLanguageRadios || false;
 
         this.state = {
-            title: this.props.title || "",
             language: this.props.language || LANGUAGES[0].code,
-            searchMode: SEARCH_MODES.MOVIEDB
+            searchMode: SEARCH_MODES.MOVIEDB,
+            title: this.props.title || ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,8 +40,8 @@ class SearchMoviesForm extends React.Component {
 
     handleLanguageChange(langCode) {
         this.setState({language: langCode});
-        if (this.props.onLanguageChangeAction) {
-            this.props.onLanguageChangeAction(langCode);
+        if (this.props.handleLanguageChange) {
+            this.props.handleLanguageChange(langCode);
         }
     }
 
@@ -55,7 +55,7 @@ class SearchMoviesForm extends React.Component {
         const cleanedLang = trimAndLowerCaseString(this.state.language);
 
         if (this.state.title.length > MIN_CHARS_VALID_SEARCH) {
-            this.props.onSubmitAction(cleanedTitle, cleanedLang, this.state.searchMode);
+            this.props.handleSubmit(cleanedTitle, cleanedLang, this.state.searchMode);
         }
     }
 
@@ -105,7 +105,10 @@ class SearchMoviesForm extends React.Component {
                         }
                     </Col>
                 </Row>
-                {this.showLanguageRadios && <FlagsRow currentLanguage={language} handleChange={this.handleChange}/>}
+                {
+                    this.showLanguageRadios &&
+                    <FlagsRow currentLanguage={language} handleChange={this.handleChange}/>
+                }
             </Form>
         );
     }

@@ -8,11 +8,11 @@ describe("StreamCard", () => {
         ReactDOM.render(
             <StreamCard
                 stream={{
-                    title: "Fight Club",
-                    link: "https://altadefinizione.rocks/fightclub/",
                     imageUrl: "http://imgur/fc.jpg",
+                    link: "https://altadefinizione.rocks/fightclub/",
+                    source: "Solar Movie",
                     sourceId: "solarmovie",
-                    source: "Solar Movie"
+                    title: "Fight Club"
                 }}
             />, div);
     });

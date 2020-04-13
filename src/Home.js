@@ -36,7 +36,7 @@ class Home extends React.Component {
             </Row>
             <Row>
                 <Col xs={{offset: 3, span: 6}}>
-                    <SearchMoviesForm onSubmitAction={this.searchMovieOrStreamOnSubmit}
+                    <SearchMoviesForm handleSubmit={this.searchMovieOrStreamOnSubmit}
                                       showLanguageDropdown={false}
                                       showLanguageRadios
                                       showSearchMode

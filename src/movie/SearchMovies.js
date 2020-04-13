@@ -20,9 +20,9 @@ class SearchMovies extends React.Component {
         const urlParams = queryString.parse(this.props.location.search);
         this.state = {
             isLoaded: false,
-            movies: [],
+            movieAudio: trimAndLowerCaseString(urlParams.audio),
             movieTitle: trimAndLowerCaseString(urlParams.title),
-            movieAudio: trimAndLowerCaseString(urlParams.audio)
+            movies: []
         };
 
         this.updateUrlAndStartSearch = this.updateUrlAndStartSearch.bind(this);
@@ -98,9 +98,9 @@ class SearchMovies extends React.Component {
                     <Col xs={7}>
                         <SearchMoviesForm
                             className="align-middle"
+                            handleLanguageChange={this.updateUrlAndAudio}
+                            handleSubmit={this.updateUrlAndStartSearch}
                             language={movieAudio}
-                            onLanguageChangeAction={this.updateUrlAndAudio}
-                            onSubmitAction={this.updateUrlAndStartSearch}
                             showLanguageDropdown
                             title={movieTitle}
                         />

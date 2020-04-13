@@ -48,8 +48,8 @@
       "indent": "off",
       "implicit-arrow-linebreak": "off",
       "max-len": ["error", { "code": 120 }],
-      "max-lines-per-function": "warn",
-      "max-statements": "warn",
+      "max-lines-per-function": "off",
+      "max-statements": "off",
       "no-console": ["error", { "allow": ["debug", "error"] }],
       "no-magic-numbers": ["error",  { "ignore": [0, 1, 2] }],
       "padded-blocks": "off",
@@ -57,7 +57,7 @@
       "object-shorthand": "off",
       "one-var": "off",
       "quote-props": ["error","as-needed"],
-      "react/destructuring-assignment": "warn",
+      "react/destructuring-assignment": "off",
       "react/no-set-state": "off",
       "react/forbid-component-props": ["error", {
         "forbid": [{
@@ -65,15 +65,15 @@
           "allowedFor": ["Card", "Col", "FlagIcon", "SearchMoviesForm"]
         }]
       }],
-      "react/jsx-closing-bracket-location": "warn",
+      "react/jsx-closing-bracket-location": "off",
       "react/jsx-closing-tag-location": "off",
       "react/jsx-filename-extension": "off",
       "react/jsx-first-prop-new-line": "off",
+      "react/jsx-handler-names": "off",
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
-      "react/jsx-handler-names": "warn",
       "react/jsx-max-props-per-line": "off",
-      "react/jsx-max-depth": ["warn", {"max": 5}],
+      "react/jsx-max-depth": ["warn", {"max": 10}],
       "react/jsx-no-bind": "off",
       "react/jsx-no-literals": "off",
       "react/jsx-one-expression-per-line": "off",

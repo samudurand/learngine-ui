@@ -9,8 +9,8 @@ export default class MovieRow extends React.Component {
         super(props);
 
         this.state = {
-            movie: props.movie,
-            audio: props.audio
+            audio: props.audio,
+            movie: props.movie
         };
     }
 

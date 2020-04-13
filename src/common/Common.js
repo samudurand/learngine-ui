@@ -19,6 +19,6 @@ export const STREAM_SOURCES = {
 };
 
 export const SEARCH_MODES = Object.freeze({
-    MOVIEDB: Symbol("moviedb"),
-    DIRECT: Symbol("direct")
+    DIRECT: Symbol("direct"),
+    MOVIEDB: Symbol("moviedb")
 });

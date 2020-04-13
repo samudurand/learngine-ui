@@ -29,18 +29,18 @@ describe("SourcePanel", () => {
     });
 
     const fightClub = {
-        title: "Fight Club",
-        link: "https://altadefinizione.rocks/fightclub/",
         imageUrl: "http://imgur/fc.jpg",
+        link: "https://altadefinizione.rocks/fightclub/",
+        source: "Solar Movie",
         sourceId: "solarrmovie",
-        source: "Solar Movie"
+        title: "Fight Club"
     };
 
     const fightClub2 = {
-        title: "Women Fight Club",
-        link: "https://altadefinizione.rocks/wfightclub/",
         imageUrl: "http://imgur/wfc.jpg",
+        link: "https://altadefinizione.rocks/wfightclub/",
+        source: "Solar Movie",
         sourceId: "solarrmovie",
-        source: "Solar Movie"
+        title: "Women Fight Club"
     };
 });

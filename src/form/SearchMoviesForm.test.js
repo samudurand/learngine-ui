@@ -15,14 +15,14 @@ describe("SearchMoviesForm init", () => {
 
     it("initialize state", () => {
         const component = new SearchMoviesForm({
-            title: "matrix",
-            language: "en"
+            language: "en",
+            title: "matrix"
         });
 
         expect(component.state).toStrictEqual({
-            title: "matrix",
             language: "en",
-            searchMode: SEARCH_MODES.MOVIEDB
+            searchMode: SEARCH_MODES.MOVIEDB,
+            title: "matrix"
         });
     });
 
@@ -30,9 +30,9 @@ describe("SearchMoviesForm init", () => {
         const component = new SearchMoviesForm({});
 
         expect(component.state).toStrictEqual({
-            title: "",
             language: "en",
-            searchMode: SEARCH_MODES.MOVIEDB
+            searchMode: SEARCH_MODES.MOVIEDB,
+            title: ""
         });
     });
 });
@@ -40,7 +40,7 @@ describe("SearchMoviesForm init", () => {
 describe("SearchMovieForm", () => {
     it("handles language change if action provided", () => {
         const changeAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm language="en" onLanguageChangeAction={changeAction}/>);
+        const wrapper = shallow(<SearchMoviesForm handleLanguageChange={changeAction} language="en"/>);
 
         wrapper.instance().handleLanguageChange("it");
 
@@ -58,7 +58,7 @@ describe("SearchMovieForm", () => {
 
     it("perform action on submit if search term long enough", () => {
         const submitAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm language="EN" onSubmitAction={submitAction} title="mAtrix "/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={submitAction} language="EN" title="mAtrix "/>);
         wrapper.state().searchMode = SEARCH_MODES.DIRECT;
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
@@ -68,7 +68,7 @@ describe("SearchMovieForm", () => {
 
     it("does not perform action on submit if search term too short", () => {
         const submitAction = jest.fn();
-        const wrapper = shallow(<SearchMoviesForm language="EN" onSubmitAction={submitAction} title="m"/>);
+        const wrapper = shallow(<SearchMoviesForm handleSubmit={submitAction} language="EN" title="m"/>);
 
         wrapper.instance().handleSubmit({preventDefault: jest.fn()});
 
