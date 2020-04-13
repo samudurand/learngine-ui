@@ -34,6 +34,10 @@ class SearchMovies extends React.Component {
         this.fetchMovies(this.state.movieTitle);
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     fetchMovies(title) {
         const cleanedTitle = trimAndLowerCaseString(title);
 
@@ -103,19 +107,23 @@ class SearchMovies extends React.Component {
                             className="align-middle"/>
                     </Col>
                 </Row>
-                {movies && movies.length > 0 ?
-                    <Row id="resultsRow">
-                        <Table responsive hover>
-                            <tbody>
-                            {
-                                !isLoaded ?
-                                    <div>Loading...</div> :
-                                    movies.map(movie => <MovieRow key={movie.id} movie={movie}
-                                                                  audio={this.state.movieAudio}/>)
-                            }
-                            </tbody>
-                        </Table>
-                    </Row> : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                {
+                    // eslint-disable-next-line no-ternary
+                    movies && movies.length > 0 ?
+                        // eslint-disable-next-line multiline-ternary
+                        <Row id="resultsRow">
+                            <Table responsive hover>
+                                <tbody>
+                                {
+                                    // eslint-disable-next-line no-ternary
+                                    isLoaded
+                                        ? movies.map(movie => <MovieRow key={movie.id} movie={movie}
+                                                                        audio={this.state.movieAudio}/>)
+                                        : <div>Loading...</div>
+                                }
+                                </tbody>
+                            </Table>
+                        </Row> : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
                 }
             </Container>
         );

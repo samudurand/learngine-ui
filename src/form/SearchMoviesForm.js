@@ -34,6 +34,10 @@ class SearchMoviesForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     handleLanguageChange(langCode) {
         this.setState({language: langCode});
         if (this.props.onLanguageChangeAction) {
@@ -57,11 +61,9 @@ class SearchMoviesForm extends React.Component {
 
     calculateSearchInputWidth() {
         const GRID_WIDTH = 12;
-        const SEARCH_MODE_COL_WIDTH = 3;
-        const LANG_DROP_COL_WIDTH = 3;
-        return (
-            GRID_WIDTH - (this.showSearchModeToggle * SEARCH_MODE_COL_WIDTH) - (this.showLanguageDropdown * LANG_DROP_COL_WIDTH)
-        );
+        const S_MODE_COL_WIDTH = 3;
+        const LANG_COL_WIDTH = 3;
+        return GRID_WIDTH - this.showSearchModeToggle * S_MODE_COL_WIDTH - this.showLanguageDropdown * LANG_COL_WIDTH;
     }
 
     handleModeChange(event) {
@@ -88,12 +90,17 @@ class SearchMoviesForm extends React.Component {
                         </InputGroup>
                     </Col>
                     <Col>
-                        {this.showLanguageDropdown ? <LanguageDropdown language={language}/> : ""}
-                        {this.showSearchModeToggle ?
-                            <SearchModeToggle mode={searchMode} handleChange={this.handleModeChange}/> : ""}
+                        {
+                            this.showLanguageDropdown &&
+                            <LanguageDropdown handleChange={this.handleLanguageChange} language={language}/>
+                        }
+                        {
+                            this.showSearchModeToggle &&
+                            <SearchModeToggle handleChange={this.handleModeChange} mode={searchMode}/>
+                        }
                     </Col>
                 </Row>
-                {this.showLanguageRadios ? <FlagsRow currentLanguage={language} handleChange={this.handleChange}/> : ''}
+                {this.showLanguageRadios && <FlagsRow currentLanguage={language} handleChange={this.handleChange}/>}
             </Form>
         );
     }

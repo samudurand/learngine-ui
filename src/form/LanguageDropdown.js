@@ -5,20 +5,22 @@ import {Language} from "../common/Language";
 import {LANGUAGES} from "../common/Common";
 
 export function LanguageDropdown(props) {
-    const {language} = props;
+    const {language, handleChange} = props;
     return (
         <Dropdown
-            onSelect={eventKey => this.handleLanguageChange(eventKey)}>
-            <Dropdown.Toggle variant="light" id="languageDropdown" className="text-left">
-                {<FlagIcon code={Language.findByCode(LANGUAGES, language).country}/>}
+            onSelect={(eventKey) => handleChange(eventKey)}>
+            {/* eslint-disable-next-line react/forbid-component-props */}
+            <Dropdown.Toggle className="text-left" id="languageDropdown" variant="light">
+                <FlagIcon code={Language.findByCode(LANGUAGES, language).country}/>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                {LANGUAGES.map(lang => (
-                    <Dropdown.Item key={lang.code} eventKey={lang.code}>
+                {LANGUAGES.map((lang) =>
+                    <Dropdown.Item eventKey={lang.code} key={lang.code}>
+                        {/* eslint-disable-next-line react/forbid-component-props */}
                         <FlagIcon className="dropdownFlag" code={lang.country}/> {lang.label}
                     </Dropdown.Item>
-                ))}
+                )}
             </Dropdown.Menu>
         </Dropdown>
     );

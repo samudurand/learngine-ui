@@ -11,10 +11,11 @@ export function SearchModeToggle(props) {
         <Popover id="popover-basic">
             <Popover.Content>
                     <span>
-                        Uses <a href="https://www.themoviedb.org/" target="_blank"
-                                rel="noopener noreferrer"><b>TheMovieDB</b></a> database to search for movies matching your search.
-                        The following search will be more precise and will offer alternative titles in the target language.
-                        Disabling this will perform a <b>direct stream search</b>, allowing a more flexible but less precise search.
+                        Uses <a href="https://www.themoviedb.org/" rel="noopener noreferrer" target="_blank">
+                        <b>TheMovieDB</b></a> database to search for movies matching your search.
+                        The following search will be more precise and will offer alternative titles
+                        in the target language. Disabling this will perform a <b>direct stream search</b>,
+                        allowing a more flexible but less precise search.
                     </span>
             </Popover.Content>
         </Popover>
@@ -22,19 +23,19 @@ export function SearchModeToggle(props) {
 
     return (
         <Form.Check
-            inline
-            type="checkbox"
-            id="dbSearchMode"
             checked={mode === SEARCH_MODES.MOVIEDB}
-            onChange={handleChange}
-            name="dbSearchMode"
+            id="dbSearchMode"
+            inline
             label={
                 <OverlayTrigger
-                    placement="bottom"
                     delay={{show: 250, hide: 1000}}
-                    overlay={modeInfoPopover}>
+                    overlay={modeInfoPopover}
+                    placement="bottom">
                     <img id="tmdbLogo" alt="The Movie DB" src="/tmdb.png"/>
                 </OverlayTrigger>
             }
+            name="dbSearchMode"
+            onChange={handleChange}
+            type="checkbox"
         />);
 }

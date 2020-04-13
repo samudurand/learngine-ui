@@ -49,8 +49,8 @@ describe('MovieRow', () => {
         " condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.";
 });
 
-describe('MovieRow render', () => {
-    it('displays the details of a movie with links to corresponding search', async () => {
+describe("MovieRow render", () => {
+    it("displays the details of a movie with links to corresponding search", () => {
         const wrapper = shallow(
             <MovieRow movie={matrix} audio={'en'}/>
         );

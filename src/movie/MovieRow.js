@@ -14,12 +14,16 @@ export default class MovieRow extends React.Component {
         }
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     truncateDescription(desc) {
         if (!desc || desc.length < MAX_DESCRIPTION_LENGTH) {
             return desc;
-        } else {
-            return desc.substring(0, MAX_DESCRIPTION_LENGTH - 3) + "...";
         }
+        // eslint-disable-next-line no-magic-numbers
+        return `${desc.substring(0, MAX_DESCRIPTION_LENGTH - 3)}...`;
     }
 
     render() {

@@ -77,49 +77,52 @@ describe('SearchMovieForm', () => {
 
     it('calculate search input field grid width when neither toggle nor dropdown displayed', () => {
         const wrapper = shallow(<SearchMoviesForm
-            title="m" language="EN"
-            showSearchModeToggle={false}
-            showLanguageDropdown={false}
+            language="EN" title="m"
         />);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
+        // eslint-disable-next-line no-magic-numbers
         expect(result).toBe(12);
     });
 
     it('calculate search input field grid width when only search mode toggle displayed', () => {
         const wrapper = shallow(<SearchMoviesForm
-            title="m" language="EN"
-            showSearchModeToggle={true}
-            showLanguageDropdown={false}
+            language="EN"
+            showSearchModeToggle
+            title="m"
         />);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
+        // eslint-disable-next-line no-magic-numbers
         expect(result).toBe(9);
     });
 
     it('calculate search input field grid width when only language dropdown displayed', () => {
         const wrapper = shallow(<SearchMoviesForm
-            title="m" language="EN"
-            showSearchModeToggle={false}
-            showLanguageDropdown={true}
+            language="EN"
+            showLanguageDropdown
+            title="m"
         />);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
+        // eslint-disable-next-line no-magic-numbers
         expect(result).toBe(9);
     });
 
     it('calculate search input field grid width when both toggle and dropdown displayed', () => {
         const wrapper = shallow(<SearchMoviesForm
-            title="m" language="EN"
-            showSearchModeToggle={true}
-            showLanguageDropdown={true}
+            language="EN"
+            showLanguageDropdown
+            showSearchModeToggle
+            title="m"
         />);
 
         const result = wrapper.instance().calculateSearchInputWidth();
 
+        // eslint-disable-next-line no-magic-numbers
         expect(result).toBe(6);
     });
 
@@ -146,19 +149,19 @@ describe('SearchMovieForm rendering', () => {
     })
 
     it('renders language dropdown', () => {
-        const wrapper = shallow(<SearchMoviesForm showLanguageDropdown={true}/>);
+        const wrapper = shallow(<SearchMoviesForm showLanguageDropdown/>);
 
         expect(wrapper.find(LanguageDropdown)).toHaveLength(1);
     })
 
     it('renders search mode toggle', () => {
-        const wrapper = shallow(<SearchMoviesForm showSearchModeToggle={true}/>);
+        const wrapper = shallow(<SearchMoviesForm showSearchModeToggle/>);
 
         expect(wrapper.find(SearchModeToggle)).toHaveLength(1);
     })
 
     it('renders flags radios', () => {
-        const wrapper = shallow(<SearchMoviesForm showLanguageRadios={true}/>);
+        const wrapper = shallow(<SearchMoviesForm showLanguageRadios/>);
 
         expect(wrapper.find(FlagsRow)).toHaveLength(1);
     })

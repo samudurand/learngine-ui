@@ -14,9 +14,13 @@ export class SourcePanel extends React.Component {
         return `/sources/${STREAM_SOURCES[sourceId]}`;
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     render() {
         const {source, streams} = this.props;
-        return (<Card className="sourceCard">
+        return <Card className="sourceCard">
                 <Accordion.Toggle as={Card.Header} eventKey={source}>
                     <Row>
                         <Col>
@@ -26,19 +30,19 @@ export class SourcePanel extends React.Component {
                             </p>
                         </Col>
                         <Col className="sourceLogo">
-                            <img src={SourcePanel.getSourceLogo(source)} alt={source}/>
+                            <img alt={source} src={SourcePanel.getSourceLogo(source)}/>
                         </Col>
                     </Row>
                 </Accordion.Toggle>
                 <Accordion.Collapse eventKey={source}>
                     <Row id="streamCardsRow">
                         {
-                            streams.map(stream =>
-                                <StreamCard key={stream.source + " " + stream.title} stream={stream}/>)
+                            streams.map((stream) =>
+                                <StreamCard key={`${stream.source} ${stream.title}`} stream={stream}/>)
                         }
                     </Row>
                 </Accordion.Collapse>
             </Card>
-        );
+        ;
     }
 }

@@ -47,7 +47,7 @@ describe('SearchStreams Alternative Titles', () => {
         fetch.resetMocks()
     });
 
-    it('retrieve alternative titles', async () => {
+    it('retrieve alternative titles', async() => {
         fetch.once(JSON.stringify(["The Matrix", "Matrix Revolution"]))
 
         await wrapper.instance().retrieveAlternativeTitles();
@@ -58,7 +58,7 @@ describe('SearchStreams Alternative Titles', () => {
             .toEqual(new Set(["The Matrix", "Matrix Revolution"]));
     });
 
-    it('retrieve alternative titles with no results', async () => {
+    it('retrieve alternative titles with no results', async() => {
         fetch.once("[]")
 
         await wrapper.instance().retrieveAlternativeTitles();
@@ -67,7 +67,7 @@ describe('SearchStreams Alternative Titles', () => {
         expect(wrapper.state().alternativeTitles).toBeEmpty();
     });
 
-    it('retrieve alternative titles skipped when no movie ID available', async () => {
+    it('retrieve alternative titles skipped when no movie ID available', async() => {
         const wrapperNoId = shallow(
             <SearchStreams.WrappedComponent location={{search: 'title=matrix&audio=en'}}/>,
             {disableLifecycleMethods: true}
@@ -195,7 +195,7 @@ describe('SearchStreams rendering', () => {
     })
 
     it('renders the page with alternative titles and streams components', async () => {
-        fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]))
+        fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]));
         const wrapper = shallow(
             <SearchStreams.WrappedComponent
                 location={{search: 'movieId=550&title=fight%20club&audio=en'}}/>
@@ -214,6 +214,7 @@ describe('SearchStreams rendering', () => {
         expect(wrapper.find("#searchRow")).toHaveLength(1);
         expect(wrapper.find(AlternativeTitlesRow)).toHaveLength(1);
         expect(wrapper.find("#resultsRow")).toHaveLength(1);
+        // eslint-disable-next-line no-magic-numbers
         expect(wrapper.find(SourcePanel)).toHaveLength(2);
         expect(wrapper.find("#noResultsRow")).toHaveLength(0);
         expect(wrapper.find(SpinnerRow)).toHaveLength(0);

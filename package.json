@@ -35,7 +35,54 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": ["react-app", "eslint:all", "plugin:react/all"]
+    "extends": ["react-app", "eslint:all", "plugin:react/all"],
+    "rules": {
+      "array-element-newline": "off",
+      "array-bracket-newline": "off",
+      "class-methods-use-this": "off",
+      "eol-last": "off",
+      "init-declarations": "off",
+      "func-style": "off",
+      "function-call-argument-newline": "off",
+      "function-paren-newline": "off",
+      "indent": "off",
+      "implicit-arrow-linebreak": "off",
+      "max-len": ["error", { "code": 120 }],
+      "max-lines-per-function": "warn",
+      "max-statements": "warn",
+      "no-console": ["error", { "allow": ["debug", "error"] }],
+      "no-magic-numbers": ["error",  { "ignore": [0, 1, 2] }],
+      "padded-blocks": "off",
+      "object-property-newline": "off",
+      "object-shorthand": "off",
+      "one-var": "off",
+      "quote-props": ["error","as-needed"],
+      "react/destructuring-assignment": "warn",
+      "react/no-set-state": "off",
+      "react/forbid-component-props": ["error", {
+        "forbid": [{
+          "propName": "className",
+          "allowedFor": ["Card", "Col", "FlagIcon", "SearchMoviesForm"]
+        }]
+      }],
+      "react/jsx-closing-bracket-location": "warn",
+      "react/jsx-closing-tag-location": "off",
+      "react/jsx-filename-extension": "off",
+      "react/jsx-first-prop-new-line": "off",
+      "react/jsx-indent": "off",
+      "react/jsx-indent-props": "off",
+      "react/jsx-handler-names": "warn",
+      "react/jsx-max-props-per-line": "off",
+      "react/jsx-max-depth": ["warn", {"max": 5}],
+      "react/jsx-no-bind": "off",
+      "react/jsx-no-literals": "off",
+      "react/jsx-one-expression-per-line": "off",
+      "react/jsx-tag-spacing": "off",
+      "react/sort-comp": "off",
+      "sort-imports": "off",
+      "space-before-function-paren": ["error", "never"],
+      "react/jsx-wrap-multilines": "off"
+    }
   },
   "browserslist": {
     "production": [

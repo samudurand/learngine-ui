@@ -15,6 +15,10 @@ class Home extends React.Component {
         this.searchMovieOrStreamOnSubmit = this.searchMovieOrStreamOnSubmit.bind(this);
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     searchMovieOrStreamOnSubmit(title, audio, searchMode) {
         if (searchMode === SEARCH_MODES.MOVIEDB) {
             this.props.history.push(`/search/movie?title=${trimAndLowerCaseString(title)}&audio=${audio}`);

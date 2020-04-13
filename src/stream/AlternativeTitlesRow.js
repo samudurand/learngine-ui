@@ -24,8 +24,8 @@ export function AlternativeTitlesRow(props) {
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>
                                 {
-                                    titles.sort().map(title =>
-                                        <div key={title} className="altTitle">
+                                    titles.sort().map((title) =>
+                                        <div className="altTitle" key={title}>
                                             <a href={`/search/stream?title=${title}&audio=${audio}`}>
                                                 <FontAwesomeIcon icon={faSearch}/> {title}
                                             </a>

@@ -31,15 +31,19 @@ class SearchStreams extends React.Component {
             movieAudio: trimAndLowerCaseString(urlParams.audio)
         };
 
-        this._updateStreamSearch = this._updateStreamSearch.bind(this);
+        this.updateStreamSearch = this.updateStreamSearch.bind(this);
         this.performSearch = this.performSearch.bind(this);
-        this._processStreamData = this._processStreamData.bind(this);
-        this._endLoadingAndCloseEventSource = this._endLoadingAndCloseEventSource.bind(this);
+        this.processStreamData = this.processStreamData.bind(this);
+        this.endLoadingAndCloseEventSource = this.endLoadingAndCloseEventSource.bind(this);
     }
 
     componentDidMount() {
         this.retrieveAlternativeTitles();
         this.startEventStream();
+    }
+
+    shouldComponentUpdate() {
+        return true;
     }
 
     retrieveAlternativeTitles() {
@@ -54,9 +58,8 @@ class SearchStreams extends React.Component {
                         });
                     }
                 );
-        } else {
-            return Promise.resolve();
         }
+        return Promise.resolve();
     }
 
     startEventStream() {
@@ -66,33 +69,35 @@ class SearchStreams extends React.Component {
 
         const url = `${STREAM_SEARCH_URL}?title=${this.state.movieTitle}&audio=${this.state.movieAudio}`;
         this.eventSource = new EventSource(encodeURI(url));
-        this.eventSource.addEventListener('message', this._processStreamData);
-        this.eventSource.addEventListener('error', this._endLoadingAndCloseEventSource);
+        this.eventSource.addEventListener('message', this.processStreamData);
+        this.eventSource.addEventListener('error', this.endLoadingAndCloseEventSource);
     }
 
-    _processStreamData(message) {
+    processStreamData(message) {
         const stream = JSON.parse(message.data);
         const {sourceId} = stream;
-        if (!this.state.streams[sourceId]) {
-            this.setState({
+        const {streams} = this.state;
+        if (streams[sourceId]) {
+            const streamsForSource = streams[sourceId].slice();
+            streamsForSource.push(stream);
+            this.setState((prevState) => ({
                 streams: {
-                    ...this.state.streams,
+                    ...prevState.streams,
+                    [sourceId]: streamsForSource
+                }
+            }));
+
+        } else {
+            this.setState((prevState) => ({
+                streams: {
+                    ...prevState.streams,
                     [sourceId]: [stream]
                 }
-            });
-        } else {
-            const streams = this.state.streams[sourceId].slice();
-            streams.push(stream);
-            this.setState({
-                streams: {
-                    ...this.state.streams,
-                    [sourceId]: streams
-                }
-            });
+            }));
         }
     }
 
-    _endLoadingAndCloseEventSource(error) {
+    endLoadingAndCloseEventSource(error) {
         console.debug("Closing SSE connection");
         this.eventSource.close();
         this.setState({isLoaded: true});
@@ -109,21 +114,19 @@ class SearchStreams extends React.Component {
                     <Col xs={7}>
                         <SearchMoviesForm
                             onSubmitAction={this.performSearch}
-                            showLanguageDropdown={true}
-                            showLanguageRadios={false}
-                            showSearchMode={true}
+                            showLanguageDropdown
+                            showSearchMode
                             title={this.state.movieTitle}
                             language={this.state.movieAudio}
                             className="align-middle"/>
                     </Col>
                 </Row>
                 {
-                    alternativeTitles && alternativeTitles.length > 0 ?
+                    alternativeTitles && alternativeTitles.length > 0 &&
                         <AlternativeTitlesRow titles={alternativeTitles} audio={movieAudio}/>
-                        : ""
                 }
                 {
-                    Object.keys(streams).length > 0 ?
+                    Object.keys(streams).length > 0 &&
                         <Row id="resultsRow">
                             <Col>
                                 <Accordion defaultActiveKey={Object.entries(streams)[0][0]}>
@@ -134,18 +137,18 @@ class SearchStreams extends React.Component {
                                     }
                                 </Accordion>
                             </Col>
-                        </Row> : ""
+                        </Row>
                 }
                 {
-                    isLoaded && (Object.keys(streams).length <= 0) ?
+                    isLoaded && Object.keys(streams).length <= 0 &&
                         <Row id="noResultsRow">
                             <Col>
                                 <p>No results found...</p>
                             </Col>
-                        </Row> : ""
+                        </Row>
                 }
                 {
-                    !isLoaded ? <SpinnerRow/> : ""
+                    !isLoaded && <SpinnerRow/>
                 }
 
             </Container>
@@ -156,7 +159,7 @@ class SearchStreams extends React.Component {
         const sanitizedTitle = trimAndLowerCaseString(title);
         if (searchMode === SEARCH_MODES.DIRECT) {
             if (this.state.streams.length <= 0 || sanitizedTitle !== this.state.movieTitle) {
-                return this._updateStreamSearch(sanitizedTitle, audio);
+                return this.updateStreamSearch(sanitizedTitle, audio);
             }
         } else {
             this.props.history.push(`/search/movie?title=${sanitizedTitle}&audio=${audio}`);
@@ -164,7 +167,7 @@ class SearchStreams extends React.Component {
         return Promise.resolve();
     }
 
-    _updateStreamSearch(movieTitle, audio) {
+    updateStreamSearch(movieTitle, audio) {
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
             streams: {},

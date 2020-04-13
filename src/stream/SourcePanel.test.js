@@ -10,17 +10,18 @@ describe('SourcePanel', () => {
         const div = document.createElement('div');
         ReactDOM.render(
             <SourcePanel
-                source={"solarmovie"}
+                source="solarmovie"
                 streams={[fightClub, fightClub2]}
             />, div);
     });
 
     it('renders all streams', () => {
         const wrapper = shallow(<SourcePanel
-            source={"solarmovie"}
+            source="solarmovie"
             streams={[fightClub, fightClub2]}
         />);
 
+        // eslint-disable-next-line no-magic-numbers
         expect(wrapper.find(StreamCard)).toHaveLength(2);
     });
 
@@ -34,7 +35,7 @@ describe('SourcePanel', () => {
         imageUrl: "http://imgur/fc.jpg",
         sourceId: "solarrmovie",
         source: "Solar Movie"
-    }
+    };
 
     const fightClub2 = {
         title: "Women Fight Club",
@@ -42,5 +43,5 @@ describe('SourcePanel', () => {
         imageUrl: "http://imgur/wfc.jpg",
         sourceId: "solarrmovie",
         source: "Solar Movie"
-    }
+    };
 });
