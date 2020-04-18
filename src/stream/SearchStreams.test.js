@@ -1,12 +1,11 @@
 import ReactDOM from "react-dom";
-import {BrowserRouter, MemoryRouter} from "react-router-dom";
+import {MemoryRouter} from "react-router-dom";
 import React from "react";
 import SearchStreams from "./SearchStreams";
 import {shallow} from "enzyme";
 import {sources} from "eventsourcemock";
 import {SEARCH_MODES} from "../common/Common";
 import {config} from "../common/Config";
-import {flushPromises} from "../common/TestCommons";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import SpinnerRow from "./SpinnerRow";
 import {SourcePanel} from "./SourcePanel";

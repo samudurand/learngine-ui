@@ -21,3 +21,7 @@ Run eslint
 ```
 yarn eslint "src/**/*.js"
 ```
+Docker
+```
+docker build -t firens/learngine-ui .
+```
