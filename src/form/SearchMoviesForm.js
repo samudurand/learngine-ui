@@ -33,7 +33,7 @@ class SearchMoviesForm extends React.Component {
 
         this.state = {
             language: this.props.language,
-            searchMode: SEARCH_MODES.MOVIEDB,
+            searchMode: SEARCH_MODES.DIRECT,
             title: this.props.title
         };
 

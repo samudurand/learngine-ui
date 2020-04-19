@@ -98,7 +98,6 @@ class SearchStreams extends React.Component {
     }
 
     endLoadingAndCloseEventSource(error) {
-        // console.debug("Closing SSE connection");
         this.eventSource.close();
         this.setState({isLoaded: true});
     }
@@ -117,7 +116,7 @@ class SearchStreams extends React.Component {
                             handleSubmit={this.performSearch}
                             language={this.state.movieAudio}
                             showLanguageDropdown
-                            showSearchMode
+                            showSearchModeToggle
                             title={this.state.movieTitle}
                         />
                     </Col>

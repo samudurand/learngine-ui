@@ -39,7 +39,7 @@ class Home extends React.Component {
                     <SearchMoviesForm handleSubmit={this.searchMovieOrStreamOnSubmit}
                                       showLanguageDropdown={false}
                                       showLanguageRadios
-                                      showSearchMode
+                                      showSearchModeToggle
                     />
                 </Col>
             </Row>

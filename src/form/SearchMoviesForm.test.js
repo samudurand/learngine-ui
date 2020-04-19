@@ -21,7 +21,7 @@ describe("SearchMoviesForm init", () => {
 
         expect(component.state).toStrictEqual({
             language: "en",
-            searchMode: SEARCH_MODES.MOVIEDB,
+            searchMode: SEARCH_MODES.DIRECT,
             title: "matrix"
         });
     });
@@ -31,7 +31,7 @@ describe("SearchMoviesForm init", () => {
 
         expect(component.state()).toStrictEqual({
             language: "en",
-            searchMode: SEARCH_MODES.MOVIEDB,
+            searchMode: SEARCH_MODES.DIRECT,
             title: ""
         });
     });
