@@ -115,6 +115,7 @@ class SearchStreams extends React.Component {
                             className="align-middle"
                             handleSubmit={this.performSearch}
                             language={this.state.movieAudio}
+                            searchMode={SEARCH_MODES.DIRECT}
                             showLanguageDropdown
                             showSearchModeToggle
                             title={this.state.movieTitle}

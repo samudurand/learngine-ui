@@ -14,7 +14,7 @@ Object.defineProperty(window, "EventSource", {
 configure({adapter: new Adapter()});
 jjj.enableMocks();
 
-const originalConsoleError = global.console.error
+const originalConsoleError = global.console.error;
 
 beforeEach(() => {
     global.console.error = (...args) => {

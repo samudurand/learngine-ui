@@ -11,6 +11,7 @@ jobs:
           steps:
             - run: yarn install
             - run: CI=true yarn test --coverage
+            - run: CI=true yarn run eslint src
 workflows:
     build-and-test:
       jobs:

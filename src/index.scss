@@ -7,6 +7,10 @@ $base-color: black;
 $base-color-light: #ced4da;
 $logo-font: 'Saira Semi Condensed', sans-serif;
 
+#root {
+  padding-bottom: 2em;
+}
+
 #logo {
   &:hover {
     text-decoration: none;

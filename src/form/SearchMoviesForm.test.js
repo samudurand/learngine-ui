@@ -13,25 +13,12 @@ describe("SearchMoviesForm init", () => {
         ReactDOM.render(<SearchMoviesForm audio="en" handleSubmit={jest.fn()} title="matrix"/>, div);
     });
 
-    it("initialize state", () => {
-        const component = new SearchMoviesForm({
-            language: "en",
-            title: "matrix"
-        });
-
-        expect(component.state).toStrictEqual({
-            language: "en",
-            searchMode: SEARCH_MODES.DIRECT,
-            title: "matrix"
-        });
-    });
-
     it("initialize state with default values", () => {
         const component = shallow(<SearchMoviesForm handleSubmit={jest.fn()}/>);
 
         expect(component.state()).toStrictEqual({
             language: "en",
-            searchMode: SEARCH_MODES.DIRECT,
+            searchMode: SEARCH_MODES.MOVIEDB,
             title: ""
         });
     });

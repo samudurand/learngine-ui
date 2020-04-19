@@ -19,6 +19,7 @@ class SearchMoviesForm extends React.Component {
 
     static defaultProps = {
         language: LANGUAGES[0].code,
+        searchMode: SEARCH_MODES.MOVIEDB,
         showLanguageDropdown: false,
         showLanguageRadios: false,
         showSearchModeToggle: false,
@@ -33,7 +34,7 @@ class SearchMoviesForm extends React.Component {
 
         this.state = {
             language: this.props.language,
-            searchMode: SEARCH_MODES.DIRECT,
+            searchMode: this.props.searchMode,
             title: this.props.title
         };
 
@@ -127,6 +128,7 @@ SearchMoviesForm.propTypes = {
     handleLanguageChange: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
     language: PropTypes.string,
+    searchMode: PropTypes.symbol,
     showLanguageDropdown: PropTypes.bool,
     showLanguageRadios: PropTypes.bool,
     showSearchModeToggle: PropTypes.bool,
