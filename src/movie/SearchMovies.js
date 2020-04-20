@@ -10,6 +10,7 @@ import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "../utils/StringUtils";
 import MovieRow from "./MovieRow";
 import {config} from "../common/Config";
+import SpinnerRow from "../common/SpinnerRow";
 
 const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
 
@@ -109,26 +110,27 @@ class SearchMovies extends React.Component {
                 </Row>
                 {
                     // eslint-disable-next-line no-ternary
-                    movies && movies.length > 0
-                        // eslint-disable-next-line multiline-ternary
-                        ? <Row id="resultsRow">
-                            <Table hover responsive>
-                                <tbody>
-                                {
-                                    // eslint-disable-next-line no-ternary
-                                    isLoaded
-                                        ? movies.map((movie) =>
-                                            <MovieRow audio={movieAudio}
-                                                      key={movie.id}
-                                                      movie={movie}
-                                            />
-                                        )
-                                        : <div>Loading...</div>
-                                }
-                                </tbody>
-                            </Table>
-                        </Row>
-                        : <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                    movies.length > 0 &&
+                    <Row id="resultsRow">
+                        <Table hover responsive>
+                            <tbody>
+                            {
+                                movies.map((movie) =>
+                                    <MovieRow audio={movieAudio}
+                                              key={movie.id}
+                                              movie={movie}
+                                    />
+                                )
+                            }
+                            </tbody>
+                        </Table>
+                    </Row>
+                }
+                {
+                    movies.length <= 0 && isLoaded && <Row id="noResultsRow"><Col><p>No results found...</p></Col></Row>
+                }
+                {
+                    !isLoaded && <SpinnerRow/>
                 }
             </Container>
         );

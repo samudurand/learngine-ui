@@ -7,7 +7,7 @@ import {sources} from "eventsourcemock";
 import {SEARCH_MODES} from "../common/Common";
 import {config} from "../common/Config";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
-import SpinnerRow from "./SpinnerRow";
+import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 
 describe("SearchStreams", () => {

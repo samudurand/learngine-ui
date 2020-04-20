@@ -110,11 +110,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     font-size: 2.5em;
   }
 
-
-  #spinner {
-    text-align: center;
-  }
-
   td.streamImg {
     img {
       height: 138px;
@@ -191,13 +186,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     }
   }
 
-  #spinnerRow {
-    padding-top: 2em;
 
-    .spinner-border {
-      margin-right: 1em;
-    }
-  }
 
   #alternativeTitlesRow {
     margin-top: 1rem;
@@ -236,6 +225,18 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
         cursor: pointer;
       }
     }
+  }
+}
+
+#spinnerRow {
+  padding-top: 2em;
+
+  #spinner {
+    text-align: center;
+  }
+
+  .spinner-border {
+    margin-right: 1em;
   }
 }
 

@@ -10,7 +10,7 @@ export default function SpinnerRow() {
                 <Spinner animation="border" role="status" variant="secondary">
                     <span className="sr-only">Loading...</span>
                 </Spinner>
-                <span>Searching for more streams...</span>
+                <span>Searching...</span>
             </Col>
         </Row>
     );

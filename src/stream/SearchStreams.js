@@ -10,7 +10,7 @@ import {SEARCH_MODES} from "../common/Common";
 import SearchMoviesForm from "../form/SearchMoviesForm";
 import {trimAndLowerCaseString} from "../utils/StringUtils";
 import {config} from "../common/Config";
-import SpinnerRow from "./SpinnerRow";
+import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 
