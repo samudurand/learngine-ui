@@ -38,18 +38,23 @@ class SearchStreams extends React.Component {
     }
 
     componentDidMount() {
-        this.startEventStream();
-        return this.retrieveAlternativeTitles();
+        const {movieTitle, movieAudio} = this.state;
+        this.startEventStream(movieTitle, movieAudio);
+        return this.retrieveAlternativeTitles(movieAudio);
     }
 
     shouldComponentUpdate() {
         return true;
     }
 
-    retrieveAlternativeTitles() {
-        this.setState({alternativeTitles: []});
-        if (this.state.movieId) {
-            const url = `${ALT_TITLES_URL}?movieId=${this.state.movieId}&audio=${this.state.movieAudio}`;
+    retrieveAlternativeTitles(audio) {
+        this.setState({
+            alternativeTitles: []
+        });
+
+        const {movieId} = this.state;
+        if (movieId) {
+            const url = `${ALT_TITLES_URL}?movieId=${movieId}&audio=${audio}`;
             return fetch(encodeURI(url))
                 .then((res) => res.json())
                 .then((titles) => {
@@ -62,15 +67,19 @@ class SearchStreams extends React.Component {
         return Promise.resolve();
     }
 
-    startEventStream() {
+    startEventStream(movieTitle, audio) {
         if (this.eventSource) {
             this.eventSource.close();
         }
 
-        const url = `${STREAM_SEARCH_URL}?title=${this.state.movieTitle}&audio=${this.state.movieAudio}`;
-        this.eventSource = new EventSource(encodeURI(url));
-        this.eventSource.addEventListener("message", this.processStreamData);
-        this.eventSource.addEventListener("error", this.endLoadingAndCloseEventSource);
+        this.setState({
+            streams: {}
+        }, () => {
+            const url = `${STREAM_SEARCH_URL}?title=${movieTitle}&audio=${audio}`;
+            this.eventSource = new EventSource(encodeURI(url));
+            this.eventSource.addEventListener("message", this.processStreamData);
+            this.eventSource.addEventListener("error", this.endLoadingAndCloseEventSource);
+        });
     }
 
     processStreamData(message) {
@@ -178,8 +187,8 @@ class SearchStreams extends React.Component {
             streams: {}
         });
 
-        this.startEventStream();
-        return this.retrieveAlternativeTitles();
+        this.startEventStream(movieTitle, audio);
+        return this.retrieveAlternativeTitles(audio);
     }
 }
 

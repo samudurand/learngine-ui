@@ -53,7 +53,7 @@ describe("SearchStreams Alternative Titles", () => {
     it("retrieve alternative titles", async() => {
         fetch.once(JSON.stringify(["The Matrix", "Matrix Revolution"]));
 
-        await wrapper.instance().retrieveAlternativeTitles();
+        await wrapper.instance().retrieveAlternativeTitles("en");
 
         expect(wrapper.state().movieId).toBe("603");
         expect(fetch.mock.calls.length).toBe(1);
@@ -64,7 +64,7 @@ describe("SearchStreams Alternative Titles", () => {
     it("retrieve alternative titles with no results", async() => {
         fetch.once("[]");
 
-        await wrapper.instance().retrieveAlternativeTitles();
+        await wrapper.instance().retrieveAlternativeTitles("en");
 
         expect(fetch.mock.calls.length).toBe(1);
         expect(wrapper.state().alternativeTitles).toBeEmpty();
@@ -76,7 +76,7 @@ describe("SearchStreams Alternative Titles", () => {
             {disableLifecycleMethods: true}
         );
 
-        await wrapperNoId.instance().retrieveAlternativeTitles();
+        await wrapperNoId.instance().retrieveAlternativeTitles("en");
 
         expect(wrapperNoId.state().movieId).toBe("");
         expect(fetch.mock.calls).toBeEmpty();
@@ -101,7 +101,7 @@ describe("SearchStreams Fetch Streams", () => {
         const matrixEventOtherSouce = buildEvent("message", matrix2);
         const errorEvent = buildEvent("error", "connection closed");
 
-        wrapper.instance().startEventStream();
+        wrapper.instance().startEventStream("matrix", "en");
         const source = sources[`${config.backend.url}/search/streams?title=matrix&audio=en`];
         source.emitOpen();
         source.emit(matrixEvent.type, matrixEvent);
