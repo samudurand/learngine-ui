@@ -1,6 +1,8 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import {StreamCard} from "./StreamCard";
+import {shallow} from "enzyme";
+import SearchStreams from "./SearchStreams";
 
 describe("StreamCard", () => {
     it("renders without crashing", () => {
@@ -15,5 +17,16 @@ describe("StreamCard", () => {
                     title: "Fight Club"
                 }}
             />, div);
+    });
+
+    it("switch the modal display", () => {
+        const wrapper = shallow(
+            <StreamCard stream={{link: "http://link", source: "source"}}/>,
+            {disableLifecycleMethods: true}
+        );
+
+        expect(wrapper.state().showSourceModal).toBeFalse();
+        wrapper.instance().handleModalShow();
+        expect(wrapper.state().showSourceModal).toBeTrue();
     });
 });
