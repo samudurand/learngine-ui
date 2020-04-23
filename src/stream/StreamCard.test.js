@@ -2,7 +2,6 @@ import ReactDOM from "react-dom";
 import React from "react";
 import {StreamCard} from "./StreamCard";
 import {shallow} from "enzyme";
-import SearchStreams from "./SearchStreams";
 
 describe("StreamCard", () => {
     it("renders without crashing", () => {
