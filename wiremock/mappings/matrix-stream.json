@@ -1,0 +1,19 @@
+{
+  "id" : "e2ca548d-f541-494f-b6f5-dd62fffa7516",
+  "name" : "search_streams",
+  "request" : {
+    "url" : "/search/streams?title=matrix&audio=en",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "data:{\"title\":\"the matrix\",\"link\":\"https://isubsmovies.com/movie/watch-the-matrix-online-0133093\",\"imageUrl\":\"https://isubsmovies.com/admin/covers/27ed0fb950b856b06e1273989422e7d3\",\"sourceId\":\"isubsmovies\",\"source\":\"I Subs Movies\",\"alternativeUrl\":\"\"}\n\ndata:{\"title\":\"the matrix reloaded\",\"link\":\"https://isubsmovies.com/movie/watch-the-matrix-reloaded-online-0234215\",\"imageUrl\":\"https://isubsmovies.com/admin/covers/5dd3e474f6e08e3316ce5e3bc36c666e\",\"sourceId\":\"isubsmovies\",\"source\":\"I Subs Movies\",\"alternativeUrl\":\"\"}\n\ndata:{\"title\":\"the matrix revolutions\",\"link\":\"https://isubsmovies.com/movie/watch-the-matrix-revolutions-online-0242653\",\"imageUrl\":\"https://isubsmovies.com/admin/covers/acf666483bc8723fae7feda6f6a9cb7a\",\"sourceId\":\"isubsmovies\",\"source\":\"I Subs Movies\",\"alternativeUrl\":\"\"}\n\ndata:{\"title\":\"the animatrix\",\"link\":\"https://isubsmovies.com/movie/watch-the-animatrix-online-0328832\",\"imageUrl\":\"https://isubsmovies.com/admin/covers/754abf02507264c05c99e9880a63bac2\",\"sourceId\":\"isubsmovies\",\"source\":\"I Subs Movies\",\"alternativeUrl\":\"\"}\n\n",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "Content-Type" : "text/event-stream;charset=UTF-8"
+    }
+  },
+  "uuid" : "e2ca548d-f541-494f-b6f5-dd62fffa7516",
+  "persistent" : true,
+  "insertionIndex" : 1
+}

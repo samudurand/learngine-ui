@@ -25,3 +25,8 @@ Docker
 ```
 docker build -t firens/learngine-ui .
 ```
+Wiremock
+```
+cd wiremock
+java -jar wiremock.jar --port 9000
+```
