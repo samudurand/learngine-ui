@@ -9,6 +9,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
 #root {
   padding-bottom: 2em;
+  font-family: Arial, serif;
 }
 
 #logo {
@@ -171,6 +172,10 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
     .card {
       height: 100%;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .card-body {
@@ -227,7 +232,30 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 }
 
+.movieTitle {
+  text-transform: capitalize;
+  font-family: Arial, serif;
+  font-weight: bold;
+}
+
+.streamModal {
+  .movieIcon {
+    margin-right: 5px;
+  }
+  //
+  //.instructionsRow {
+  //  padding-bottom: 1em;
+  //}
+
+  .modal-footer,.modal-header {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+}
+
+
 .adblockerDropdown {
+  display: inline-block;
+
   .adblockerLogo {
     width: 2em;
   }

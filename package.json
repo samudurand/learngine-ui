@@ -102,6 +102,8 @@
                 "Card",
                 "Col",
                 "FlagIcon",
+                "FontAwesomeIcon",
+                "Row",
                 "SearchMoviesForm"
               ]
             }

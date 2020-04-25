@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import getCoverUrlOrDefaultCover from "../utils/TemplateUtils";
 import React from "react";
 import PropTypes from "prop-types";
-import StreamSourceModal from "./StreamSourceModal";
+import StreamModal from "./StreamModal";
 
 export class StreamCard extends React.Component {
 
@@ -32,11 +32,7 @@ export class StreamCard extends React.Component {
         const {showSourceModal} = this.state;
 
         return <Col xs={2}>
-            <StreamSourceModal handleClose={this.handleModalShow}
-                               show={showSourceModal}
-                               sourceName={stream.source}
-                               sourceUrl={stream.link}
-            />
+            <StreamModal handleClose={this.handleModalShow} show={showSourceModal} stream={stream}/>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a onClick={this.handleModalShow}
                title={`Go to ${stream.source} to watch ${stream.title}`}>

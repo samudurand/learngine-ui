@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 export class SourcePanel extends React.Component {
 
     static getSourceLogo(sourceId) {
-        return `/sources/${STREAM_SOURCES[sourceId]}`;
+        return `/sources/${STREAM_SOURCES[sourceId].logo}`;
     }
 
     shouldComponentUpdate() {

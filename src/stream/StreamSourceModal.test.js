@@ -1,12 +1,12 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import StreamSourceModal from "./StreamSourceModal";
+import StreamModal from "./StreamModal";
 
 describe("StreamSourceModal", () => {
     it("renders without crashing", () => {
         const div = document.createElement("div");
         ReactDOM.render(
-            <StreamSourceModal
+            <StreamModal
                 handleClose={jest.fn()}
                 show={false}
                 sourceName="Solar Movie"
