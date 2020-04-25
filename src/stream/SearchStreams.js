@@ -13,6 +13,7 @@ import {config} from "../common/Config";
 import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
+import {isEmptyObject} from "../common/utils";
 
 const ALT_TITLES_URL = `${config.backend.url}/search/titles`;
 const STREAM_SEARCH_URL = `${config.backend.url}/search/streams`;
@@ -168,7 +169,7 @@ class SearchStreams extends React.Component {
     performSearch(title, audio, searchMode) {
         const sanitizedTitle = trimAndLowerCaseString(title);
         if (searchMode === SEARCH_MODES.DIRECT) {
-            if (this.state.streams.length <= 0 || sanitizedTitle !== this.state.movieTitle) {
+            if (isEmptyObject(this.state.streams) || sanitizedTitle !== this.state.movieTitle) {
                 return this.updateStreamSearch(sanitizedTitle, audio);
             }
         } else {
