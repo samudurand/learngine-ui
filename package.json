@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.27",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.1",
@@ -38,7 +39,11 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": ["react-app", "eslint:all", "plugin:react/all"],
+    "extends": [
+      "react-app",
+      "eslint:all",
+      "plugin:react/all"
+    ],
     "rules": {
       "array-element-newline": "off",
       "array-bracket-newline": "off",
@@ -50,24 +55,59 @@
       "function-paren-newline": "off",
       "indent": "off",
       "implicit-arrow-linebreak": "off",
-      "max-len": ["error", { "code": 120 }],
+      "max-len": [
+        "error",
+        {
+          "code": 120
+        }
+      ],
       "max-lines-per-function": "off",
       "max-statements": "off",
-      "no-console": ["error", { "allow": ["debug", "error"] }],
-      "no-magic-numbers": ["error",  { "ignore": [0, 1, 2] }],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "debug",
+            "error"
+          ]
+        }
+      ],
+      "no-magic-numbers": [
+        "error",
+        {
+          "ignore": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
       "padded-blocks": "off",
       "object-property-newline": "off",
       "object-shorthand": "off",
       "one-var": "off",
-      "quote-props": ["error","as-needed"],
+      "quote-props": [
+        "error",
+        "as-needed"
+      ],
       "react/destructuring-assignment": "off",
       "react/no-set-state": "off",
-      "react/forbid-component-props": ["error", {
-        "forbid": [{
-          "propName": "className",
-          "allowedFor": ["Card", "Col", "FlagIcon", "SearchMoviesForm"]
-        }]
-      }],
+      "react/forbid-component-props": [
+        "error",
+        {
+          "forbid": [
+            {
+              "propName": "className",
+              "allowedFor": [
+                "Card",
+                "Col",
+                "FlagIcon",
+                "SearchMoviesForm"
+              ]
+            }
+          ]
+        }
+      ],
       "react/forbid-prop-types": "off",
       "react/jsx-closing-bracket-location": "off",
       "react/jsx-closing-tag-location": "off",
@@ -77,19 +117,33 @@
       "react/jsx-indent": "off",
       "react/jsx-indent-props": "off",
       "react/jsx-max-props-per-line": "off",
-      "react/jsx-max-depth": ["warn", {"max": 10}],
+      "react/jsx-max-depth": [
+        "warn",
+        {
+          "max": 10
+        }
+      ],
       "react/jsx-no-bind": "off",
       "react/jsx-no-literals": "off",
       "react/jsx-one-expression-per-line": "off",
       "react/jsx-tag-spacing": "off",
-      "react/prop-types": ["error", {
-        "ignore": ["history", "location"]
-      }],
+      "react/prop-types": [
+        "error",
+        {
+          "ignore": [
+            "history",
+            "location"
+          ]
+        }
+      ],
       "react/require-default-props": "off",
       "react/sort-comp": "off",
       "react/static-property-placement": "off",
       "sort-imports": "off",
-      "space-before-function-paren": ["error", "never"],
+      "space-before-function-paren": [
+        "error",
+        "never"
+      ],
       "react/jsx-wrap-multilines": "off"
     }
   },

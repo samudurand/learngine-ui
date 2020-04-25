@@ -22,3 +22,15 @@ export const SEARCH_MODES = Object.freeze({
     DIRECT: Symbol("direct"),
     MOVIEDB: Symbol("moviedb")
 });
+
+export const AD_BLOCKERS = {
+    ublock: {
+        logo: "ublock.png",
+        name: "uBlock",
+        urls: {
+            chrome: "https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm",
+            edge: "https://www.microsoft.com/p/ublock-origin/9nblggh444l4?rtc=1&activetab=pivot:overviewtab",
+            firefox: "https://addons.mozilla.org/firefox/addon/ublock-origin/"
+        }
+    }
+}
