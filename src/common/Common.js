@@ -10,6 +10,16 @@ export const LANG_IT = new Language("it", "it", "Italian");
 export const LANGUAGES = [LANG_EN, LANG_ES, LANG_FR, LANG_IT];
 
 export const AD_BLOCKERS = {
+    adblockplus: {
+        logo: "adblockplus.png",
+        name: "Adblock Plus",
+        urls: {
+            // eslint-disable-next-line max-len
+            chrome: "https://chrome.google.com/webstore/detail/adblock-plus-free-ad-bloc/cfhdojbkjhnklbpkdaibdccddilifddb",
+            edge: "https://help.eyeo.com/adblockplus/download-and-install-adblock-plus",
+            firefox: "https://addons.mozilla.org/firefox/addon/adblock-plus/"
+        }
+    },
     ublock: {
         logo: "ublock.png",
         name: "uBlock",
@@ -28,19 +38,20 @@ export const SUBTITLES = {
     PROVIDED: "provided"
 };
 
+const {ublock} = AD_BLOCKERS;
 export const STREAM_SOURCES = {
     "5movies": {
-        adblockers: [AD_BLOCKERS.ublock],
-        instructions: <span>
+        adblockers: [ublock],
+        instructions: <p>
             Simply click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie.
-        </span>,
+        </p>,
         logo: "5movies.png",
         subtitles: {
             presence: SUBTITLES.NONE
         }
     },
     altadefinizione: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: "No special instructions",
         logo: "altadefinizione.png",
         subtitles: {
@@ -48,7 +59,7 @@ export const STREAM_SOURCES = {
         }
     },
     animealtadefinizione: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: "No special instructions",
         logo: "animealtadefinizione.png",
         subtitles: {
@@ -57,7 +68,7 @@ export const STREAM_SOURCES = {
         }
     },
     filmfra: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: "No special instructions",
         logo: "filmfra.jpg",
         subtitles: {
@@ -66,7 +77,7 @@ export const STREAM_SOURCES = {
         }
     },
     isubsmovies: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: <span>
             Simply click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie.
         </span>,
@@ -77,7 +88,7 @@ export const STREAM_SOURCES = {
         }
     },
     netflix: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: "No special instructions",
         logo: "netflix.png",
         subtitles: {
@@ -85,7 +96,7 @@ export const STREAM_SOURCES = {
         }
     },
     solarmovie: {
-        adblockers: [AD_BLOCKERS.ublock],
+        adblockers: [ublock],
         instructions: "No special instructions",
         logo: "solarmovie.png",
         subtitles: {

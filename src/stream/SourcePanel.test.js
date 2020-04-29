@@ -32,7 +32,7 @@ describe("SourcePanel", () => {
         imageUrl: "http://imgur/fc.jpg",
         link: "https://altadefinizione.rocks/fightclub/",
         source: "Solar Movie",
-        sourceId: "solarrmovie",
+        sourceId: "solarmovie",
         title: "Fight Club"
     };
 
@@ -40,7 +40,7 @@ describe("SourcePanel", () => {
         imageUrl: "http://imgur/wfc.jpg",
         link: "https://altadefinizione.rocks/wfightclub/",
         source: "Solar Movie",
-        sourceId: "solarrmovie",
+        sourceId: "solarmovie",
         title: "Women Fight Club"
     };
 });

@@ -5,14 +5,15 @@ import PropTypes from "prop-types";
 import AdBlockersDropdown from "./AdBlockersDropdown";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {STREAM_SOURCES, SUBTITLES} from "../common/Common";
+import {SUBTITLES} from "../common/Common";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFilm} from "@fortawesome/free-solid-svg-icons";
 
 export default function StreamModal(props) {
-    const {show, handleClose, stream} = props;
+    const {show, handleClose, stream, sources} = props;
+
     const {sourceId, source, link, title} = stream;
-    const {adblockers, instructions, subtitles} = STREAM_SOURCES[sourceId];
+    const {adblockers, instructions, subtitles} = sources[sourceId];
 
     const firstColumnSpan = {offset: 1, span: 2};
     const secondColumnSpan = 9;
@@ -29,7 +30,7 @@ export default function StreamModal(props) {
                 subs = <p>None provided, but can be loaded manually in the player</p>;
                 break;
             case SUBTITLES.MAYBE:
-                subs = <p>Uknown</p>;
+                subs = <p>Unknown</p>;
                 break;
             case SUBTITLES.PROVIDED: {
                 const languages = subtitles.languages.map((lang) => lang.label);
@@ -98,5 +99,6 @@ export default function StreamModal(props) {
 StreamModal.propTypes = {
     handleClose: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
+    sources: PropTypes.object.isRequired,
     stream: PropTypes.object.isRequired
 };

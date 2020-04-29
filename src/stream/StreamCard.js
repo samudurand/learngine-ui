@@ -4,6 +4,7 @@ import getCoverUrlOrDefaultCover from "../utils/TemplateUtils";
 import React from "react";
 import PropTypes from "prop-types";
 import StreamModal from "./StreamModal";
+import {STREAM_SOURCES} from "../common/Common";
 
 export class StreamCard extends React.Component {
 
@@ -32,7 +33,10 @@ export class StreamCard extends React.Component {
         const {showSourceModal} = this.state;
 
         return <Col xs={2}>
-            <StreamModal handleClose={this.handleModalShow} show={showSourceModal} stream={stream}/>
+            <StreamModal handleClose={this.handleModalShow}
+                         show={showSourceModal}
+                         sources={STREAM_SOURCES}
+                         stream={stream}/>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a onClick={this.handleModalShow}
                title={`Go to ${stream.source} to watch ${stream.title}`}>
