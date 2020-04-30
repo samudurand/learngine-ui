@@ -45,23 +45,40 @@ export const STREAM_SOURCES = {
         instructions: <p>
             Simply click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie.
         </p>,
-        logo: "5movies.png",
+        logo: "5movies/5movies.png",
         subtitles: {
             presence: SUBTITLES.NONE
         }
     },
     altadefinizione: {
         adblockers: [ublock],
-        instructions: "No special instructions",
-        logo: "altadefinizione.png",
+        instructions: <div>
+            <p>
+                This website stores the video files on multiple servers.
+                Select among the available resolutions or servers in case the default one does not work.
+            </p>
+            <img alt="servers" src="/sources/altadefinizione/servers.png" width="90%"/>
+            <h6 className="font-weight-bold mt-3">Bypassing the ads</h6>
+            <p>
+                When clicking on the <FontAwesomeIcon icon={faPlayCircle}/>, you will see a fake movie start.
+                Be sure to click on
+                the <img alt="secs" className="pr-2" src="/sources/altadefinizione/sec-box.png" width="60px"/>
+                at the bottom right of the video before the time elapses. This will redirect you to an advertising tab.
+                Close it and come back to the website tab, where you will see
+                another <FontAwesomeIcon icon={faPlayCircle}/>, this time the real one. Click and enjoy!
+            </p>
+        </div>,
+        logo: "altadefinizione/altadefinizione.png",
         subtitles: {
             presence: SUBTITLES.LOADABLE
         }
     },
     animealtadefinizione: {
         adblockers: [ublock],
-        instructions: "No special instructions",
-        logo: "animealtadefinizione.png",
+        instructions: <p>
+            Simply click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie/series.
+        </p>,
+        logo: "animealtadefinizione/animealtadefinizione.png",
         subtitles: {
             languages: [LANG_IT],
             presence: SUBTITLES.PROVIDED
@@ -69,8 +86,19 @@ export const STREAM_SOURCES = {
     },
     filmfra: {
         adblockers: [ublock],
-        instructions: "No special instructions",
-        logo: "filmfra.jpg",
+        instructions: <div>
+            <p>
+                This website does not allow for direct link.
+                You will have to use the search box to find the movie you want. The title has to be exact.
+            </p>
+            <img alt="search box" className="mb-3" src="/sources/filmfra/searchbox.png" width="50%"/>
+            <p>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                Click on the title you want once autocompleted, then click on "Regarder".
+                Then click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie.
+            </p>
+        </div>,
+        logo: "filmfra/filmfra.jpg",
         subtitles: {
             languages: [LANG_FR],
             presence: SUBTITLES.PROVIDED
@@ -78,10 +106,10 @@ export const STREAM_SOURCES = {
     },
     isubsmovies: {
         adblockers: [ublock],
-        instructions: <span>
+        instructions: <p>
             Simply click on the <FontAwesomeIcon icon={faPlayCircle}/> symbol to start the movie.
-        </span>,
-        logo: "isubsmovies.png",
+        </p>,
+        logo: "isubsmovies/isubsmovies.png",
         subtitles: {
             languages: [LANG_EN],
             presence: SUBTITLES.PROVIDED
@@ -90,7 +118,7 @@ export const STREAM_SOURCES = {
     netflix: {
         adblockers: [ublock],
         instructions: "No special instructions",
-        logo: "netflix.png",
+        logo: "netflix/netflix.png",
         subtitles: {
             presence: SUBTITLES.NONE
         }
@@ -98,7 +126,7 @@ export const STREAM_SOURCES = {
     solarmovie: {
         adblockers: [ublock],
         instructions: "No special instructions",
-        logo: "solarmovie.png",
+        logo: "solarmovie/solarmovie.png",
         subtitles: {
             presence: SUBTITLES.NONE
         }
