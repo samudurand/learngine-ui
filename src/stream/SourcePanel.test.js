@@ -25,7 +25,7 @@ describe("SourcePanel", () => {
     });
 
     it("finds the source logo url", () => {
-        expect(SourcePanel.getSourceLogo("altadefinizione")).toBe("/sources/altadefinizione.png");
+        expect(SourcePanel.getSourceLogo("altadefinizione")).toBe("/sources/altadefinizione/altadefinizione.png");
     });
 
     const fightClub = {
