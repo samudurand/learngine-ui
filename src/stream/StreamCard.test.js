@@ -20,7 +20,7 @@ describe("StreamCard", () => {
 
     it("switch the modal display", () => {
         const wrapper = shallow(
-            <StreamCard stream={{link: "http://link", source: "source"}}/>,
+            <StreamCard stream={{link: "http://link", source: "source", title: "movie"}}/>,
             {disableLifecycleMethods: true}
         );
 
