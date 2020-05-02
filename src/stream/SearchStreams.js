@@ -116,11 +116,16 @@ class SearchStreams extends React.Component {
         const {isLoaded, streams, alternativeTitles, movieAudio} = this.state;
         return (
             <Container id="searchStreamPage">
-                <Row id="searchRow">
-                    <Col xs={3}>
+                <Row className="d-sm-none pt-3 pb-2" id="titleRow">
+                    <Col md={{offset: 4, span: 4}} xs={{offset: 3, span: 6}}>
                         <Logo/>
                     </Col>
-                    <Col xs={7}>
+                </Row>
+                <Row id="searchRow">
+                    <Col className="d-none d-sm-inline-block" md={3}>
+                        <Logo/>
+                    </Col>
+                    <Col md={7} xs={12}>
                         <SearchMoviesForm
                             className="align-middle"
                             handleSubmit={this.performSearch}

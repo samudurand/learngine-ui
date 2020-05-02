@@ -32,7 +32,7 @@ export class StreamCard extends React.Component {
         const {stream} = this.props;
         const {showSourceModal} = this.state;
 
-        return <Col xs={2}>
+        return <Col className="mt-2" md={2} xs={12}>
             <StreamModal handleClose={this.handleModalShow}
                          show={showSourceModal}
                          sources={STREAM_SOURCES}

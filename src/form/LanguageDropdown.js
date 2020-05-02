@@ -14,7 +14,7 @@ export function LanguageDropdown(props) {
                 <FlagIcon code={Language.findByCode(LANGUAGES, language).country}/>
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
+            <Dropdown.Menu id="language-dropdown-menu">
                 {LANGUAGES.map((lang) =>
                     <Dropdown.Item eventKey={lang.code} key={lang.code}>
                         {/* eslint-disable-next-line react/forbid-component-props */}

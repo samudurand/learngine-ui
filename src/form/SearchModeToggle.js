@@ -6,7 +6,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 export function SearchModeToggle(props) {
-    const {mode, handleChange} = props;
+    const {customClass, mode, handleChange} = props;
 
     const modeInfoPopover =
         <Popover id="popover-basic">
@@ -24,6 +24,8 @@ export function SearchModeToggle(props) {
     return (
         <Form.Check
             checked={mode === SEARCH_MODES.MOVIEDB}
+            /* eslint-disable-next-line react/forbid-component-props */
+            className={customClass}
             id="dbSearchMode"
             inline
             label={
@@ -45,6 +47,7 @@ SearchModeToggle.defaultProps = {
 };
 
 SearchModeToggle.propTypes = {
+    customClass: PropTypes.string,
     handleChange: PropTypes.func.isRequired,
     mode: PropTypes.symbol
 };

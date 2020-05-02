@@ -30,12 +30,12 @@ class Home extends React.Component {
     render() {
         return <Container fluid id="homePage">
             <Row id="titleRow">
-                <Col xs={{offset: 3, span: 6}}>
+                <Col md={{offset: 4, span: 4}} xs={{offset: 3, span: 6}}>
                     <Logo/>
                 </Col>
             </Row>
             <Row>
-                <Col xs={{offset: 3, span: 6}}>
+                <Col className="mt-2 mt-sm-4" md={{offset: 3, span: 6}} xs={{offset: 1, span: 10}}>
                     <SearchMoviesForm handleSubmit={this.searchMovieOrStreamOnSubmit}
                                       showLanguageDropdown={false}
                                       showLanguageRadios

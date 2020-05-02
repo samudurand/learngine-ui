@@ -63,60 +63,6 @@ describe("SearchMovieForm", () => {
         expect(submitAction).not.toHaveBeenCalled();
     });
 
-    it("calculate search input field grid width when neither toggle nor dropdown displayed", () => {
-        const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()} language="EN" title="m"/>);
-
-        const result = wrapper.instance().calculateSearchInputWidth();
-
-        // eslint-disable-next-line no-magic-numbers
-        expect(result).toBe(12);
-    });
-
-    it("calculate search input field grid width when only search mode toggle displayed", () => {
-        const wrapper = shallow(
-            <SearchMoviesForm
-                handleSubmit={jest.fn()}
-                language="EN"
-                showSearchModeToggle
-                title="m"
-            />
-        );
-
-        const result = wrapper.instance().calculateSearchInputWidth();
-
-        // eslint-disable-next-line no-magic-numbers
-        expect(result).toBe(9);
-    });
-
-    it("calculate search input field grid width when only language dropdown displayed", () => {
-        const wrapper = shallow(<SearchMoviesForm
-            handleSubmit={jest.fn()}
-            language="EN"
-            showLanguageDropdown
-            title="m"
-        />);
-
-        const result = wrapper.instance().calculateSearchInputWidth();
-
-        // eslint-disable-next-line no-magic-numbers
-        expect(result).toBe(9);
-    });
-
-    it("calculate search input field grid width when both toggle and dropdown displayed", () => {
-        const wrapper = shallow(<SearchMoviesForm
-            handleSubmit={jest.fn()}
-            language="EN"
-            showLanguageDropdown
-            showSearchModeToggle
-            title="m"
-        />);
-
-        const result = wrapper.instance().calculateSearchInputWidth();
-
-        // eslint-disable-next-line no-magic-numbers
-        expect(result).toBe(6);
-    });
-
     it("handles search mode change", () => {
         const wrapper = shallow(<SearchMoviesForm handleSubmit={jest.fn()}/>);
 

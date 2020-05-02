@@ -5,11 +5,11 @@
 $base-color: black;
 //$base-color-light: rgb(155, 114, 210);
 $base-color-light: #ced4da;
-$logo-font: 'Saira Semi Condensed', sans-serif;
+$background-hover-color: rgba(0, 0, 0, 0.03);
 
 #root {
   padding-bottom: 2em;
-  font-family: Arial, serif;
+  font-family: Arial, fantasy;
 }
 
 #logo {
@@ -17,9 +17,8 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     text-decoration: none;
   }
 
-  h1 {
-    font-family: $logo-font;
-    color: $base-color;
+  img {
+    max-height: 100px;
   }
 }
 
@@ -28,13 +27,21 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   margin-bottom: 2em;
 
   background-color: rgba(0, 0, 0, 0.03);
-  border-radius: 1rem;
   padding: 1em .5em;
+
+  @include media-breakpoint-up(sm) {
+    border-radius: 1rem;
+  }
+
+  @include media-breakpoint-down(xs) {
+    margin-top: 0;
+  }
 }
 
 #homePage {
   #titleRow {
     margin-top: 150px;
+    text-align: center;
   }
 
   #logo h1 {
@@ -47,8 +54,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 
   #searchForm {
-    margin-top: 3em;
-
     #searchInputCol {
       padding-right: 0;
 
@@ -234,7 +239,7 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 
 .movieTitle {
   text-transform: capitalize;
-  font-family: Arial, serif;
+  font-family: Arial, fantasy;
   font-weight: bold;
 }
 
@@ -242,10 +247,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   .movieIcon {
     margin-right: 5px;
   }
-  //
-  //.instructionsRow {
-  //  padding-bottom: 1em;
-  //}
 
   .modal-footer,.modal-header {
     background-color: rgba(0, 0, 0, 0.03);
@@ -289,7 +290,6 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
 }
 
 #searchForm {
-  margin-top: 0.5em;
   margin-bottom: 0;
 
   #searchInputCol {
@@ -297,12 +297,29 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
   }
 
   button[type="submit"].btn-outline-dark {
+    &:hover {
+      background-color: $background-hover-color;
+    }
+
+    &:active {
+      background-color: white;
+    }
+
+    &:focus {
+      box-shadow: none;
+      border-color: $base-color-light;
+    }
+
     color: #636262;
     border-color: $base-color-light;
   }
 
   input[type='text'] {
     border: 1px solid $base-color-light;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
 
   #countrySelect {
@@ -322,9 +339,15 @@ $logo-font: 'Saira Semi Condensed', sans-serif;
     max-height: 35px;
     margin-left: .2em;
   }
-
   #languageDropdown {
     border-color: $base-color-light;
     background-color: white;
+  }
+
+  #language-dropdown-menu {
+    @include media-breakpoint-down(xs) {
+      right: 0 !important;
+      left: unset !important;
+    }
   }
 }

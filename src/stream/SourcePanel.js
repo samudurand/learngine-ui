@@ -30,7 +30,7 @@ export class SourcePanel extends React.Component {
                             <b>{streams[0].source}</b> ({streams.length} results)
                         </p>
                     </Col>
-                    <Col className="sourceLogo">
+                    <Col className="d-none d-sm-inline-block sourceLogo">
                         <img alt={source} src={SourcePanel.getSourceLogo(source)}/>
                     </Col>
                 </Row>

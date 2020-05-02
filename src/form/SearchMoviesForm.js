@@ -69,13 +69,6 @@ class SearchMoviesForm extends React.Component {
         }
     }
 
-    calculateSearchInputWidth() {
-        const GRID_WIDTH = 12;
-        const S_MODE_COL_WIDTH = 3;
-        const LANG_COL_WIDTH = 3;
-        return GRID_WIDTH - this.showSearchModeToggle * S_MODE_COL_WIDTH - this.showLanguageDropdown * LANG_COL_WIDTH;
-    }
-
     handleModeChange(event) {
         if (event.target.checked) {
             this.setState({searchMode: SEARCH_MODES.MOVIEDB});
@@ -89,9 +82,10 @@ class SearchMoviesForm extends React.Component {
         return (
             <Form id="searchForm" onSubmit={this.handleSubmit}>
                 <Row id="inputSearchRow">
-                    <Col id="searchInputCol" xs={this.calculateSearchInputWidth()}>
+                    <Col id="searchInputCol">
                         <InputGroup>
-                            <Form.Control id="searchBox"
+                            <Form.Control
+                                          id="searchBox"
                                           name="title"
                                           onChange={this.handleChange}
                                           placeholder="Movie or Series title"
@@ -104,14 +98,16 @@ class SearchMoviesForm extends React.Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>
-                    <Col>
+                    <Col className="col-auto" >
                         {
                             this.showLanguageDropdown &&
                             <LanguageDropdown handleChange={this.handleLanguageChange} language={language}/>
                         }
                         {
                             this.showSearchModeToggle &&
-                            <SearchModeToggle handleChange={this.handleModeChange} mode={searchMode}/>
+                            <SearchModeToggle customClass="d-none d-sm-inline-block"
+                                              handleChange={this.handleModeChange}
+                                              mode={searchMode}/>
                         }
                     </Col>
                 </Row>
