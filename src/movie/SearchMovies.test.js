@@ -29,7 +29,10 @@ describe("SearchMovies init", () => {
             isLoaded: false,
             movieAudio: "en",
             movieTitle: "matrix",
-            movies: []
+            movies: [],
+            // eslint-disable-next-line no-undefined
+            page: undefined,
+            totalPages: 0
         });
     });
 });
@@ -52,17 +55,17 @@ describe("SearchMovies", () => {
     it("fetch movies on mount and save them on success", async() => {
         fetch.once(JSON.stringify(matrixMovies));
 
-        await component.instance().fetchMovies();
+        await component.instance().fetchMovies("matrix", 1);
 
         const state = component.state();
         expect(state.isLoaded).toBe(true);
-        expect(state.movies).toEqual(matrixMovies);
+        expect(state.movies).toEqual(matrixMovies.movies);
     });
 
     it("fetch movies and fails", async() => {
         fetch.mockReject();
 
-        await component.instance().fetchMovies();
+        await component.instance().fetchMovies("matrix", 1);
 
         const state = component.state();
         expect(state.isLoaded).toBe(true);
@@ -101,7 +104,7 @@ describe("SearchMovies rendering", () => {
     });
 
     it("displays the empty results row if no movies found", async() => {
-        fetch.once("[]");
+        fetch.once("{totalPages: 1, movies: []");
 
         const wrapper = shallow(
             <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
@@ -125,20 +128,24 @@ describe("SearchMovies rendering", () => {
     });
 });
 
-const matrixMovies = [
-    {
-        date: "2004",
-        description: "the matrix movie",
-        id: 591955,
-        imageUrl: "http://store.com/img.jpg",
-        title: "the matrix",
-        voteAverage: 9.0
-    },
-    {
-        date: "2008",
-        description: "the matrix revolution movie",
-        id: 193255,
-        imageUrl: "http://store.com/img2.jpg",
-        title: "the matrix revolution",
-        voteAverage: 4
-    }];
+const matrixMovies = {
+    movies: [
+        {
+            date: "2004",
+            description: "the matrix movie",
+            id: 591955,
+            imageUrl: "http://store.com/img.jpg",
+            title: "the matrix",
+            voteAverage: 9.0
+        },
+        {
+            date: "2008",
+            description: "the matrix revolution movie",
+            id: 193255,
+            imageUrl: "http://store.com/img2.jpg",
+            title: "the matrix revolution",
+            voteAverage: 4
+        }
+    ],
+    totalPages: 1
+};

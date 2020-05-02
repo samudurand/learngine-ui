@@ -18,7 +18,7 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
   }
 
   img {
-    max-height: 100px;
+    max-height: 90px;
   }
 }
 
@@ -52,10 +52,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
   #searchForm {
     #searchInputCol {
       padding-right: 0;
-
-      .form-control:focus {
-        box-shadow: 0 0 0 0.1rem $base-color-light;
-      }
     }
   }
 
@@ -270,6 +266,14 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
 
   .dropdown-item {
     padding: .25rem 1rem;
+  }
+}
+
+#pagination {
+  .page-item.active .page-link{
+    color: $base-color;
+    background-color: $base-color-light;
+    border-color: $base-color;
   }
 }
 

@@ -11,36 +11,50 @@ import {trimAndLowerCaseString} from "../utils/StringUtils";
 import MovieRow from "./MovieRow";
 import {config} from "../common/Config";
 import SpinnerRow from "../common/SpinnerRow";
+import PropTypes from "prop-types";
+import {PaginationRow} from "../common/PaginationRow";
 
 const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
 
-class SearchMovies extends React.Component {
+export class SearchMovies extends React.Component {
+    static defaultProps = {
+        page: 1
+    }
 
     constructor(props) {
         super(props);
-        const urlParams = queryString.parse(this.props.location.search);
+        const {location, page} = props;
+        const urlParams = queryString.parse(location.search);
 
         this.state = {
             isLoaded: false,
             movieAudio: trimAndLowerCaseString(urlParams.audio),
             movieTitle: trimAndLowerCaseString(urlParams.title),
-            movies: []
+            movies: [],
+            page: page,
+            totalPages: 0
         };
 
         this.updateUrlAndStartSearch = this.updateUrlAndStartSearch.bind(this);
         this.updateUrlAndAudio = this.updateUrlAndAudio.bind(this);
         this.fetchMovies = this.fetchMovies.bind(this);
+        this.refreshSearch = this.refreshSearch.bind(this);
     }
 
     componentDidMount() {
-        this.fetchMovies(this.state.movieTitle);
+        const {movieTitle, page} = this.state;
+        this.fetchMovies(movieTitle, page);
     }
 
     shouldComponentUpdate() {
         return true;
     }
 
-    fetchMovies(title) {
+    refreshSearch(page) {
+        this.fetchMovies(this.state.movieTitle, page);
+    }
+
+    fetchMovies(title, page) {
         const cleanedTitle = trimAndLowerCaseString(title);
 
         this.setState({
@@ -48,7 +62,7 @@ class SearchMovies extends React.Component {
             movies: []
         });
 
-        return fetch(encodeURI(`${SEARCH_MOVIE_URL}?title=${cleanedTitle}`))
+        return fetch(encodeURI(`${SEARCH_MOVIE_URL}?title=${cleanedTitle}&page=${page}`))
             .then((res) => res.json())
             .then(this.stopLoadingAndSaveMovies())
             .catch(this.stopLoading());
@@ -63,17 +77,19 @@ class SearchMovies extends React.Component {
     }
 
     stopLoadingAndSaveMovies() {
-        return (movies) => {
+        return (result) => {
             this.setState({
                 isLoaded: true,
-                movies: movies
+                movies: result.movies,
+                totalPages: result.totalPages
             });
         };
     }
 
     updateUrlAndStartSearch(title, audio) {
+        const {page} = this.state;
         this.props.history.push(this.buildUrl(title, audio));
-        return this.fetchMovies(trimAndLowerCaseString(title));
+        return this.fetchMovies(trimAndLowerCaseString(title, page));
     }
 
     updateUrlAndAudio(audio) {
@@ -90,7 +106,7 @@ class SearchMovies extends React.Component {
     }
 
     render() {
-        const {isLoaded, movies, movieTitle, movieAudio} = this.state;
+        const {isLoaded, movies, movieTitle, movieAudio, page, totalPages} = this.state;
         return (
             <Container id="searchMoviePage">
                 <Row className="d-sm-none pt-3 pb-2" id="titleRow">
@@ -137,9 +153,17 @@ class SearchMovies extends React.Component {
                 {
                     !isLoaded && <SpinnerRow/>
                 }
+                {
+                    totalPages >= 2 && <PaginationRow handlePageTurn={this.refreshSearch}
+                                                      page={page} totalPages={totalPages}/>
+                }
             </Container>
         );
     }
 }
+
+SearchMovies.propTypes = {
+    page: PropTypes.number
+};
 
 export default withRouter(SearchMovies);
