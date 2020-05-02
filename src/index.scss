@@ -44,10 +44,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
     text-align: center;
   }
 
-  #logo h1 {
-    font-size: 5em;
-  }
-
   .btn-info {
     background-color: brown;
     border-color: brown;
@@ -189,10 +185,17 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
 
     .card-title {
       text-align: center;
-      font-size: 1rem;
       margin-bottom: 0;
       font-weight: normal;
       text-transform: capitalize;
+    }
+
+    .shortTitle {
+      font-size: 1rem;
+    }
+
+    .longTitle {
+      font-size: 0.7rem;
     }
   }
 

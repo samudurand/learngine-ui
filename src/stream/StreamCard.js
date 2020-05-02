@@ -6,6 +6,8 @@ import PropTypes from "prop-types";
 import StreamModal from "./StreamModal";
 import {STREAM_SOURCES} from "../common/Common";
 
+const LONG_TEXT_SIZE = 25;
+
 export class StreamCard extends React.Component {
 
     constructor(props) {
@@ -43,7 +45,10 @@ export class StreamCard extends React.Component {
                 <Card>
                     <Card.Img src={getCoverUrlOrDefaultCover(stream.imageUrl)} variant="top"/>
                     <Card.Body>
-                        <Card.Title>{stream.title}</Card.Title>
+                        {/* eslint-disable-next-line multiline-ternary,no-ternary,react/forbid-component-props */}
+                        <Card.Title className={stream.title.length >= LONG_TEXT_SIZE ? "longTitle" : "shortTitle"}>
+                            {stream.title}
+                        </Card.Title>
                     </Card.Body>
                 </Card>
             </a>
