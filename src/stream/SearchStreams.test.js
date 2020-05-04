@@ -217,7 +217,6 @@ describe("SearchStreams rendering", () => {
         source.emit(fightClub2Event.type, fightClub2Event);
         source.emit(errorEvent.type, errorEvent);
 
-        expect(wrapper.find("#searchRow")).toHaveLength(1);
         expect(wrapper.find(AlternativeTitlesRow)).toHaveLength(1);
         expect(wrapper.find("#resultsRow")).toHaveLength(1);
         // eslint-disable-next-line no-magic-numbers

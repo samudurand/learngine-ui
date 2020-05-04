@@ -114,8 +114,8 @@ export class SearchMovies extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                {/*<Row id="searchRow">*/}
-                    {/*<Col md={7} xs={12}>*/}
+                {/* <Row id="searchRow">*/}
+                    {/* <Col md={7} xs={12}>*/}
                         <SearchMoviesForm
                             className="align-middle"
                             handleLanguageChange={this.updateUrlAndAudio}
@@ -125,8 +125,8 @@ export class SearchMovies extends React.Component {
                             showLogo
                             title={movieTitle}
                         />
-                    {/*</Col>*/}
-                {/*</Row>*/}
+                    {/* </Col>*/}
+                {/* </Row>*/}
                 {
                     // eslint-disable-next-line no-ternary
                     movies.length > 0 &&
