@@ -12,6 +12,7 @@ import {LanguageDropdown} from "./LanguageDropdown";
 import {SearchModeToggle} from "./SearchModeToggle";
 import {FlagsRow} from "./FlagsRow";
 import PropTypes from "prop-types";
+import {Logo} from "../common/Logo";
 
 const MIN_CHARS_VALID_SEARCH = 1;
 
@@ -22,21 +23,16 @@ class SearchMoviesForm extends React.Component {
         searchMode: SEARCH_MODES.MOVIEDB,
         showLanguageDropdown: false,
         showLanguageRadios: false,
+        showLogo: false,
         showSearchModeToggle: false,
         title: ""
     }
 
     constructor(props) {
         super(props);
-        this.showSearchModeToggle = props.showSearchModeToggle;
-        this.showLanguageDropdown = props.showLanguageDropdown;
-        this.showLanguageRadios = props.showLanguageRadios;
+        const {language, searchMode, title} = props;
 
-        this.state = {
-            language: this.props.language,
-            searchMode: this.props.searchMode,
-            title: this.props.title
-        };
+        this.state = {language, searchMode, title};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleModeChange = this.handleModeChange.bind(this);
@@ -78,11 +74,17 @@ class SearchMoviesForm extends React.Component {
     }
 
     render() {
+        const {showLanguageDropdown, showLanguageRadios, showLogo, showSearchModeToggle} = this.props;
         const {language, searchMode, title} = this.state;
         return (
             <Form id="searchForm" onSubmit={this.handleSubmit}>
-                <Row id="inputSearchRow">
-                    <Col id="searchInputCol">
+                <Row id="searchRow">
+                    {
+                        showLogo && <Col className="d-none d-sm-inline-block" sm={3}>
+                            <Logo/>
+                        </Col>
+                    }
+                    <Col className="pt-2" id="searchInputCol">
                         <InputGroup>
                             <Form.Control
                                           id="searchBox"
@@ -98,21 +100,24 @@ class SearchMoviesForm extends React.Component {
                             </InputGroup.Append>
                         </InputGroup>
                     </Col>
-                    <Col className="col-auto" >
+                    <Col className="col-auto pt-2">
                         {
-                            this.showLanguageDropdown &&
+                            showLanguageDropdown &&
                             <LanguageDropdown handleChange={this.handleLanguageChange} language={language}/>
                         }
                         {
-                            this.showSearchModeToggle &&
+                            showSearchModeToggle &&
                             <SearchModeToggle customClass="d-none d-sm-inline-block"
                                               handleChange={this.handleModeChange}
                                               mode={searchMode}/>
                         }
                     </Col>
+                    {
+                        showLogo && <Col className="d-none d-sm-inline-block" xs={3}/>
+                    }
                 </Row>
                 {
-                    this.showLanguageRadios &&
+                    showLanguageRadios &&
                     <FlagsRow currentLanguage={language} handleChange={this.handleChange}/>
                 }
             </Form>
@@ -127,6 +132,7 @@ SearchMoviesForm.propTypes = {
     searchMode: PropTypes.symbol,
     showLanguageDropdown: PropTypes.bool,
     showLanguageRadios: PropTypes.bool,
+    showLogo: PropTypes.bool,
     showSearchModeToggle: PropTypes.bool,
     title: PropTypes.string
 };

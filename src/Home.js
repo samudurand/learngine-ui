@@ -36,11 +36,11 @@ class Home extends React.Component {
             </Row>
             <Row>
                 <Col className="mt-2 mt-sm-4" md={{offset: 3, span: 6}} xs={{offset: 1, span: 10}}>
-                    <SearchMoviesForm handleSubmit={this.searchMovieOrStreamOnSubmit}
-                                      showLanguageDropdown={false}
-                                      showLanguageRadios
-                                      showSearchModeToggle
-                    />
+                    <SearchMoviesForm
+                        handleSubmit={this.searchMovieOrStreamOnSubmit}
+                        showLanguageDropdown={false}
+                        showLanguageRadios
+                        showSearchModeToggle/>
                 </Col>
             </Row>
         </Container>;

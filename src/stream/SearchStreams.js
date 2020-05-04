@@ -121,22 +121,16 @@ class SearchStreams extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                <Row id="searchRow">
-                    <Col className="d-none d-sm-inline-block" md={3}>
-                        <Logo/>
-                    </Col>
-                    <Col md={7} xs={12}>
-                        <SearchMoviesForm
-                            className="align-middle"
-                            handleSubmit={this.performSearch}
-                            language={this.state.movieAudio}
-                            searchMode={SEARCH_MODES.DIRECT}
-                            showLanguageDropdown
-                            showSearchModeToggle
-                            title={this.state.movieTitle}
-                        />
-                    </Col>
-                </Row>
+                <SearchMoviesForm
+                    className="align-middle"
+                    handleSubmit={this.performSearch}
+                    language={this.state.movieAudio}
+                    searchMode={SEARCH_MODES.DIRECT}
+                    showLanguageDropdown
+                    showLogo
+                    showSearchModeToggle
+                    title={this.state.movieTitle}
+                />
                 {
                     alternativeTitles && alternativeTitles.length > 0 &&
                     <AlternativeTitlesRow audio={movieAudio} titles={alternativeTitles}/>

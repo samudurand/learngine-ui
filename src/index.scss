@@ -13,12 +13,8 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
 }
 
 #logo {
-  &:hover {
-    text-decoration: none;
-  }
-
   img {
-    max-height: 90px;
+    height: 55px;
   }
 }
 
@@ -47,6 +43,10 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
   .btn-info {
     background-color: brown;
     border-color: brown;
+  }
+
+  #searchRow {
+    background-color: white;
   }
 
   #searchForm {
@@ -81,10 +81,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
     text-decoration: none;
   }
 
-  #logo h1 {
-    font-size: 2.5em;
-  }
-
   td.movieDesc {
     width: 100%;
 
@@ -102,10 +98,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
   a {
     color: unset;
     text-decoration: none;
-  }
-
-  #logo h1 {
-    font-size: 2.5em;
   }
 
   td.streamImg {
@@ -333,7 +325,7 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
     padding-left: 0;
   }
 
-  #inputSearchRow div.dropdown {
+  #searchRow div.dropdown {
     display: inline-block;
     margin-right: 1rem;
   }
