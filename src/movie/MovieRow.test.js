@@ -79,12 +79,22 @@ describe("MovieRow async", () => {
         fetch.resetMocks();
     });
 
-    it("translate description", async() => {
+    it("translates description", async() => {
         fetch.once(JSON.stringify({translation: "la matrix"}));
 
         await component.instance().translateDescription({preventDefault: jest.fn()});
 
         expect(component.state().movie.description).toBe("la matrix");
+        expect(component.state().transInProgress).toBeFalsy();
+    });
+
+    it("fails to translates description", async() => {
+        fetch.mockReject(new Error("fake error message"));
+
+        await component.instance().translateDescription({preventDefault: jest.fn()});
+
+        expect(component.state().movie.description).toBe("the matrix movie");
+        expect(component.state().transInProgress).toBeFalsy();
     });
 });
 

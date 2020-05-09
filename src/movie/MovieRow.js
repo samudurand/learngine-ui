@@ -25,6 +25,7 @@ export class MovieRow extends React.Component {
 
         this.translateDescription = this.translateDescription.bind(this);
         this.saveTranslatedDescription = this.saveTranslatedDescription.bind(this);
+        this.handleTranslationFailure = this.handleTranslationFailure.bind(this);
     }
 
     shouldComponentUpdate() {
@@ -96,7 +97,8 @@ export class MovieRow extends React.Component {
             method: "POST"
         })
             .then((res) => res.json())
-            .then(this.saveTranslatedDescription);
+            .then(this.saveTranslatedDescription)
+            .catch(this.handleTranslationFailure);
     }
 
     saveTranslatedDescription(jsonBody) {
@@ -108,6 +110,10 @@ export class MovieRow extends React.Component {
                 transInProgress: false
             };
         });
+    }
+
+    handleTranslationFailure() {
+        this.setState({transInProgress: false});
     }
 
     truncateDescription(desc) {
