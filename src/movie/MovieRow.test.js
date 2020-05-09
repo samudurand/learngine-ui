@@ -6,7 +6,12 @@ describe("MovieRow", () => {
     let component;
 
     beforeEach(() => {
-        component = shallow(<MovieRow audio="en" movie={matrix}/>, {disableLifecycleMethods: true});
+        component = shallow(
+            <MovieRow.WrappedComponent audio="en"
+                                       i18n={{language: "it"}}
+                                       movie={matrix}
+                                       t={jest.fn()}/>,
+            {disableLifecycleMethods: true});
     });
 
     it("formats description by truncating it if too long", () => {
@@ -54,12 +59,32 @@ describe("MovieRow", () => {
 describe("MovieRow render", () => {
     it("displays the details of a movie with links to corresponding search", () => {
         const wrapper = shallow(
-            <MovieRow audio="en" movie={matrix}/>
+            <MovieRow.WrappedComponent audio="en" i18n={{language: "it"}} movie={matrix} t={jest.fn()}/>
         );
 
-        const link = wrapper.find(".movieTableRow a");
-        expect(link.props())
-            .toHaveProperty("href", "/search/stream?movieId=591955&title=the%20matrix&audio=en");
+        const links = wrapper.find(".movieTableRow a");
+        expect(links.at(0).props()).toHaveProperty("href", "/search/stream?movieId=591955&title=the%20matrix&audio=en");
+    });
+});
+
+describe("MovieRow async", () => {
+    let component;
+
+    beforeEach(() => {
+        component = shallow(<MovieRow.WrappedComponent audio="en"
+                                                       i18n={{language: "it"}}
+                                                       movie={matrix}
+                                                       t={jest.fn()}/>,
+            {disableLifecycleMethods: true});
+        fetch.resetMocks();
+    });
+
+    it("translate description", async() => {
+        fetch.once(JSON.stringify({translation: "la matrix"}));
+
+        await component.instance().translateDescription({preventDefault: jest.fn()});
+
+        expect(component.state().movie.description).toBe("la matrix");
     });
 });
 

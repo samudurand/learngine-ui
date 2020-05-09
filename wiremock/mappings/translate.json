@@ -1,0 +1,19 @@
+{
+  "id" : "936e75c8-6294-4403-ac66-c338a0263639",
+  "name" : "translate_description",
+  "request" : {
+    "url" : "/languages/translate",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"translation\":\"Ambientato nel 22 ° secolo, The Matrix racconta la storia di un hacker di computer che si unisce a un gruppo di ribelli sotterranei che combattono i computer grandi e potenti che ora governano la terra.\"}",
+    "headers" : {
+      "Vary" : [ "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers" ],
+      "Content-Type" : "application/json"
+    }
+  },
+  "uuid" : "936e75c8-6294-4403-ac66-c338a0263639",
+  "persistent" : true,
+  "insertionIndex" : 3
+}

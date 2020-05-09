@@ -98,6 +98,11 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
       font-weight: bold;
       text-transform: capitalize;
     }
+
+    .btn-group-sm>.btn, .btn-sm {
+      padding: .07rem .5rem;
+      text-transform: capitalize;
+    }
   }
 }
 

@@ -7,6 +7,17 @@ import {Logo} from "./common/Logo";
 import {withRouter} from "react-router-dom";
 import {trimAndLowerCaseString} from "./utils/StringUtils";
 import {SEARCH_MODES} from "./common/Common";
+import i18n from "i18next";
+import {initReactI18next} from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import {resources} from "./common/i18n";
+
+i18n.use(initReactI18next)
+    .use(LanguageDetector)
+    .init({
+        fallbackLng: "en",
+        resources: resources
+    });
 
 class Home extends React.Component {
 
