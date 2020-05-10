@@ -92,6 +92,7 @@ export class MovieRow extends React.Component {
                 text: movie.description
             }),
             headers: {
+                Accept: "application/json",
                 "Content-Type": "application/json"
             },
             method: "POST"

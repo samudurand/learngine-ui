@@ -71,10 +71,11 @@ describe("MovieRow async", () => {
     let component;
 
     beforeEach(() => {
-        component = shallow(<MovieRow.WrappedComponent audio="en"
-                                                       i18n={{language: "it"}}
-                                                       movie={matrix}
-                                                       t={jest.fn()}/>,
+        component = shallow(
+            <MovieRow.WrappedComponent audio="en"
+                                       i18n={{language: "it"}}
+                                       movie={matrix}
+                                       t={jest.fn()}/>,
             {disableLifecycleMethods: true});
         fetch.resetMocks();
     });
