@@ -14,6 +14,10 @@ import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import {isEmptyObject} from "../common/utils";
+import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
+import PropTypes from "prop-types";
+import {compose} from "redux";
+import {connect} from "react-redux";
 
 const ALT_TITLES_URL = `${config.backend.url}/search/titles`;
 const STREAM_SEARCH_URL = `${config.backend.url}/search/streams`;
@@ -22,11 +26,15 @@ class SearchStreams extends React.Component {
 
     constructor(props) {
         super(props);
-        const urlParams = queryString.parse(this.props.location.search);
+        const {location, setTargetLanguageFn} = this.props;
+        const urlParams = queryString.parse(location.search);
+
+        const audio = trimAndLowerCaseString(urlParams.audio);
+        setTargetLanguageFn(audio);
+
         this.state = {
             alternativeTitles: [],
             isLoaded: false,
-            movieAudio: trimAndLowerCaseString(urlParams.audio),
             movieId: trimAndLowerCaseString(urlParams.movieId),
             movieTitle: trimAndLowerCaseString(urlParams.title),
             streams: {}
@@ -39,9 +47,10 @@ class SearchStreams extends React.Component {
     }
 
     componentDidMount() {
-        const {movieTitle, movieAudio} = this.state;
-        this.startEventStream(movieTitle, movieAudio);
-        return this.retrieveAlternativeTitles(movieAudio);
+        const {targetLanguage} = this.props;
+        const {movieTitle} = this.state;
+        this.startEventStream(movieTitle, targetLanguage);
+        return this.retrieveAlternativeTitles(targetLanguage);
     }
 
     shouldComponentUpdate() {
@@ -49,11 +58,11 @@ class SearchStreams extends React.Component {
     }
 
     retrieveAlternativeTitles(audio) {
+        const {movieId} = this.state;
         this.setState({
             alternativeTitles: []
         });
 
-        const {movieId} = this.state;
         if (movieId) {
             const url = `${ALT_TITLES_URL}?movieId=${movieId}&audio=${audio}`;
             return fetch(encodeURI(url))
@@ -113,7 +122,8 @@ class SearchStreams extends React.Component {
     }
 
     render() {
-        const {isLoaded, streams, alternativeTitles, movieAudio} = this.state;
+        const {targetLanguage} = this.props;
+        const {isLoaded, streams, alternativeTitles} = this.state;
         return (
             <Container id="searchStreamPage">
                 <Row className="d-sm-none pt-3 pb-2" id="titleRow">
@@ -124,7 +134,6 @@ class SearchStreams extends React.Component {
                 <SearchMoviesForm
                     className="align-middle"
                     handleSubmit={this.performSearch}
-                    language={this.state.movieAudio}
                     searchMode={SEARCH_MODES.DIRECT}
                     showLanguageDropdown
                     showLogo
@@ -133,7 +142,7 @@ class SearchStreams extends React.Component {
                 />
                 {
                     alternativeTitles && alternativeTitles.length > 0 &&
-                    <AlternativeTitlesRow audio={movieAudio} titles={alternativeTitles}/>
+                    <AlternativeTitlesRow audio={targetLanguage} titles={alternativeTitles}/>
                 }
                 {
                     Object.keys(streams).length > 0 &&
@@ -181,7 +190,6 @@ class SearchStreams extends React.Component {
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
             isLoaded: false,
-            movieAudio: audio,
             movieId: null,
             movieTitle: movieTitle,
             streams: {}
@@ -192,4 +200,12 @@ class SearchStreams extends React.Component {
     }
 }
 
-export default withRouter(SearchStreams);
+SearchStreams.propTypes = {
+    setTargetLanguageFn: PropTypes.func,
+    targetLanguage: PropTypes.string
+};
+
+export default compose(
+    withRouter,
+    connect(mapLanguageStateToProps, {setTargetLanguageFn: setTargetLanguage})
+)(SearchStreams);

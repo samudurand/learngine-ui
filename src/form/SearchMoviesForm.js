@@ -7,19 +7,20 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import {LANGUAGES, SEARCH_MODES} from "../common/Common";
+import {SEARCH_MODES} from "../common/Common";
 import {LanguageDropdown} from "./LanguageDropdown";
 import {SearchModeToggle} from "./SearchModeToggle";
 import {FlagsRow} from "./FlagsRow";
 import PropTypes from "prop-types";
 import {Logo} from "../common/Logo";
+import {connect} from "react-redux";
+import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
 
 const MIN_CHARS_VALID_SEARCH = 1;
 
 class SearchMoviesForm extends React.Component {
 
     static defaultProps = {
-        language: LANGUAGES[0].code,
         searchMode: SEARCH_MODES.MOVIEDB,
         showLanguageDropdown: false,
         showLanguageRadios: false,
@@ -30,9 +31,9 @@ class SearchMoviesForm extends React.Component {
 
     constructor(props) {
         super(props);
-        const {language, searchMode, title} = props;
+        const {searchMode, title} = props;
 
-        this.state = {language, searchMode, title};
+        this.state = {searchMode, title};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleModeChange = this.handleModeChange.bind(this);
@@ -45,10 +46,7 @@ class SearchMoviesForm extends React.Component {
     }
 
     handleLanguageChange(langCode) {
-        this.setState({language: langCode});
-        if (this.props.handleLanguageChange) {
-            this.props.handleLanguageChange(langCode);
-        }
+        this.props.setTargetLanguageFn(langCode);
     }
 
     handleChange(event) {
@@ -58,7 +56,7 @@ class SearchMoviesForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const cleanedTitle = trimAndLowerCaseString(this.state.title);
-        const cleanedLang = trimAndLowerCaseString(this.state.language);
+        const cleanedLang = trimAndLowerCaseString(this.props.targetLanguage);
 
         if (this.state.title.length > MIN_CHARS_VALID_SEARCH) {
             this.props.handleSubmit(cleanedTitle, cleanedLang, this.state.searchMode);
@@ -74,8 +72,8 @@ class SearchMoviesForm extends React.Component {
     }
 
     render() {
-        const {showLanguageDropdown, showLanguageRadios, showLogo, showSearchModeToggle} = this.props;
-        const {language, searchMode, title} = this.state;
+        const {showLanguageDropdown, showLanguageRadios, showLogo, showSearchModeToggle, targetLanguage} = this.props;
+        const {searchMode, title} = this.state;
         return (
             <Form id="searchForm" onSubmit={this.handleSubmit}>
                 <Row id="searchRow">
@@ -103,7 +101,7 @@ class SearchMoviesForm extends React.Component {
                     <Col className="col-auto pt-2">
                         {
                             showLanguageDropdown &&
-                            <LanguageDropdown handleChange={this.handleLanguageChange} language={language}/>
+                            <LanguageDropdown handleChange={this.handleLanguageChange} language={targetLanguage}/>
                         }
                         {
                             showSearchModeToggle &&
@@ -118,7 +116,8 @@ class SearchMoviesForm extends React.Component {
                 </Row>
                 {
                     showLanguageRadios &&
-                    <FlagsRow currentLanguage={language} handleChange={this.handleChange}/>
+                    <FlagsRow currentLanguage={targetLanguage}
+                              handleChange={(e) => this.handleLanguageChange(e.target.value)}/>
                 }
             </Form>
         );
@@ -126,15 +125,15 @@ class SearchMoviesForm extends React.Component {
 }
 
 SearchMoviesForm.propTypes = {
-    handleLanguageChange: PropTypes.func,
     handleSubmit: PropTypes.func.isRequired,
-    language: PropTypes.string,
     searchMode: PropTypes.symbol,
+    setTargetLanguageFn: PropTypes.func,
     showLanguageDropdown: PropTypes.bool,
     showLanguageRadios: PropTypes.bool,
     showLogo: PropTypes.bool,
     showSearchModeToggle: PropTypes.bool,
+    targetLanguage: PropTypes.string.isRequired,
     title: PropTypes.string
 };
 
-export default SearchMoviesForm;
+export default connect(mapLanguageStateToProps, {setTargetLanguageFn: setTargetLanguage})(SearchMoviesForm);

@@ -13,6 +13,9 @@ import {config} from "../common/Config";
 import SpinnerRow from "../common/SpinnerRow";
 import PropTypes from "prop-types";
 import {PaginationRow} from "../common/PaginationRow";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
 
 const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
 
@@ -23,12 +26,14 @@ export class SearchMovies extends React.Component {
 
     constructor(props) {
         super(props);
-        const {location, page} = props;
+        const {location, page, setTargetLanguageFn} = props;
         const urlParams = queryString.parse(location.search);
+
+        const audio = trimAndLowerCaseString(urlParams.audio);
+        setTargetLanguageFn(audio);
 
         this.state = {
             isLoaded: false,
-            movieAudio: trimAndLowerCaseString(urlParams.audio),
             movieTitle: trimAndLowerCaseString(urlParams.title),
             movies: [],
             page: page,
@@ -36,7 +41,6 @@ export class SearchMovies extends React.Component {
         };
 
         this.updateUrlAndStartSearch = this.updateUrlAndStartSearch.bind(this);
-        this.updateUrlAndAudio = this.updateUrlAndAudio.bind(this);
         this.fetchMovies = this.fetchMovies.bind(this);
         this.refreshSearch = this.refreshSearch.bind(this);
     }
@@ -89,14 +93,7 @@ export class SearchMovies extends React.Component {
     updateUrlAndStartSearch(title, audio) {
         const {page} = this.state;
         this.props.history.push(this.buildUrl(title, audio));
-        return this.fetchMovies(trimAndLowerCaseString(title, page));
-    }
-
-    updateUrlAndAudio(audio) {
-        this.props.history.push(this.buildUrl(this.state.movieTitle, audio));
-        this.setState({
-            movieAudio: audio
-        });
+        return this.fetchMovies(trimAndLowerCaseString(title), page);
     }
 
     buildUrl(title, audio) {
@@ -106,7 +103,8 @@ export class SearchMovies extends React.Component {
     }
 
     render() {
-        const {isLoaded, movies, movieTitle, movieAudio, page, totalPages} = this.state;
+        const {targetLanguage} = this.props;
+        const {isLoaded, movies, movieTitle, page, totalPages} = this.state;
         return (
             <Container id="searchMoviePage">
                 <Row className="d-sm-none pt-3 pb-2" id="titleRow">
@@ -116,9 +114,7 @@ export class SearchMovies extends React.Component {
                 </Row>
                 <SearchMoviesForm
                     className="align-middle"
-                    handleLanguageChange={this.updateUrlAndAudio}
                     handleSubmit={this.updateUrlAndStartSearch}
-                    language={movieAudio}
                     showLanguageDropdown
                     showLogo
                     title={movieTitle}/>
@@ -130,7 +126,7 @@ export class SearchMovies extends React.Component {
                             <tbody>
                             {
                                 movies.map((movie) =>
-                                    <MovieRow audio={movieAudio}
+                                    <MovieRow audio={targetLanguage}
                                               key={movie.id}
                                               movie={movie}
                                     />
@@ -156,7 +152,12 @@ export class SearchMovies extends React.Component {
 }
 
 SearchMovies.propTypes = {
-    page: PropTypes.number
+    page: PropTypes.number,
+    setTargetLanguageFn: PropTypes.func,
+    targetLanguage: PropTypes.string
 };
 
-export default withRouter(SearchMovies);
+export default compose(
+    withRouter,
+    connect(mapLanguageStateToProps, {setTargetLanguageFn: setTargetLanguage})
+)(SearchMovies);
