@@ -14,7 +14,7 @@ import {FlagsRow} from "./FlagsRow";
 import PropTypes from "prop-types";
 import {Logo} from "../common/Logo";
 import {connect} from "react-redux";
-import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
+import {mapLanguageStateToProps, setTargetLanguage} from "../common/reduxSetup";
 
 const MIN_CHARS_VALID_SEARCH = 1;
 
@@ -132,7 +132,6 @@ SearchMoviesForm.propTypes = {
     showLanguageRadios: PropTypes.bool,
     showLogo: PropTypes.bool,
     showSearchModeToggle: PropTypes.bool,
-    targetLanguage: PropTypes.string.isRequired,
     title: PropTypes.string
 };
 

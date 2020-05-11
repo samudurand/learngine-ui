@@ -5,7 +5,7 @@ import SearchMovies from "./movie/SearchMovies";
 import SearchStreams from "./stream/SearchStreams";
 import {Provider} from "react-redux";
 import {createStore} from "redux";
-import {languageReducer} from "./reduxSetup";
+import {languageReducer} from "./common/reduxSetup";
 
 const store = createStore(
     languageReducer,

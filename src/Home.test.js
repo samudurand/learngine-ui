@@ -5,11 +5,19 @@ import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
 import {SEARCH_MODES} from "./common/Common";
 import {shallow} from "enzyme";
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+import {languageReducer} from "./common/reduxSetup";
 
 describe("Home", () => {
     it("renders without crashing", () => {
         const div = document.createElement("div");
-        ReactDOM.render(<BrowserRouter><Home/></BrowserRouter>, div);
+        ReactDOM.render(
+            <Provider store={createStore(languageReducer)}>
+                <BrowserRouter>
+                    <Home/>
+                </BrowserRouter>
+            </Provider>, div);
     });
 
     it("searches movies on submit if mode is set to MovieDB Search", () => {

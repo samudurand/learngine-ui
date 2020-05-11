@@ -1,8 +1,8 @@
 import {getCookie, setCookie} from "./cookies";
-import {LANGUAGES} from "./common/Common";
+import {LANGUAGES} from "./Common";
 
 const TARGET_LANGUAGE_COOKIE = "targetLanguage";
-const SET_TARGET_LANGUAGE = "SET_TARGET_LANGUAGE";
+export const SET_TARGET_LANGUAGE = "SET_TARGET_LANGUAGE";
 export function setTargetLanguage(targetLanguage) {
     const language = targetLanguage || LANGUAGES[0].code;
     setCookie(TARGET_LANGUAGE_COOKIE, language);

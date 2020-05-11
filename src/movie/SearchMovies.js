@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import {PaginationRow} from "../common/PaginationRow";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
+import {mapLanguageStateToProps, setTargetLanguage} from "../common/reduxSetup";
 
 const SEARCH_MOVIE_URL = `${config.backend.url}/search/movies`;
 
@@ -153,7 +153,7 @@ export class SearchMovies extends React.Component {
 
 SearchMovies.propTypes = {
     page: PropTypes.number,
-    setTargetLanguageFn: PropTypes.func,
+    setTargetLanguageFn: PropTypes.func.isRequired,
     targetLanguage: PropTypes.string
 };
 

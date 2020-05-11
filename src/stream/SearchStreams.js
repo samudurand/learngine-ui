@@ -14,7 +14,7 @@ import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import {isEmptyObject} from "../common/utils";
-import {mapLanguageStateToProps, setTargetLanguage} from "../reduxSetup";
+import {mapLanguageStateToProps, setTargetLanguage} from "../common/reduxSetup";
 import PropTypes from "prop-types";
 import {compose} from "redux";
 import {connect} from "react-redux";

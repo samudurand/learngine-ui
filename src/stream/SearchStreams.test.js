@@ -9,15 +9,20 @@ import {config} from "../common/Config";
 import {AlternativeTitlesRow} from "./AlternativeTitlesRow";
 import SpinnerRow from "../common/SpinnerRow";
 import {SourcePanel} from "./SourcePanel";
+import {createStore} from "redux";
+import {languageReducer} from "../common/reduxSetup";
+import {Provider} from "react-redux";
 
 describe("SearchStreams", () => {
 
     it("renders without crashing", () => {
         const div = document.createElement("div");
         ReactDOM.render(
-            <MemoryRouter initialEntries={["/?movieId=603&title=matrix&audio=en"]}>
-                <SearchStreams location={{search: "movieId=603&title=matrix&audio=en"}}/>
-            </MemoryRouter>, div
+            <Provider store={createStore(languageReducer)}>
+                <MemoryRouter initialEntries={["/?movieId=603&title=matrix&audio=en"]}>
+                    <SearchStreams location={{search: "movieId=603&title=matrix&audio=en"}}/>
+                </MemoryRouter>
+            </Provider>, div
         );
     });
 
@@ -25,13 +30,13 @@ describe("SearchStreams", () => {
         const component = new SearchStreams.WrappedComponent({
             location: {
                 search: "movieId=603&title=matrix&audio=en"
-            }
+            },
+            setTargetLanguageFn: jest.fn()
         });
 
         expect(component.state).toStrictEqual({
             alternativeTitles: [],
             isLoaded: false,
-            movieAudio: "en",
             movieId: "603",
             movieTitle: "matrix",
             streams: {}
@@ -44,7 +49,10 @@ describe("SearchStreams Alternative Titles", () => {
 
     beforeEach(() => {
         wrapper = shallow(
-            <SearchStreams.WrappedComponent location={{search: "movieId=603&title=matrix&audio=en"}}/>,
+            <SearchStreams.WrappedComponent
+                location={{search: "movieId=603&title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}
+                targetLanguage="en"/>,
             {disableLifecycleMethods: true}
         );
         fetch.resetMocks();
@@ -72,7 +80,9 @@ describe("SearchStreams Alternative Titles", () => {
 
     it("retrieve alternative titles skipped when no movie ID available", async() => {
         const wrapperNoId = shallow(
-            <SearchStreams.WrappedComponent location={{search: "title=matrix&audio=en"}}/>,
+            <SearchStreams.WrappedComponent
+                location={{search: "title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}/>,
             {disableLifecycleMethods: true}
         );
 
@@ -90,6 +100,7 @@ describe("SearchStreams Fetch Streams", () => {
         wrapper = shallow(
             <SearchStreams.WrappedComponent
                 location={{search: "movieId=603&title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}
             />,
             {disableLifecycleMethods: true}
         );
@@ -152,6 +163,7 @@ describe("SearchStreams Performs Search", () => {
             <SearchStreams.WrappedComponent
                 history={history}
                 location={{search: "movieId=603&title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}
             />,
             {disableLifecycleMethods: true}
         );
@@ -203,7 +215,9 @@ describe("SearchStreams rendering", () => {
         fetch.once(JSON.stringify(["The Flight Club", "Boen klub"]));
         const wrapper = shallow(
             <SearchStreams.WrappedComponent
-                location={{search: "movieId=550&title=fight%20club&audio=en"}}/>,
+                location={{search: "movieId=550&title=fight%20club&audio=en"}}
+                setTargetLanguageFn={jest.fn()}
+                targetLanguage="en"/>,
             {disableLifecycleMethods: true}
         );
         const fightClubEvent = buildEvent("message", fightClub);

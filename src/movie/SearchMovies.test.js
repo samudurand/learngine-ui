@@ -6,15 +6,20 @@ import {shallow} from "enzyme";
 import SearchMoviesForm from "../form/SearchMoviesForm";
 import {flushPromises} from "../common/TestCommons";
 import MovieRow from "./MovieRow";
+import {Provider} from "react-redux";
+import {createStore} from "redux";
+import {languageReducer} from "../common/reduxSetup";
 
 describe("SearchMovies init", () => {
 
     it("renders without crashing", () => {
         const div = document.createElement("div");
         ReactDOM.render(
-            <MemoryRouter initialEntries={["/?title=matrix&audio=en"]}>
-                <SearchMovies/>
-            </MemoryRouter>, div
+            <Provider store={createStore(languageReducer)}>
+                <MemoryRouter initialEntries={["/?title=matrix&audio=en"]}>
+                    <SearchMovies/>
+                </MemoryRouter>
+            </Provider>, div
         );
     });
 
@@ -22,12 +27,12 @@ describe("SearchMovies init", () => {
         const component = new SearchMovies.WrappedComponent({
             location: {
                 search: "title=matrix&audio=en"
-            }
+            },
+            setTargetLanguageFn: jest.fn()
         });
 
         expect(component.state).toStrictEqual({
             isLoaded: false,
-            movieAudio: "en",
             movieTitle: "matrix",
             movies: [],
             // eslint-disable-next-line no-undefined
@@ -46,7 +51,8 @@ describe("SearchMovies", () => {
         component = shallow(
             <SearchMovies.WrappedComponent
                 history={historyMock}
-                location={{search: "title=matrix&audio=en"}}/>,
+                location={{search: "title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}/>,
             {disableLifecycleMethods: true}
         );
         fetch.resetMocks();
@@ -79,7 +85,7 @@ describe("SearchMovies", () => {
         await component.instance().updateUrlAndStartSearch("Matrix", "EN");
 
         expect(historyMock.push).toHaveBeenCalledWith("/search/movie?title=matrix&audio=en");
-        expect(mockFetch).toHaveBeenCalledWith("matrix");
+        expect(mockFetch).toHaveBeenCalledWith("matrix", 1);
     });
 
     it("build url", () => {
@@ -97,7 +103,9 @@ describe("SearchMovies rendering", () => {
         fetch.once(JSON.stringify(matrixMovies));
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
+            <SearchMovies.WrappedComponent
+                location={{search: "title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}/>
         );
 
         expect(wrapper.find(SearchMoviesForm)).toHaveLength(1);
@@ -107,7 +115,9 @@ describe("SearchMovies rendering", () => {
         fetch.once("{totalPages: 1, movies: []");
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
+            <SearchMovies.WrappedComponent
+                location={{search: "title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}/>
         );
         await flushPromises();
 
@@ -119,7 +129,9 @@ describe("SearchMovies rendering", () => {
         fetch.once(JSON.stringify(matrixMovies));
 
         const wrapper = shallow(
-            <SearchMovies.WrappedComponent location={{search: "title=matrix&audio=en"}}/>
+            <SearchMovies.WrappedComponent
+                location={{search: "title=matrix&audio=en"}}
+                setTargetLanguageFn={jest.fn()}/>
         );
         await flushPromises();
 

@@ -142,7 +142,9 @@
             "history",
             "i18n",
             "location",
-            "t"
+            "setTargetLanguageFn",
+            "t",
+            "targetLanguage"
           ]
         }
       ],
