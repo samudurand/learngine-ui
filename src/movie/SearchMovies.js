@@ -151,8 +151,7 @@ export class SearchMovies extends React.Component {
 
 SearchMovies.propTypes = {
     page: PropTypes.number,
-    setTargetLanguageFn: PropTypes.func.isRequired,
-    targetLanguage: PropTypes.string
+    setTargetLanguageFn: PropTypes.func.isRequired
 };
 
 export default compose(
