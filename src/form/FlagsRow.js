@@ -11,7 +11,7 @@ export function FlagsRow(props) {
     const {currentLanguage, handleChange} = props;
     return (
         <Row id="flagsRow">
-            <Col className="text-center">
+            <Col className="text-center mt-3">
                 <Form.Group>
                     {LANGUAGES.map((language) =>
                         <Form.Check

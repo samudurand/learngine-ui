@@ -19,8 +19,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
 }
 
 #searchRow {
-  margin-top: 2em;
-  margin-bottom: 2em;
 
   background-color: rgba(0, 0, 0, 0.03);
   padding: 1em .5em;
@@ -61,10 +59,6 @@ $background-hover-color: rgba(0, 0, 0, 0.03);
     #searchInputCol {
       padding-right: 0;
     }
-  }
-
-  #flagsRow {
-    margin-top: 2rem;
   }
 
   .countryButton.form-check-inline {

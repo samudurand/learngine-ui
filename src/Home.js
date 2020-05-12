@@ -39,14 +39,25 @@ class Home extends React.Component {
     }
 
     render() {
-        return <Container fluid id="homePage">
+        return <Container id="homePage">
             <Row id="titleRow">
-                <Col md={{offset: 4, span: 4}} xs={{offset: 3, span: 6}}>
+                <Col md={{offset: 2, span: 8}} xs={{offset: 3, span: 6}}>
                     <Logo/>
                 </Col>
             </Row>
             <Row>
-                <Col className="mt-2 mt-sm-4" md={{offset: 3, span: 6}} xs={{offset: 1, span: 10}}>
+                <Col className="text-center lead mt-4" md={{offset: 2, span: 8}}>
+                    <p className="mb-0 d-none d-sm-block">
+                        This website is for anyone studying a language and wishing
+                        to improve their skills by watching dubbed or subtitled movies
+                    </p>
+                    <p className="mb-0 small d-block d-sm-none">
+                        For all language students wishing to improve their skills by watching movies
+                    </p>
+                </Col>
+            </Row>
+            <Row>
+                <Col className="mt-2 mt-sm-5" md={{offset: 3, span: 6}} xs={{offset: 1, span: 10}}>
                     <SearchMoviesForm
                         handleSubmit={this.searchMovieOrStreamOnSubmit}
                         showLanguageDropdown={false}
