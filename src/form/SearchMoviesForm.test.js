@@ -15,7 +15,7 @@ describe("SearchMoviesForm init", () => {
         const div = document.createElement("div");
         ReactDOM.render(
             <Provider store={createStore(languageReducer)}>
-                <SearchMoviesForm audio="en" handleSubmit={jest.fn()} title="matrix"/>
+                <SearchMoviesForm handleSubmit={jest.fn()} title="matrix"/>
             </Provider>, div);
     });
 

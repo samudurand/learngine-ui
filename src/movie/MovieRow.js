@@ -7,6 +7,9 @@ import {config} from "../common/Config";
 import PropTypes from "prop-types";
 import {withTranslation} from "react-i18next";
 import Spinner from "react-bootstrap/Spinner";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {mapLanguageStateToProps, setTargetLanguage} from "../common/reduxSetup";
 
 const MAX_DESCRIPTION_LENGTH = 500;
 const TRANSLATE_URL = `${config.backend.url}/languages/translate`;
@@ -15,10 +18,9 @@ export class MovieRow extends React.Component {
 
     constructor(props) {
         super(props);
-        const {audio, movie} = props;
+        const {movie} = props;
 
         this.state = {
-            audio,
             movie,
             transInProgress: false
         };
@@ -33,15 +35,14 @@ export class MovieRow extends React.Component {
     }
 
     render() {
-        const {i18n, t} = this.props;
-        const {movie, audio, transInProgress} = this.state;
-        const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${audio}`);
+        const {i18n, t, targetLanguage} = this.props;
+        const {movie, transInProgress} = this.state;
+        const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${targetLanguage}`);
         return (
             <tr className="movieTableRow" key={movie.id}>
                 <td>
                     <a href={streamUrl}>
-                        <img alt={movie.title}
-                             src={getCoverUrlOrDefaultCover(movie.imageUrl)}/>
+                        <img alt={movie.title} src={getCoverUrlOrDefaultCover(movie.imageUrl)}/>
                     </a>
                 </td>
                 <td className="movieDesc">
@@ -127,8 +128,10 @@ export class MovieRow extends React.Component {
 }
 
 MovieRow.propTypes = {
-    audio: PropTypes.string.isRequired,
     movie: PropTypes.object.isRequired
 };
 
-export default withTranslation()(MovieRow);
+export default compose(
+    withTranslation(),
+    connect(mapLanguageStateToProps, {setTargetLanguageFn: setTargetLanguage})
+)(MovieRow);

@@ -103,7 +103,6 @@ export class SearchMovies extends React.Component {
     }
 
     render() {
-        const {targetLanguage} = this.props;
         const {isLoaded, movies, movieTitle, page, totalPages} = this.state;
         return (
             <Container id="searchMoviePage">
@@ -126,8 +125,7 @@ export class SearchMovies extends React.Component {
                             <tbody>
                             {
                                 movies.map((movie) =>
-                                    <MovieRow audio={targetLanguage}
-                                              key={movie.id}
+                                    <MovieRow key={movie.id}
                                               movie={movie}
                                     />
                                 )

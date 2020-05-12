@@ -122,7 +122,6 @@ class SearchStreams extends React.Component {
     }
 
     render() {
-        const {targetLanguage} = this.props;
         const {isLoaded, streams, alternativeTitles} = this.state;
         return (
             <Container id="searchStreamPage">
@@ -142,7 +141,7 @@ class SearchStreams extends React.Component {
                 />
                 {
                     alternativeTitles && alternativeTitles.length > 0 &&
-                    <AlternativeTitlesRow audio={targetLanguage} titles={alternativeTitles}/>
+                    <AlternativeTitlesRow titles={alternativeTitles}/>
                 }
                 {
                     Object.keys(streams).length > 0 &&

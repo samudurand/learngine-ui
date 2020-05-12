@@ -8,9 +8,11 @@ import {Language} from "../common/Language";
 import {LANGUAGES} from "../common/Common";
 import React from "react";
 import PropTypes from "prop-types";
+import {useSelector} from "react-redux";
 
 export function AlternativeTitlesRow(props) {
-    const {titles, audio} = props;
+    const {titles} = props;
+    const targetLanguage = useSelector((state) => state.targetLanguage);
     return (
         <Row id="alternativeTitlesRow">
             <Col>
@@ -20,14 +22,14 @@ export function AlternativeTitlesRow(props) {
                             <FontAwesomeIcon icon={faBars} id="barsIcon"/>
                             Not finding what you want ? Try again with one of those titles
                             (<b>{titles.length}</b> possible match
-                            in {Language.findByCode(LANGUAGES, audio).label})
+                            in {Language.findByCode(LANGUAGES, targetLanguage).label})
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>
                                 {
                                     titles.sort().map((title) =>
                                         <div className="altTitle" key={title}>
-                                            <a href={`/search/stream?title=${title}&audio=${audio}`}>
+                                            <a href={`/search/stream?title=${title}&audio=${targetLanguage}`}>
                                                 <FontAwesomeIcon icon={faSearch}/> {title}
                                             </a>
                                         </div>
@@ -43,6 +45,5 @@ export function AlternativeTitlesRow(props) {
 }
 
 AlternativeTitlesRow.propTypes = {
-    audio: PropTypes.string.isRequired,
     titles: PropTypes.array.isRequired
 };

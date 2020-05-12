@@ -7,10 +7,10 @@ describe("MovieRow", () => {
 
     beforeEach(() => {
         component = shallow(
-            <MovieRow.WrappedComponent audio="en"
-                                       i18n={{language: "it"}}
-                                       movie={matrix}
-                                       t={jest.fn()}/>,
+            <MovieRow.WrappedComponent.WrappedComponent i18n={{language: "it"}}
+                                                        movie={matrix}
+                                                        t={jest.fn()}
+                                                        targetLanguage="en"/>,
             {disableLifecycleMethods: true});
     });
 
@@ -59,7 +59,8 @@ describe("MovieRow", () => {
 describe("MovieRow render", () => {
     it("displays the details of a movie with links to corresponding search", () => {
         const wrapper = shallow(
-            <MovieRow.WrappedComponent audio="en" i18n={{language: "it"}} movie={matrix} t={jest.fn()}/>
+            <MovieRow.WrappedComponent.WrappedComponent
+                i18n={{language: "it"}} movie={matrix} t={jest.fn()} targetLanguage="en"/>
         );
 
         const links = wrapper.find(".movieTableRow a");
@@ -72,10 +73,10 @@ describe("MovieRow async", () => {
 
     beforeEach(() => {
         component = shallow(
-            <MovieRow.WrappedComponent audio="en"
-                                       i18n={{language: "it"}}
-                                       movie={matrix}
-                                       t={jest.fn()}/>,
+            <MovieRow.WrappedComponent.WrappedComponent i18n={{language: "it"}}
+                                                        movie={matrix}
+                                                        t={jest.fn()}
+                                                        targetLanguage="en"/>,
             {disableLifecycleMethods: true});
         fetch.resetMocks();
     });
