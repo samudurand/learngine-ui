@@ -22,6 +22,7 @@ export class MovieRow extends React.Component {
 
         this.state = {
             movie,
+            transDone: false,
             transInProgress: false
         };
 
@@ -36,7 +37,7 @@ export class MovieRow extends React.Component {
 
     render() {
         const {i18n, t, targetLanguage} = this.props;
-        const {movie, transInProgress} = this.state;
+        const {movie, transDone, transInProgress} = this.state;
         const streamUrl = encodeURI(`/search/stream?movieId=${movie.id}&title=${movie.title}&audio=${targetLanguage}`);
         return (
             <tr className="movieTableRow" key={movie.id}>
@@ -53,7 +54,7 @@ export class MovieRow extends React.Component {
                             </a>
                         </Col>
                         {
-                            !i18n.language.startsWith("en") && ( // eslint-disable-line no-extra-parens
+                            !i18n.language.startsWith("en") && !transDone && ( // eslint-disable-line no-extra-parens
                                 <Col className="col-auto">
                                     <Button disabled={transInProgress}
                                             onClick={this.translateDescription}
@@ -89,8 +90,8 @@ export class MovieRow extends React.Component {
 
         return fetch(encodeURI(`${TRANSLATE_URL}`), {
             body: JSON.stringify({
-                target: i18n.language,
-                text: movie.description
+                movieId: movie.id,
+                target: i18n.language
             }),
             headers: {
                 Accept: "application/json",
@@ -109,6 +110,7 @@ export class MovieRow extends React.Component {
             movie.description = jsonBody.translation;
             return {
                 movie,
+                transDone: true,
                 transInProgress: false
             };
         });
