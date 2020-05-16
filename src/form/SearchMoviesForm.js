@@ -21,6 +21,7 @@ const MIN_CHARS_VALID_SEARCH = 1;
 class SearchMoviesForm extends React.Component {
 
     static defaultProps = {
+        disableSearchBtn: false,
         searchMode: SEARCH_MODES.MOVIEDB,
         showLanguageDropdown: false,
         showLanguageRadios: false,
@@ -72,7 +73,14 @@ class SearchMoviesForm extends React.Component {
     }
 
     render() {
-        const {showLanguageDropdown, showLanguageRadios, showLogo, showSearchModeToggle, targetLanguage} = this.props;
+        const {
+            disableSearchBtn,
+            showLanguageDropdown,
+            showLanguageRadios,
+            showLogo,
+            showSearchModeToggle,
+            targetLanguage
+        } = this.props;
         const {searchMode, title} = this.state;
         return (
             <Form id="searchForm" onSubmit={this.handleSubmit}>
@@ -85,14 +93,14 @@ class SearchMoviesForm extends React.Component {
                     <Col className="pt-2" id="searchInputCol">
                         <InputGroup>
                             <Form.Control
-                                          id="searchBox"
-                                          name="title"
-                                          onChange={this.handleChange}
-                                          placeholder="Movie or Series title"
-                                          type="text"
-                                          value={title}/>
+                                id="searchBox"
+                                name="title"
+                                onChange={this.handleChange}
+                                placeholder="Movie or Series title"
+                                type="text"
+                                value={title}/>
                             <InputGroup.Append>
-                                <Button type="submit" variant="outline-dark">
+                                <Button disabled={disableSearchBtn} type="submit" variant="outline-dark">
                                     <FontAwesomeIcon icon={faSearch}/>
                                 </Button>
                             </InputGroup.Append>
@@ -125,6 +133,7 @@ class SearchMoviesForm extends React.Component {
 }
 
 SearchMoviesForm.propTypes = {
+    disableSearchBtn: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     searchMode: PropTypes.symbol,
     setTargetLanguageFn: PropTypes.func,

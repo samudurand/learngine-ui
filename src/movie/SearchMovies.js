@@ -111,12 +111,14 @@ export class SearchMovies extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                <SearchMoviesForm
-                    className="align-middle"
-                    handleSubmit={this.updateUrlAndStartSearch}
-                    showLanguageDropdown
-                    showLogo
-                    title={movieTitle}/>
+                <div className="mb-4 mt-3">
+                    <SearchMoviesForm
+                        className="align-middle"
+                        handleSubmit={this.updateUrlAndStartSearch}
+                        showLanguageDropdown
+                        showLogo
+                        title={movieTitle}/>
+                </div>
                 {
                     // eslint-disable-next-line no-ternary
                     movies.length > 0 &&
@@ -124,11 +126,7 @@ export class SearchMovies extends React.Component {
                         <Table hover responsive>
                             <tbody>
                             {
-                                movies.map((movie) =>
-                                    <MovieRow key={movie.id}
-                                              movie={movie}
-                                    />
-                                )
+                                movies.map((movie) => <MovieRow key={movie.id} movie={movie}/>)
                             }
                             </tbody>
                         </Table>

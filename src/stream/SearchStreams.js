@@ -34,9 +34,9 @@ class SearchStreams extends React.Component {
 
         this.state = {
             alternativeTitles: [],
-            isLoaded: false,
             movieId: trimAndLowerCaseString(urlParams.movieId),
             movieTitle: trimAndLowerCaseString(urlParams.title),
+            searchInProgress: false,
             streams: {}
         };
 
@@ -118,11 +118,11 @@ class SearchStreams extends React.Component {
 
     endLoadingAndCloseEventSource(error) {
         this.eventSource.close();
-        this.setState({isLoaded: true});
+        this.setState({searchInProgress: false});
     }
 
     render() {
-        const {isLoaded, streams, alternativeTitles} = this.state;
+        const {movieTitle, searchInProgress, streams, alternativeTitles} = this.state;
         return (
             <Container id="searchStreamPage">
                 <Row className="d-sm-none pt-3 pb-2" id="titleRow">
@@ -130,15 +130,17 @@ class SearchStreams extends React.Component {
                         <Logo/>
                     </Col>
                 </Row>
-                <SearchMoviesForm
-                    className="align-middle"
-                    handleSubmit={this.performSearch}
-                    searchMode={SEARCH_MODES.DIRECT}
-                    showLanguageDropdown
-                    showLogo
-                    showSearchModeToggle
-                    title={this.state.movieTitle}
-                />
+                <div className="mb-4 mt-3">
+                    <SearchMoviesForm
+                        disableSearchBtn={searchInProgress}
+                        handleSubmit={this.performSearch}
+                        searchMode={SEARCH_MODES.DIRECT}
+                        showLanguageDropdown
+                        showLogo
+                        showSearchModeToggle
+                        title={movieTitle}
+                    />
+                </div>
                 {
                     alternativeTitles && alternativeTitles.length > 0 &&
                     <AlternativeTitlesRow titles={alternativeTitles}/>
@@ -158,7 +160,7 @@ class SearchStreams extends React.Component {
                     </Row>
                 }
                 {
-                    isLoaded && Object.keys(streams).length <= 0 &&
+                    !searchInProgress && Object.keys(streams).length <= 0 &&
                     <Row id="noResultsRow">
                         <Col>
                             <p>No results found...</p>
@@ -166,7 +168,7 @@ class SearchStreams extends React.Component {
                     </Row>
                 }
                 {
-                    !isLoaded && <SpinnerRow/>
+                    searchInProgress && <SpinnerRow/>
                 }
 
             </Container>
@@ -174,9 +176,10 @@ class SearchStreams extends React.Component {
     }
 
     performSearch(title, audio, searchMode) {
+        const {movieTitle, streams} = this.state;
         const sanitizedTitle = trimAndLowerCaseString(title);
         if (searchMode === SEARCH_MODES.DIRECT) {
-            if (isEmptyObject(this.state.streams) || sanitizedTitle !== this.state.movieTitle) {
+            if (isEmptyObject(streams) || sanitizedTitle !== movieTitle) {
                 return this.updateStreamSearch(sanitizedTitle, audio);
             }
         } else {
@@ -188,9 +191,9 @@ class SearchStreams extends React.Component {
     updateStreamSearch(movieTitle, audio) {
         this.props.history.push(encodeURI(`/search/stream?title=${movieTitle}&audio=${audio}`));
         this.setState({
-            isLoaded: false,
             movieId: null,
             movieTitle: movieTitle,
+            searchInProgress: true,
             streams: {}
         });
 

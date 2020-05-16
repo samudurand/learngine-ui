@@ -36,9 +36,9 @@ describe("SearchStreams", () => {
 
         expect(component.state).toStrictEqual({
             alternativeTitles: [],
-            isLoaded: false,
             movieId: "603",
             movieTitle: "matrix",
+            searchInProgress: false,
             streams: {}
         });
     });
@@ -124,7 +124,7 @@ describe("SearchStreams Fetch Streams", () => {
             altadefinizione: [matrix, matrixRevolution],
             somesource: [matrix2]
         });
-        expect(wrapper.state().isLoaded).toBeTrue();
+        expect(wrapper.state().searchInProgress).toBeFalse();
         expect(source.readyState).toBe(2);
     });
 
